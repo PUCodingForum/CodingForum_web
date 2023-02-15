@@ -8,9 +8,9 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="mx-auto text-center col-lg-5">
-          <h1 class="mt-5 mb-2 text-white">同學歡迎!</h1>
+          <h1 class="mt-5 mb-2 text-white">更改密碼</h1>
           <p class="text-white text-lead">
-            同學你好，歡迎來到這個平台！為了能夠更好地使用這個平台的功能<br>請先註冊一個帳號。註冊後，你就可以享受到更多的學習資源和互動機會，讓你的學習之路更加豐富多彩。謝謝！
+            同學你好，不用擔心，快完成了<br>在底下輸入兩次相同的新密碼即可完成更改！
           </p>
         </div>
       </div>
@@ -23,24 +23,21 @@
 
           <div class="card-body">
             <form role="form" @submit.prevent="register">
-              <div class="mb-3">
-                <input class="form-control" v-model="account" type="text" placeholder="帳號" aria-label="帳號" />
-              </div>
+
               <div class="mb-3">
                 <input class="form-control" v-model="password" type="password" placeholder="密碼" aria-label="密碼" />
               </div>
               <div class="mb-3">
-                <input class="form-control" v-model="email" type="email" placeholder="信箱" aria-label="信箱" />
-              </div>
-              <div class="mb-3">
-                <input class="form-control" v-model="name" type="text" placeholder="中文姓名" aria-label="中文姓名" />
+                <input class="form-control" v-model="password_confirmation" type="password" placeholder="密碼"
+                  aria-label="密碼" />
               </div>
 
+
               <div class="text-center">
-                <soft-button color="dark" full-width variant="gradient" class="my-4 mb-2">註冊</soft-button>
+                <soft-button color="dark" full-width variant="gradient" class="my-4 mb-2">確認更改</soft-button>
               </div>
               <p class="text-sm mt-3 mb-0">
-                已經有帳號了嗎?
+                想起原本的密碼了嗎?
                 <router-link :to="{ name: 'Sign In' }" class="text-dark font-weight-bolder">
                   登入
                 </router-link>
@@ -71,15 +68,36 @@ export default {
   },
   data() {
     return {
-      name: "",
-      account: "",
       password: "",
-      email: "",
+      password_confirmation: ""
     };
   },
   created() {
     this.toggleEveryDisplay();
     this.toggleHideConfig();
+  },
+  mounted() {
+    const that = this;
+    this.axios
+      .post("/api/reset_password/check", {
+        token: this.$route.params.token,
+      })
+
+      .then((res) => {
+        console.log(res);
+      })
+
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response.status);
+          if (error.response.status == "401") {
+            that.$router.push({ name: 'resend_password' });
+          } else if (error.response.status == "402") {
+            that.$router.push({ name: 'Dashboard' });
+
+          }
+        }
+      });
   },
   beforeUnmount() {
     this.toggleEveryDisplay();
@@ -89,29 +107,26 @@ export default {
     ...mapMutations(["toggleEveryDisplay", "toggleHideConfig"]),
     register() {
       if (
-        this.name === "" ||
-        this.account === "" ||
-        this.password === "" ||
         this.email === ""
       ) {
-        ElMessage.error("名字、帳號、密碼、信箱不能為空");
+        ElMessage.error("信箱不能為空");
       } else {
         this.axios
-          .post("/api/auth/register", {
-            name: this.name,
-            account: this.account,
+          .post("/api/reset_password/reset", {
+            token: this.$route.params.token,
             password: this.password,
-            email: this.email,
+            password_confirmation: this.password_confirmation,
           })
 
           .then((res) => {
             console.log(res);
             ElMessage({
-              message: "註冊成功 請登入",
+              message: "重置密碼成功，請重新登入",
               type: "success",
               duration: 5000,
             });
             this.$router.push({ name: 'Sign In' });
+
           })
 
           .catch(function (error) {

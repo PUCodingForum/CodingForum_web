@@ -17,11 +17,12 @@ import axios from "axios";
 import VueAxios from "vue-axios";
 
 const app = createApp(App);
-app.config.globalProperties.$axios = axios;
 
 app.use(ElementPlus, {
   locale: { locale },
 });
+app.config.globalProperties.$axios = axios;
+
 app
   .use(store)
   .use(VueAxios, axios)
@@ -29,3 +30,5 @@ app
   .use(require("vue-cookies"))
   .use(SoftUIDashboard)
   .mount("#app");
+//ncu --upgrade
+//npm install --legacy-peer-deps 衝突時用
