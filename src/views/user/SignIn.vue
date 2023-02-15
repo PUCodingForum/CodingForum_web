@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="container top-0 position-sticky z-index-sticky">
     <div class="row">
       <div class="col-12">
@@ -66,12 +66,74 @@
     </section>
   </main>
   <app-footer />
+</template> -->
+
+<template>
+  <navbar btn-background="bg-gradient-primary" />
+  <div class="pt-5 m-3 page-header align-items-start min-vh-50 pb-11 border-radius-lg" :style="{
+    backgroundImage:
+      'url(' + require('@/assets/img/curved-images/curveda' + randompic + '.jpg') + ')',
+  }">
+    <span class="mask bg-gradient-dark opacity-6"></span>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="mx-auto text-center col-lg-5">
+          <h1 class="mt-5 mb-2 text-white">歡迎回來!</h1>
+          <p class="text-white text-lead">
+            讓我們繼續展開學習之旅吧!
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
+      <div class="mx-auto col-xl-4 col-lg-5 col-md-7">
+        <div class="card z-index-0">
+
+          <div class="card-body">
+            <form role="form" @submit.prevent="login">
+              <div class="mb-3">
+                <label>帳號</label>
+                <input class="form-control" v-model="account" id="account" type="text" placeholder="請輸入帳號"
+                  name="account" />
+              </div>
+              <div class="mb-3">
+                <label>密碼</label>
+                <input class="form-control" v-model="password" id="password" type="password" placeholder="請輸入密碼"
+                  name="password" />
+              </div>
+              <el-switch v-model="remember_me" active-text="記住我" />
+
+              <div class="text-center">
+                <soft-button color="dark" full-width variant="gradient" class="my-4 mb-2">登入</soft-button>
+              </div>
+              <p class="text-sm mt-3 mb-0">
+                忘記密碼了嗎?
+                <router-link :to="{ name: 'forget_password' }" class="text-dark font-weight-bolder">
+                  修改密碼
+                </router-link>
+              </p>
+              <p class="text-sm mt-3 mb-0">
+                還沒有帳號嗎?
+                <router-link :to="{ name: 'Sign Up' }" class="text-dark font-weight-bolder">
+                  註冊
+                </router-link>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer />
 </template>
+
+
 
 <script>
 import Navbar from "@/examples/PageLayout/Navbar.vue";
 import AppFooter from "@/examples/PageLayout/Footer.vue";
-import SoftInput from "@/components/SoftInput.vue";
 import SoftSwitch from "@/components/SoftSwitch.vue";
 import SoftButton from "@/components/SoftButton.vue";
 const body = document.getElementsByTagName("body")[0];
@@ -83,7 +145,6 @@ export default {
   components: {
     Navbar,
     AppFooter,
-    SoftInput,
     SoftSwitch,
     SoftButton,
   },
@@ -91,7 +152,9 @@ export default {
     return {
       account: this.$cookies.get("account"),
       password: this.$cookies.get("password"),
-      remember_me: true
+      remember_me: true,
+      randompic: Math.floor(Math.random() * 9)
+
     };
   },
   created() {

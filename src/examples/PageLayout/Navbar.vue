@@ -5,7 +5,7 @@
     <div class="container">
       <router-link class="navbar-brand font-weight-bolder ms-lg-0 ms-3" to="/dashboard" v-bind="$attrs"
         :class="isBlur ? 'text-dark' : 'text-white'">
-        Soft UI Dashboard
+        程式交流網
       </router-link>
       <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse"
         data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,7 +21,7 @@
             <router-link class="nav-link d-flex align-items-center me-2 active" aria-current="page" to="/dashboard">
               <i class="fa fa-chart-pie opacity-6 me-1" aria-hidden="true"
                 :class="isBlur ? 'text-dark' : 'text-white'"></i>
-              Dashboard
+              主頁
             </router-link>
           </li>
           <li class="nav-item">

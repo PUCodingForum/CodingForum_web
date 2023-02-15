@@ -2,7 +2,7 @@
   <navbar btn-background="bg-gradient-primary" />
   <div class="pt-5 m-3 page-header align-items-start min-vh-50 pb-11 border-radius-lg" :style="{
     backgroundImage:
-      'url(' + require('@/assets/img/curved-images/curved6.jpg') + ')',
+      'url(' + require('@/assets/img/curved-images/curveda' + randompic + '.jpg') + ')',
   }">
     <span class="mask bg-gradient-dark opacity-6"></span>
     <div class="container">
@@ -10,7 +10,8 @@
         <div class="mx-auto text-center col-lg-5">
           <h1 class="mt-5 mb-2 text-white">寄送更改密碼信</h1>
           <p class="text-white text-lead">
-            同學你好，忘記密碼了嗎<br>不用擔心，填寫當初註冊的信箱，我們會將更改密碼的信寄給您~謝謝！
+            同學你好，忘記密碼了嗎<br>不用擔心，填寫當初註冊的信箱，我們會將更改密碼的信寄給您。謝謝！
+
           </p>
         </div>
       </div>
@@ -65,6 +66,7 @@ export default {
   data() {
     return {
       email: "",
+      randompic: Math.floor(Math.random() * 9)
     };
   },
   created() {
