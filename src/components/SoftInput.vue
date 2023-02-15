@@ -4,16 +4,8 @@
       <span v-if="iconDir === 'left'" class="input-group-text">
         <i :class="getIcon(icon)"></i>
       </span>
-      <input
-        :id="id"
-        :type="type"
-        class="form-control"
-        :class="getClasses(size, success, error)"
-        :name="name"
-        :value="value"
-        :placeholder="placeholder"
-        :isRequired="isRequired"
-      />
+      <input :id="id" :type="type" class="form-control" :class="getClasses(size, success, error)" :name="name"
+        :value="value" :placeholder="placeholder" Required />
       <span v-if="iconDir === 'right'" class="input-group-text">
         <i :class="getIcon(icon)"></i>
       </span>

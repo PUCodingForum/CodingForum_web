@@ -1,13 +1,31 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import store from "./store";
+
 import router from "./router";
+
 import "./assets/css/nucleo-icons.css";
 import "./assets/css/nucleo-svg.css";
 import SoftUIDashboard from "./soft-ui-dashboard";
 
-const appInstance = createApp(App);
-appInstance.use(store);
-appInstance.use(router);
-appInstance.use(SoftUIDashboard);
-appInstance.mount("#app");
+import ElementPlus from "element-plus";
+import locale from "element-plus/lib/locale/lang/zh-tw";
+import "element-plus/dist/index.css";
+import "element-plus/theme-chalk/display.css";
+
+import axios from "axios";
+import VueAxios from "vue-axios";
+
+const app = createApp(App);
+app.config.globalProperties.$axios = axios;
+
+app.use(ElementPlus, {
+  locale: { locale },
+});
+app
+  .use(store)
+  .use(VueAxios, axios)
+  .use(router)
+  .use(require("vue-cookies"))
+  .use(SoftUIDashboard)
+  .mount("#app");
