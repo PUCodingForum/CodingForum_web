@@ -22,6 +22,7 @@ app.use(ElementPlus, {
   locale: { locale },
 });
 app.config.globalProperties.$axios = axios;
+app.config.globalProperties.$app_name = "程式交流網";
 
 app
   .use(store)

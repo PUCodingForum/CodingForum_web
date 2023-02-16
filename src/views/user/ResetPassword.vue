@@ -80,7 +80,7 @@ export default {
   mounted() {
     const that = this;
     this.axios
-      .post("/api/reset_password/check", {
+      .post("/api/auth/reset_password/check", {
         token: this.$route.params.token,
       })
 
@@ -113,7 +113,7 @@ export default {
         ElMessage.error("信箱不能為空");
       } else {
         this.axios
-          .post("/api/reset_password/reset", {
+          .post("/api/auth/reset_password/reset", {
             token: this.$route.params.token,
             password: this.password,
             password_confirmation: this.password_confirmation,

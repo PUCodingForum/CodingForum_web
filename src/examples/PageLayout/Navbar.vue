@@ -3,12 +3,13 @@
   <nav class="top-0 navbar navbar-expand-lg position-absolute z-index-3"
     :class="isBlur ? isBlur : 'shadow-none my-2 navbar-transparent w-100'">
     <div class="container">
-      <router-link class="navbar-brand font-weight-bolder ms-lg-0 ms-3" to="/dashboard" v-bind="$attrs"
+      <!-- <router-link class="navbar-brand font-weight-bolder ms-lg-0 ms-3" to="/dashboard" v-bind="$attrs"
         :class="isBlur ? 'text-dark' : 'text-white'">
         程式交流網
-      </router-link>
+      </router-link> -->
+
       <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse"
-        data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+        data-bs-target="#navigation" aria-expanded="false" aria-controls="navigation">
         <span class="navbar-toggler-icon mt-2">
           <span class="navbar-toggler-bar bar1"></span>
           <span class="navbar-toggler-bar bar2"></span>

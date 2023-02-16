@@ -2,9 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Dashboard from "@/views/Dashboard.vue";
 import Tables from "@/views/Tables.vue";
 import Billing from "@/views/Billing.vue";
-import VirtualReality from "@/views/VirtualReality.vue";
 import Profile from "@/views/Profile.vue";
-import Rtl from "@/views/Rtl.vue";
 import SignIn from "@/views/user/SignIn.vue";
 import SignUp from "@/views/user/SignUp.vue";
 import ForgetPassword from "@/views/user/ForgetPassword.vue";
@@ -31,17 +29,6 @@ const routes = [
     path: "/billing",
     name: "Billing",
     component: Billing,
-  },
-  {
-    path: "/virtual-reality",
-    name: "Virtual Reality",
-    component: VirtualReality,
-  },
-
-  {
-    path: "/rtl-page",
-    name: "Rtl",
-    component: Rtl,
   },
   {
     path: "/profile",

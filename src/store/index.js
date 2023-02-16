@@ -3,13 +3,12 @@ import bootstrap from "bootstrap/dist/js/bootstrap.min.js";
 
 export default createStore({
   state: {
-    hideConfigButton: false,
+    hideConfigButton: true,
     isPinned: true,
     showConfig: false,
     isTransparent: "",
-    isRTL: false,
     color: "",
-    isNavFixed: false,
+    isNavFixed: true,
     isAbsolute: false,
     showNavs: true,
     showSidenav: true,

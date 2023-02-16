@@ -8,9 +8,7 @@
         <div class="pe-md-3 d-flex align-items-center" :class="this.$store.state.isRTL ? 'me-md-auto' : 'ms-md-auto'">
           <div class="input-group">
             <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-            <input type="text" class="form-control" :placeholder="
-              this.$store.state.isRTL ? 'أكتب هنا...' : 'Type here...'
-            " />
+            <input type="text" class="form-control" :placeholder="'Type here...'" />
           </div>
         </div>
         <ul class="navbar-nav justify-content-end">
@@ -31,9 +29,9 @@
             </a>
           </li>
           <li class="px-3 nav-item d-flex align-items-center">
-            <a class="p-0 nav-link" @click="toggleConfigurator" :class="textWhite ? textWhite : 'text-body'">
+            <!-- <a class="p-0 nav-link" @click="toggleConfigurator" :class="textWhite ? textWhite : 'text-body'">
               <i class="cursor-pointer fa fa-cog fixed-plugin-button-nav"></i>
-            </a>
+            </a> -->
           </li>
           <li class="nav-item dropdown d-flex align-items-center" :class="this.$store.state.isRTL ? 'ps-2' : 'pe-2'">
             <a href="#" class="p-0 nav-link" :class="[
