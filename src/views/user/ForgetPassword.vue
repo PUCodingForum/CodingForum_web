@@ -86,7 +86,7 @@ export default {
         ElMessage.error("信箱不能為空");
       } else {
         this.axios
-          .post("/api/reset_password/send", {
+          .post("/api/auth/reset_password/send", {
             email: this.email,
           })
 

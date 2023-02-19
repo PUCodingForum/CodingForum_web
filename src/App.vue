@@ -65,4 +65,9 @@ export default {
 .el-button {
   font-family: "Noto Sans TC", sans-serif;
 }
+
+.youtube_img_fix {
+  width: 104% !important;
+  margin-left: -2%;
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="py-4 container-fluid">
-    <div class="row">
-      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+    <div class="row justify-content-around">
+      <div class="col-xl-2 col-sm-6 mb-xl-0 mb-4">
         <mini-statistics-card title="CPE" value="一星題目" :percentage="{
           value: '+505%',
           color: 'text-success',
@@ -10,7 +10,7 @@
   background: iconBackground,
 }" direction-reverse />
       </div>
-      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="col-xl-2 col-sm-6 mb-xl-0 mb-4">
         <mini-statistics-card title="CPE" value="二星題目" :percentage="{
           value: '+505%',
           color: 'text-success',
@@ -19,7 +19,7 @@
   background: iconBackground,
 }" direction-reverse />
       </div>
-      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="col-xl-2 col-sm-6 mb-xl-0 mb-4">
         <mini-statistics-card title="CPE" value="三星題目" :percentage="{
           value: '+505%',
           color: 'text-success',
@@ -28,8 +28,17 @@
   background: iconBackground,
 }" direction-reverse />
       </div>
-      <div class="col-xl-3 col-sm-6 mb-xl-0">
+      <div class="col-xl-2 col-sm-6 mb-xl-0 mb-4">
         <mini-statistics-card title="CPE" value="四星題目" :percentage="{
+          value: '+505%',
+          color: 'text-success',
+        }" :icon="{
+  component: 'ni ni-money-coins',
+  background: iconBackground,
+}" direction-reverse />
+      </div>
+      <div class="col-xl-2 col-sm-6 mb-xl-0 mb-4">
+        <mini-statistics-card title="CPE" value="五星題目" :percentage="{
           value: '+505%',
           color: 'text-success',
         }" :icon="{
@@ -39,39 +48,58 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-7 mb-lg-0 mb-4">
+      <div class="col-lg-12 mb-lg-0 mb-4">
         <div class="card">
           <div class="card-body p-3">
             <div class="row">
-              <div class="col-lg-6">
-                <div class="d-flex flex-column h-100">
-                  <p class="mb-1 pt-2 text-bold">Built by developers</p>
+
+              <div class="col-lg-3" v-for="post in posts">
+
+                <div class="card" aria-hidden="true">
+                  <div style="overflow: hidden;">
+                    <img class="card-img-top youtube_img_fix" :src="post.video_pic_url" alt="">
+
+                  </div>
+                  <!-- <div class=""
+                    :style="{ backgroundImage: 'url(' + post.video_pic_url + ')' }">
+                  </div> -->
+
+                  <div class=" card-body">
+                    <h5 class="card-title placeholder-glow">
+                      {{ post.uva_topic.serial + "-" + post.uva_topic.title }}
+                    </h5>
+                    <p>CPE星數: <i class="fa-solid fa-star-of-david" v-for="star in post.uva_topic.star"></i> </p>
+                    <p class="card-text placeholder-glow">
+                      <router-link class="" :to="{ name: 'Profile', params: { user_id: post.user_id } }">
+                        作者 : {{ post.user_name }} </router-link>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="d-flex flex-column h-100">
+                <p class="mb-1 pt-2 text-bold">Built by developers</p>
                   <h5 class="font-weight-bolder">Soft UI Dashboard</h5>
                   <p class="mb-5">
                     From colors, cards, typography to complex elements, you will
                     find the full documentation.
                   </p>
-                  <a class="text-body text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
+                <div class="overflow-hidden position-relative border-radius-lg bg-cover h-100" style="
+                  background-image: url( ''https://img.youtube.com/vi/' +post.video_id+ '/sddefault.jpg' ');
+                "></div>
+
+                <a class="text-body text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
                     Read More
                     <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
                   </a>
-                </div>
-              </div>
-              <div class="col-lg-5 ms-auto text-center mt-5 mt-lg-0">
-                <div class="bg-gradient-success border-radius-lg h-100">
-                  <img src="../assets/img/shapes/waves-white.svg"
-                    class="position-absolute h-100 w-50 top-0 d-lg-block d-none" alt="waves" />
-                  <div class="position-relative d-flex align-items-center justify-content-center h-100">
-                    <img class="w-100 position-relative z-index-2 pt-4"
-                      src="../assets/img/illustrations/rocket-white.png" alt="rocket" />
-                  </div>
-                </div>
-              </div>
+              </div> -->
+
+
             </div>
           </div>
         </div>
       </div>
-      <div class="col-lg-5">
+      <!-- <div class="col-lg-5">
         <div class="card h-100 p-3">
           <div class="overflow-hidden position-relative border-radius-lg bg-cover h-100" style="
               background-image: url('https://demos.creative-tim.com/soft-ui-dashboard/assets/img/ivancik.jpg');
@@ -94,7 +122,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="mt-4 row">
       <div class="mb-4 col-lg-5 mb-lg-0">
@@ -251,6 +279,8 @@ export default {
           flag: BR,
         },
       },
+      posts: []
+
     };
   },
   components: {
@@ -260,6 +290,20 @@ export default {
     ProjectsCard,
     TimelineList,
     TimelineItem,
+  },
+  mounted() {
+    this.axios
+      .post("/api/forum/get_post", {
+        star: this.star,
+        sort: this.sort,
+        // headers: {
+        //   Authorization: `Bearer ` + this.token,
+        // }
+      })
+      .then((res) => {
+        console.log(res.data.success);
+        this.posts = res.data.success;
+      })
   },
 };
 </script>

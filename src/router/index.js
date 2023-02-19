@@ -8,6 +8,7 @@ import SignUp from "@/views/user/SignUp.vue";
 import ForgetPassword from "@/views/user/ForgetPassword.vue";
 import ResetPassword from "@/views/user/ResetPassword.vue";
 import ResendPassword from "@/views/user/ResendPassword.vue";
+import test from "@/views/test.vue";
 
 const routes = [
   {
@@ -21,6 +22,11 @@ const routes = [
     component: Dashboard,
   },
   {
+    path: "/test",
+    name: "test",
+    component: test,
+  },
+  {
     path: "/tables",
     name: "Tables",
     component: Tables,
@@ -31,7 +37,7 @@ const routes = [
     component: Billing,
   },
   {
-    path: "/profile",
+    path: "/profile/:user_id?",
     name: "Profile",
     component: Profile,
   },
