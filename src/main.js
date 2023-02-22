@@ -19,14 +19,12 @@ import VueAxios from "vue-axios";
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
-import YouTube from "vue3-youtube";
-
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 
 const app = createApp(App);
 app.component("QuillEditor", QuillEditor);
-app.component("YouTube", YouTube);
+
 app.use(ElementPlus, {
   locale: { locale },
 });

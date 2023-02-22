@@ -2,7 +2,7 @@
   <div class="w-auto h-auto collapse navbar-collapse max-height-vh-100 h-100" id="sidenav-collapse-main">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <sidenav-collapse navText="Dashboard" :to="{ name: 'Dashboard' }">
+        <sidenav-collapse navText="主頁" :to="{ name: 'Dashboard' }">
           <template #icon>
             <shop />
           </template>
@@ -15,13 +15,6 @@
           </template>
         </sidenav-collapse>
       </li>
-      <li class="nav-item">
-        <sidenav-collapse navText="Billing" :to="{ name: 'Billing' }">
-          <template #icon>
-            <credit-card />
-          </template>
-        </sidenav-collapse>
-      </li>
       <li class="mt-3 nav-item">
         <h6 class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6"
           :class="this.$store.state.isRTL ? 'me-4' : 'ms-2'">
@@ -29,7 +22,7 @@
         </h6>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="Profile" :to="{ name: 'Profile' }">
+        <sidenav-collapse navText="個人頁面" :to="{ name: 'Profile' }">
           <template #icon>
             <customer-support />
           </template>
@@ -53,7 +46,7 @@
   </div>
   <div class="pt-3 mx-3 mt-3 sidenav-footer">
     <sidenav-card :class="cardBg" textPrimary="Need Help?" textSecondary="Please check our docs"
-      route="https://www.creative-tim.com/learning-lab/vue/overview/soft-ui-dashboard/" label="Documentation"
+      route="https://www.creative-tim.com/learning-lab/vue/overview/soft-ui-dashboard/" label="專案開源"
       icon="ni ni-diamond" />
 
   </div>

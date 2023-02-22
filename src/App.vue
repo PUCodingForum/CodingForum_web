@@ -70,4 +70,35 @@ export default {
   width: 104% !important;
   margin-left: -2%;
 }
+
+.container_video {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+}
+
+.youtub {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.downborder {
+  border-left: 2px solid;
+  border-right: 2px solid;
+  border-bottom: 2px solid;
+  border-bottom-left-radius: 15px 15px;
+  border-bottom-right-radius: 15px 15px;
+}
+
+.el-main {
+  overflow: inherit !important;
+}
+
+.placeholder {
+  cursor: alias !important;
+}
 </style>
