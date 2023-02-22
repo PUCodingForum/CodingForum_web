@@ -3,58 +3,30 @@
     <div class="container-fluid">
       <div class="row align-items-center justify-content-lg-between">
         <div class="mb-4 col-lg-6 mb-lg-0">
-          <div
-            class="text-sm text-center copyright text-muted"
-            :class="this.$store.state.isRTL ? 'text-lg-end' : 'text-lg-start'"
-          >
-            ©
-            {{ new Date().getFullYear() }}, made with
-            <i class="fa fa-heart"></i> by
-            <a
-              href="https://www.creative-tim.com"
-              class="font-weight-bold"
-              target="_blank"
-              >Creative Tim</a
-            >
-            for a better web.
+          <div class="text-sm text-center copyright text-muted"
+            :class="this.$store.state.isRTL ? 'text-lg-end' : 'text-lg-start'">
+            程式交流網
           </div>
         </div>
         <div class="col-lg-6">
-          <ul
-            class="nav nav-footer justify-content-center justify-content-lg-end"
-          >
+          <ul class="nav nav-footer justify-content-center justify-content-lg-end">
             <li class="nav-item">
-              <a
-                href="https://www.creative-tim.com"
-                class="nav-link text-muted"
-                target="_blank"
-                >Creative Tim</a
-              >
+              <a href="https://onlinejudge.org/" target="_blank" class="mb-2 text-secondary me-xl-5 me-3 mb-sm-0">
+                UVa
+              </a>
             </li>
             <li class="nav-item">
-              <a
-                href="https://www.creative-tim.com/presentation"
-                class="nav-link text-muted"
-                target="_blank"
-                >About Us</a
-              >
+              <a href="https://www.pu.edu.tw/" target="_blank" class="mb-2 text-secondary me-xl-5 me-3 mb-sm-0">
+                靜宜大學
+              </a>
             </li>
             <li class="nav-item">
-              <a
-                href="https://www.creative-tim.com/blog"
-                class="nav-link text-muted"
-                target="_blank"
-                >Blog</a
-              >
+              <a href="https://cpe.cse.nsysu.edu.tw/index.php" target="_blank"
+                class="mb-2 text-secondary me-xl-5 me-3 mb-sm-0">
+                CPE
+              </a>
             </li>
-            <li class="nav-item">
-              <a
-                href="https://www.creative-tim.com/license"
-                class="nav-link pe-0 text-muted"
-                target="_blank"
-                >License</a
-              >
-            </li>
+
           </ul>
         </div>
       </div>

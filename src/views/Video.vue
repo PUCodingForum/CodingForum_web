@@ -10,7 +10,7 @@
             <el-main style="padding:0" v-loading="loading" element-loading-text="影片載入中"
               element-loading-background="rgba(0, 0, 0, 0.1)">
               <div class="container_video">
-                <YoutubeVue3 ref="youtube" :videoid="post.video_id" :controls="1" class="youtub" @played="onPlayed" />
+                <!-- <YoutubeVue3 ref="youtube" :videoid="post.video_id" :controls="1" class="youtub" @played="onPlayed" /> -->
               </div>
             </el-main>
 
@@ -23,26 +23,48 @@
     </div>
     <div class="row mt-4">
       <div class="col-md-7">
-        <billing-card title="Billing Information" :bills="[
-          {
-            name: 'Oliver Liam',
-            company: 'Viking Burrito',
-            email: 'oliver@burrito.com',
-            id: 'FRB1235476',
-          },
-          {
-            name: 'Lucas Harper',
-            company: 'Stone Tech Zone',
-            email: 'lucas@stone-tech.com',
-            id: 'FRB1235476',
-          },
-          {
-            name: 'Ethan James',
-            company: 'Fiber Notion',
-            email: 'ethan@fiber.com',
-            id: 'FRB1235476',
-          },
-        ]" />
+        <div class="card">
+          <div class="card-body p-3">
+            <div class="ms-4 mt-5">
+              {{ comments }}
+              <div v-for="(item, index) in comments" :key="index">
+                <Comment v-bind="{
+                  avatar: item.image,
+                  author: item.author,
+                  comment: item.comment,
+                  replies: item.replies,
+                  is_liked: item.is_liked,
+                  is_disliked: item.is_disliked,
+                  id: item.id,
+                  votes: item.votes,
+                  date: item.date,
+                }" />
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <billing-card title="Billing Information" :bills="[
+                                              {
+                                                name: 'Oliver Liam',
+                                                company: 'Viking Burrito',
+                                                email: 'oliver@burrito.com',
+                                                id: 'FRB1235476',
+                                              },
+                                              {
+                                                name: 'Lucas Harper',
+                                                company: 'Stone Tech Zone',
+                                                email: 'lucas@stone-tech.com',
+                                                id: 'FRB1235476',
+                                              },
+                                              {
+                                                name: 'Ethan James',
+                                                company: 'Fiber Notion',
+                                                email: 'ethan@fiber.com',
+                                                id: 'FRB1235476',
+                                              },
+                                            ]" /> -->
       </div>
       <div class="col-md-5 mt-4">
         <ranking-list-card :horizontal-break="false" :card="{
@@ -113,6 +135,7 @@ import RankingList from "@/examples/Cards/RankingList.vue";
 import RankingListCard from "@/examples/Cards/RankingListCard.vue";
 import { ElMessage } from "element-plus";
 import { YoutubeVue3 } from 'youtube-vue3'
+import Comment from "@/components/Comment.vue";
 
 export default {
   name: "Billing",
@@ -125,13 +148,66 @@ export default {
     BillingCard,
     RankingList,
     RankingListCard,
-    YoutubeVue3
+    YoutubeVue3,
+    Comment
   },
   data() {
     return {
       post: [],
       post_id: this.$route.params.post_id,
-      loading: true
+      loading: true,
+      // comments: [
+      //   {
+      //     author: "brandon Jonson",
+      //     id: 1,
+      //     image: "https://picsum.photos/50",
+      //     comment: "I love this product",
+      //     date: "2019-01-01",
+      //     votes: 10,
+      //     is_liked: true,
+      //     is_disliked: false,
+      //     replies: [],
+      //   },
+      //   {
+      //     author: "Nick Jonson",
+      //     id: 2,
+      //     comment:
+      //       "I don't like this product  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text ",
+      //     image: "https://picsum.photos/50",
+      //     date: "2019-01-01",
+      //     votes: -10,
+      //     is_liked: false,
+      //     is_disliked: false,
+      //     replies: [
+      //       {
+      //         author: "Alex Jonson",
+      //         id: 3,
+      //         comment:
+      //           "Why not? Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text ",
+      //         image: "https://picsum.photos/50",
+      //         date: "2019-01-01",
+      //         votes: 2,
+      //         is_liked: false,
+      //         is_disliked: false,
+      //         replies: [],
+      //       },
+
+      //       {
+      //         author: "Alex Jonson",
+      //         id: 343,
+      //         comment: "Why not?",
+      //         image: "https://picsum.photos/50",
+      //         date: "2019-01-01",
+      //         votes: 2,
+      //         is_liked: false,
+      //         is_disliked: false,
+      //         replies: [],
+      //       },
+
+      //     ],
+      //   },
+      // ],
+      comments: []
     };
   },
   created() {
@@ -151,29 +227,34 @@ export default {
     );
   },
   mounted() {
-    const that = this;
 
-    this.axios
+    const get_post = this.axios
       .post("/api/forum/get_post", {
         post_id: this.post_id,
-      })
-
-      .then((res) => {
-        console.log(res);
-        this.post = res.data.success;
-      })
-
-      .catch(function (error) {
-        if (error.response) {
-          console.log(error.response.status);
-          if (error.response.status == "401") {
-            ElMessage.error("影片不存在");
-
-            that.$router.push({ name: 'Dashboard' });
-
-          }
-        }
       });
+    const get_comment = this.axios
+      .post("/api/forum/get_comment", {
+        post_id: this.post_id,
+
+      });
+    this.axios.all([get_post, get_comment]).then(
+      this.axios.spread((res1, res2) => {
+        console.log(res1);
+        this.post = res1.data.success;
+        this.comments = res2.data.success;
+      })
+    ).catch(function (error) {
+      if (error.response) {
+        console.log(error.response.status);
+        if (error.response.status == "401") {
+          ElMessage.error("影片不存在");
+
+          that.$router.push({ name: 'Dashboard' });
+
+        }
+      }
+    });
+
   },
   methods: {
     onPlayed() {
@@ -183,3 +264,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+.boss {
+  margin-top: 100px;
+
+}
+</style>
