@@ -10,7 +10,12 @@
             { positive: num > 0 },
             { negative: num < 0 },
         ]">
-            <span class="vote__count-n"><i class="fa-solid fa-heart"></i> x {{ num }}</span>
+
+            <transition-slide>
+                <div v-if="isVisible" class="box">
+                    <span class="vote__count-n"> <i class="fa-solid fa-heart"></i> x {{ num }} </span>
+                </div>
+            </transition-slide>
         </div>
         <div class="vote__up-vote" @click.prevent="upvote" :class="[{ voted: liked == true }]">
             <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -21,14 +26,19 @@
         num :{{ num }} count:{{ count }}
         liked:{{ liked }} disliked:{{ disliked }}
         limit:{{ limit }} loading:{{ loading }}
+
     </div>
 </template>
   
 <script>
 
 import { ElMessage } from "element-plus";
+import { TransitionSlide } from '@morev/vue-transitions';
+
 
 export default {
+    components: { TransitionSlide },
+
     unmounted() {
         clearTimeout(this.timer);
     },
@@ -61,7 +71,8 @@ export default {
             liked: this.isLiked,
             disliked: this.isDisliked,
             token: this.$cookies.get("token"),
-            limit: false
+            limit: false,
+            isVisible: true
         };
     },
 
@@ -104,6 +115,7 @@ export default {
                 this.num--
                 this.$emit('like_post', -1);
                 this.limit = true;
+                this.change(0);
                 setTimeout(this.timelimit, 500);
             }
         },
@@ -113,10 +125,22 @@ export default {
                 this.num++
                 this.$emit('like_post', 1);
                 this.limit = true;
+                this.change(0);
                 setTimeout(this.timelimit, 500);
 
             }
         },
+        changetofalse() {
+            this.isVisible = false;
+            setTimeout(this.change, 50, 1);
+        },
+        change(level) {
+            if (level != 1)
+                this.changetofalse();
+            else
+                this.isVisible = true
+
+        }
     },
 };
 </script>
