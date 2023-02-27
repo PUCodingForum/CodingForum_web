@@ -1,15 +1,14 @@
 <template>
   <aside class="my-3 overflow-auto border-0 sidenav navbar navbar-vertical navbar-expand-xs border-radius-xl"
     :class="isRTL ? 'me-3 rotate-caret' : 'ms-3'" id="sidenav-main">
-    <div class="sidenav-header">
+    <div class="sidenav-header" style="    text-align: center;">
       <i class="top-0 p-3 cursor-pointer fas fa-times text-secondary opacity-5 position-absolute end-0 d-none d-xl-none"
         aria-hidden="true" id="iconSidenav"></i>
-      <router-link class="m-0 navbar-brand" :to="{ name: 'Dashboard' }">
-        <img :src="logo" class="navbar-brand-img h-100" alt="main_logo" />
-        <span class="ms-1 font-weight-bold">{{ $app_name }}</span>
+      <router-link class="" :to="{ name: 'Dashboard' }">
+        <img src="@/assets/img/logo3.png" class="logoicon" alt="main_logo" />
       </router-link>
     </div>
-    <hr class="mt-0 horizontal dark" />
+    <hr class="mt-4 horizontal dark" />
     <sidenav-list :cardBg="customClass" />
   </aside>
 </template>

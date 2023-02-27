@@ -4,16 +4,17 @@
             <div class="comment__header">
                 <div class="comment__author">
                     <div class="comment__avatar">
-                        <img :src="avatar" alt="" />
+                        <img class="userimg" :src="pic_url" alt="" />
                     </div>
                     <div class="comment__content">
                         <h3 class="comment__title">
-                            {{ author }}
+                            <router-link class="" :to="{ name: 'Profile', params: { user_id: user_id } }">
+                                {{ user_name }} </router-link>
                         </h3>
                     </div>
                 </div>
                 <Vote v-bind="{
-                    count: votes,
+                    count: likes,
                     id: id,
                     isLiked: is_liked,
                     isDisliked: is_disliked,
@@ -22,23 +23,25 @@
             </div>
             <div>
                 <p class="comment__body">
-                    {{ comment }}
+                    {{ content }}
                 </p>
             </div>
             <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;">
                 <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit
             </a>
         </div>
-
-        <div v-if="replies.length" class="comment__inner-commment">
-            <template v-for="(item, index) in replies" :key="index">
+        <div v-if="children_comments.length" class="comment__inner-commment">
+            <template v-for="(item, index) in children_comments" :key="index">
                 <Comment v-bind="{
-                    avatar: item.image,
-                    author: item.author,
-                    comment: item.comment,
-                    replies: item.replies,
-                    lastOne: index === replies.length - 1,
-                    hasCorner: replies.length >= 1,
+                    id: item.id,
+                    pic_url: item.pic_url,
+                    user_name: item.user_name,
+                    user_id: item.user_id,
+                    likes: item.likes,
+                    content: item.content,
+                    lastOne: index === children_comments.length - 1,
+                    hasCorner: children_comments.length >= 1,
+                    created_at: item.created_at,
                 }" />
             </template>
         </div>
@@ -60,16 +63,19 @@ export default {
             type: Boolean,
             default: false,
         },
-        avatar: {
+        pic_url: {
             type: String,
         },
-        author: {
+        user_name: {
             type: String,
         },
-        comment: {
+        user_id: {
             type: String,
         },
-        votes: {
+        content: {
+            type: String,
+        },
+        likes: {
             type: Number,
             default: 0,
         },
@@ -85,7 +91,7 @@ export default {
             type: Boolean,
             default: false,
         },
-        replies: {
+        children_comments: {
             type: Array,
             default: () => [],
         },
@@ -94,11 +100,20 @@ export default {
 </script>
   
 <style>
+.userimg {
+    background-color: antiquewhite;
+    width: 100%;
+}
+
 .comment {
     padding-top: 20px;
     position: relative;
 }
 
+.comment.shaddow {
+    box-shadow: calc(20px * -1 - 1px) 0 0 0 #fff;
+
+}
 
 .comment.corner::before {
     left: -21px;
@@ -128,8 +143,7 @@ export default {
 }
 
 .comment__title {
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 14px;
     line-height: 16px;
 }
 

@@ -81,7 +81,7 @@ export default {
     const that = this;
     this.axios
       .post("/api/auth/reset_password/check", {
-        token: this.$route.params.token,
+        token: this.$route.params.reset_password_token,
       })
 
       .then((res) => {
@@ -91,9 +91,9 @@ export default {
       .catch(function (error) {
         if (error.response) {
           console.log(error.response.status);
-          if (error.response.status == "401") {
+          if (error.response.status == 403) {
             that.$router.push({ name: 'resend_password' });
-          } else if (error.response.status == "402") {
+          } else if (error.response.status == 402) {
             that.$router.push({ name: 'Dashboard' });
 
           }
@@ -114,7 +114,7 @@ export default {
       } else {
         this.axios
           .post("/api/auth/reset_password/reset", {
-            token: this.$route.params.token,
+            token: this.$route.params.reset_password_token,
             password: this.password,
             password_confirmation: this.password_confirmation,
           })
@@ -133,7 +133,7 @@ export default {
           .catch(function (error) {
             if (error.response) {
               console.log(error.response.status);
-              if (error.response.status == "401") {
+              if (error.response.status == 401) {
                 ElMessage.error(error.response.data.error);
               }
             }

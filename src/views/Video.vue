@@ -6,14 +6,20 @@
 
         <div class="card">
           <div class="card-body p-3">
-            {{ loading }}
-            <el-main style="padding:0" v-loading="loading" element-loading-text="影片載入中"
+            <el-main style="padding:0" v-loading="video_loading" element-loading-text="影片載入中"
               element-loading-background="rgba(0, 0, 0, 0.1)">
               <div class="container_video">
                 <!-- <YoutubeVue3 ref="youtube" :videoid="post.video_id" :controls="1" class="youtub" @played="onPlayed" /> -->
               </div>
             </el-main>
-
+            {{ uva_topic.title }}
+            <Vote @like_post="like_post" v-bind="{
+              post_id: post.id,
+              count: this.post_likes,
+              isLiked: this.isLiked,
+              isDisliked: this.isDisliked,
+              loading: this.loading,
+            }" />
           </div>
         </div>
       </div>
@@ -26,18 +32,16 @@
         <div class="card">
           <div class="card-body p-3">
             <div class="ms-4 mt-5">
-              {{ comments }}
               <div v-for="(item, index) in comments" :key="index">
                 <Comment v-bind="{
-                  avatar: item.image,
-                  author: item.author,
-                  comment: item.comment,
-                  replies: item.replies,
-                  is_liked: item.is_liked,
-                  is_disliked: item.is_disliked,
+                  pic_url: item.pic_url,
+                  user_name: item.user_name,
+                  user_id: item.user_id,
+                  content: item.content,
+                  children_comments: item.children_comments,
+                  likes: item.likes,
                   id: item.id,
-                  votes: item.votes,
-                  date: item.date,
+                  created_at: item.created_at,
                 }" />
 
               </div>
@@ -46,25 +50,25 @@
         </div>
 
         <!-- <billing-card title="Billing Information" :bills="[
-                                              {
-                                                name: 'Oliver Liam',
-                                                company: 'Viking Burrito',
-                                                email: 'oliver@burrito.com',
-                                                id: 'FRB1235476',
-                                              },
-                                              {
-                                                name: 'Lucas Harper',
-                                                company: 'Stone Tech Zone',
-                                                email: 'lucas@stone-tech.com',
-                                                id: 'FRB1235476',
-                                              },
-                                              {
-                                                name: 'Ethan James',
-                                                company: 'Fiber Notion',
-                                                email: 'ethan@fiber.com',
-                                                id: 'FRB1235476',
-                                              },
-                                            ]" /> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                      {
+                                                                                                                                                                                                                                                                                                                                                                                                                                        name: 'Oliver Liam',
+                                                                                                                                                                                                                                                                                                                                                                                                                                        company: 'Viking Burrito',
+                                                                                                                                                                                                                                                                                                                                                                                                                                        email: 'oliver@burrito.com',
+                                                                                                                                                                                                                                                                                                                                                                                                                                        id: 'FRB1235476',
+                                                                                                                                                                                                                                                                                                                                                                                                                                      },
+                                                                                                                                                                                                                                                                                                                                                                                                                                      {
+                                                                                                                                                                                                                                                                                                                                                                                                                                        name: 'Lucas Harper',
+                                                                                                                                                                                                                                                                                                                                                                                                                                        company: 'Stone Tech Zone',
+                                                                                                                                                                                                                                                                                                                                                                                                                                        email: 'lucas@stone-tech.com',
+                                                                                                                                                                                                                                                                                                                                                                                                                                        id: 'FRB1235476',
+                                                                                                                                                                                                                                                                                                                                                                                                                                      },
+                                                                                                                                                                                                                                                                                                                                                                                                                                      {
+                                                                                                                                                                                                                                                                                                                                                                                                                                        name: 'Ethan James',
+                                                                                                                                                                                                                                                                                                                                                                                                                                        company: 'Fiber Notion',
+                                                                                                                                                                                                                                                                                                                                                                                                                                        email: 'ethan@fiber.com',
+                                                                                                                                                                                                                                                                                                                                                                                                                                        id: 'FRB1235476',
+                                                                                                                                                                                                                                                                                                                                                                                                                                      },
+                                                                                                                                                                                                                                                                                                                                                                                                                                    ]" /> -->
       </div>
       <div class="col-md-5 mt-4">
         <ranking-list-card :horizontal-break="false" :card="{
@@ -136,7 +140,8 @@ import RankingListCard from "@/examples/Cards/RankingListCard.vue";
 import { ElMessage } from "element-plus";
 import { YoutubeVue3 } from 'youtube-vue3'
 import Comment from "@/components/Comment.vue";
-
+import Vote from "@/components/Vote.vue";
+const axios = require('axios');
 export default {
   name: "Billing",
   components: {
@@ -149,65 +154,24 @@ export default {
     RankingList,
     RankingListCard,
     YoutubeVue3,
-    Comment
+    Comment,
+    Vote,
+
   },
   data() {
     return {
       post: [],
+      uva_topic: [],
       post_id: this.$route.params.post_id,
-      loading: true,
-      // comments: [
-      //   {
-      //     author: "brandon Jonson",
-      //     id: 1,
-      //     image: "https://picsum.photos/50",
-      //     comment: "I love this product",
-      //     date: "2019-01-01",
-      //     votes: 10,
-      //     is_liked: true,
-      //     is_disliked: false,
-      //     replies: [],
-      //   },
-      //   {
-      //     author: "Nick Jonson",
-      //     id: 2,
-      //     comment:
-      //       "I don't like this product  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text ",
-      //     image: "https://picsum.photos/50",
-      //     date: "2019-01-01",
-      //     votes: -10,
-      //     is_liked: false,
-      //     is_disliked: false,
-      //     replies: [
-      //       {
-      //         author: "Alex Jonson",
-      //         id: 3,
-      //         comment:
-      //           "Why not? Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text  Some large text ",
-      //         image: "https://picsum.photos/50",
-      //         date: "2019-01-01",
-      //         votes: 2,
-      //         is_liked: false,
-      //         is_disliked: false,
-      //         replies: [],
-      //       },
-
-      //       {
-      //         author: "Alex Jonson",
-      //         id: 343,
-      //         comment: "Why not?",
-      //         image: "https://picsum.photos/50",
-      //         date: "2019-01-01",
-      //         votes: 2,
-      //         is_liked: false,
-      //         is_disliked: false,
-      //         replies: [],
-      //       },
-
-      //     ],
-      //   },
-      // ],
-      comments: []
+      video_loading: true,
+      loading: 0,
+      comments: [],
+      page: 2,
+      user_post_like: 0,
+      user_comment_like: [],
+      token: this.$cookies.get("token"),
+      isLiked: false,
+      isDisliked: false
     };
   },
   created() {
@@ -227,39 +191,127 @@ export default {
     );
   },
   mounted() {
+    const that = this;
 
-    const get_post = this.axios
-      .post("/api/forum/get_post", {
-        post_id: this.post_id,
-      });
-    const get_comment = this.axios
-      .post("/api/forum/get_comment", {
-        post_id: this.post_id,
+    function get_post(post_id) {
+      return axios
+        .post("/api/forum/get_post", {
+          post_id: post_id,
+        });
+    }
+    function get_comment(post_id, page) {
+      return axios
+        .post("/api/forum/get_comment", {
+          post_id: post_id,
+          page: page
+        });
+    }
+    function get_like(post_id, token) {
+      if (token) {
+        return axios
+          .post("/api/forum/get_like", {
+            post_id: post_id,
+          }, {
+            headers: {
+              'Authorization': `Bearer ` + token
+            }
+          });
+      }
+      else
+        return ''
 
-      });
-    this.axios.all([get_post, get_comment]).then(
-      this.axios.spread((res1, res2) => {
+    }
+
+    this.axios.all([get_post(this.post_id), get_comment(this.post_id, this.page), get_like(this.post_id, this.token)]).then(
+      this.axios.spread((res1, res2, res3) => {
         console.log(res1);
         this.post = res1.data.success;
+
+        this.video_loading = false;
+        this.post_likes = res1.data.success.likes
+        this.uva_topic = res1.data.success.uva_topic;
         this.comments = res2.data.success;
+        if (res3 == '') {
+          this.loading++
+        }
+        this.user_post_like = res3.data.user_post_like
+
+        switch (this.user_post_like) {
+          case null:
+            this.isLiked = false;
+            this.isDisliked = false;
+            break;
+          case 1:
+            this.isLiked = true;
+            this.isDisliked = false;
+            break;
+          case -1:
+            this.isLiked = false;
+            this.isDisliked = true;
+            break;
+          default:
+            this.isLiked = false;
+            this.isDisliked = false;
+            break;
+        }
+
+        this.user_comment_like = res3.data.user_comment_like;
+        this.loading++
       })
-    ).catch(function (error) {
-      if (error.response) {
-        console.log(error.response.status);
-        if (error.response.status == "401") {
-          ElMessage.error("影片不存在");
+    )
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response.status);
+          if (error.response.status == 401) {
+          }
+          if (error.response.status == 402) {
+            ElMessage.error("影片不存在");
+            that.$router.push({ name: 'Dashboard' });
 
-          that.$router.push({ name: 'Dashboard' });
-
+          }
         }
       }
-    });
+      );
 
   },
   methods: {
     onPlayed() {
       this.loading = false
     },
+    like_post(dislike_or_like) {
+      this.axios
+        .post("/api/forum/like_post", {
+          post_id: this.post_id,
+          dislike_or_like: dislike_or_like,
+        }, {
+          headers: {
+            'Authorization': `Bearer ` + this.token
+          }
+        })
+        .then((res) => {
+          this.user_post_like = res.data.user_post_like;
+          switch (this.user_post_like) {
+            case null:
+              this.isLiked = false;
+              this.isDisliked = false;
+              break;
+            case 1:
+              this.isLiked = true;
+              this.isDisliked = false;
+              break;
+            case -1:
+              this.isLiked = false;
+              this.isDisliked = true;
+              break;
+            default:
+              this.isLiked = false;
+              this.isDisliked = false;
+              break;
+          }
+          this.loading++
+
+        })
+    }
 
   },
 };

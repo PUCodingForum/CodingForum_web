@@ -119,7 +119,7 @@ export default {
           .catch(function (error) {
             if (error.response) {
               console.log(error.response.status);
-              if (error.response.status == "401") {
+              if (error.response.status == 401) {
                 ElMessage.error(error.response.data.error);
               }
             }

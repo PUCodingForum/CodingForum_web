@@ -7,9 +7,9 @@
           <a href="https://onlinejudge.org/" target="_blank" class="mb-2 text-secondary me-xl-5 me-3 mb-sm-0">
             UVa
           </a>
-          <a href="https://www.pu.edu.tw/" target="_blank" class="mb-2 text-secondary me-xl-5 me-3 mb-sm-0">
-            靜宜大學
-          </a>
+          <router-link class="" :to="{ name: 'Dashboard' }">
+            <img src="@/assets/img/logo3.png" class="footer_logoicon" alt="main_logo" />
+          </router-link>
           <a href="https://cpe.cse.nsysu.edu.tw/index.php" target="_blank"
             class="mb-2 text-secondary me-xl-5 me-3 mb-sm-0">
             CPE

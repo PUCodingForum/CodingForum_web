@@ -1,121 +1,119 @@
 <template>
     <div class="vote">
-        <div class="vote__down-vote" @click.prevent="downvote" :class="[{ voted: disliked == true }]">
+        <div class="vote__down-vote" @click.prevent="downvote" :class="[{ voted: now_user_post_like == -1 }]">
             <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6 9L12 15L18 9" stroke="#8A939A" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round" />
             </svg>
         </div>
+
         <div class="vote__count" :class="[
+            { down: now_user_post_like == -1 },
+            { up: now_user_post_like == 1 },
             { positive: num > 0 },
             { negative: num < 0 },
         ]">
+            <span class="vote__count-n"><i class="fa-solid fa-heart"></i> x {{ num + 1 }}</span>
             <span class="vote__count-n"><i class="fa-solid fa-heart"></i> x {{ num }}</span>
+            <span class="vote__count-n"><i class="fa-solid fa-heart"></i> x {{ num - 1 }}</span>
         </div>
-        <div class="vote__up-vote" @click.prevent="upvote" :class="[{ voted: liked == true }]">
+        <div class="vote__up-vote" @click.prevent="upvote" :class="[{ voted: now_user_post_like == 1 }]">
             <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M18 15L12 9L6 15" stroke="#8A939A" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round" />
             </svg>
         </div>
-        num :{{ num }} count:{{ count }}
-        liked:{{ liked }} disliked:{{ disliked }}
-        limit:{{ limit }} loading:{{ loading }}
+        now_user_post_like:{{ now_user_post_like }} user_post_like:{{ user_post_like }} num:{{ num }} count:{{ count }}
     </div>
 </template>
   
 <script>
-
 import { ElMessage } from "element-plus";
 
 export default {
-    unmounted() {
-        clearTimeout(this.timer);
-    },
-
     props: {
-        count: {
-            type: Number,
-            default: 0,
-        },
         post_id: {
             type: Number,
-            default: 0,
         },
-        isLiked: {
-            type: Boolean,
-        },
-        isDisliked: {
-            type: Boolean,
-        },
-        loading: {
+        count: {
             type: Number,
         },
-        like_post: {
-            type: Function
-        }
+        user_post_like: {
+            type: Number,
+        },
     },
-    data() {
-        return {
-            num: this.count,
-            liked: this.isLiked,
-            disliked: this.isDisliked,
-            token: this.$cookies.get("token"),
-            limit: false
-        };
-    },
-
     created() {
         this.$watch(
             () => ({
-                loading: this.loading,
+                user_post_like: this.user_post_like,
+                now_user_post_like: this.now_user_post_like,
             }),
             () => {
                 if (this.$route.name != 'Video') {
                     return;
                 }
-                if (this.loading <= 1)
-                    this.num = this.count;
-                this.liked = this.isLiked;
-                this.disliked = this.isDisliked;
+                this.now_user_post_like = this.user_post_like
+                this.num = this.count
+                if (this.now_user_post_like == 1) {
+                    this.num--
+                } else if (this.now_user_post_like == -1) {
+                    this.num++
+                }
+
+
 
 
             },
             { deep: true, immediate: true }
         );
     },
+    data() {
+        return {
+            token: this.$cookies.get("token"),
+            now_user_post_like: this.user_post_like,
+            num: 0,
+        };
+    },
+    mounted() {
+    },
     methods: {
-        timelimit() {
-            this.limit = false;
-        },
-        check() {
+        downvote() {
             if (!this.token) {
                 ElMessage.error("請先登入以進行操作");
-                this.$cookies.set("go_login_then_like", this.post_id, "3min");
                 this.$router.push({ name: 'Sign In' });
             }
-            if (this.limit) {
-                ElMessage.error("操作過於頻繁，請稍等");
-            }
-        },
-        downvote() {
-            this.check();
-            if (this.disliked != true && !this.limit) {
-                this.num--
-                this.$emit('like_post', -1);
-                this.limit = true;
-                setTimeout(this.timelimit, 500);
-            }
+
+            this.axios
+                .post("/api/forum/like_post", {
+                    post_id: this.post_id,
+                    dislike_or_like: -1,
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ` + this.token
+                    }
+                })
+                .then((res) => {
+                    this.now_user_post_like = res.data.dislike_or_like
+                })
         },
         upvote() {
-            this.check();
-            if (this.liked != true && !this.limit) {
-                this.num++
-                this.$emit('like_post', 1);
-                this.limit = true;
-                setTimeout(this.timelimit, 500);
-
+            if (!this.token) {
+                ElMessage.error("請先登入以進行操作");
+                this.$router.push({ name: 'Sign In' });
             }
+
+            this.axios
+                .post("/api/forum/like_post", {
+                    post_id: this.post_id,
+                    dislike_or_like: 1,
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ` + this.token
+                    }
+                })
+                .then((res) => {
+                    this.now_user_post_like = res.data.dislike_or_like
+                })
         },
     },
 };

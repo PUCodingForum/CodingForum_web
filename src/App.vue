@@ -15,9 +15,9 @@
     <app-footer v-show="this.$store.state.showFooter" />
 
     <!-- <configurator :toggle="toggleConfigurator" :class="[
-        this.$store.state.showConfig ? 'show' : '',
-        this.$store.state.hideConfigButton ? 'd-none' : '',
-      ]" /> -->
+                  this.$store.state.showConfig ? 'show' : '',
+                  this.$store.state.hideConfigButton ? 'd-none' : '',
+                ]" /> -->
   </main>
 </template>
 <script>
@@ -59,11 +59,16 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap");
 
 #app {
-  font-family: "Noto Sans TC", sans-serif;
+  font-family: "Noto Sans TC", sans-serif !important;
+}
+
+.card .card-body {
+  font-family: "Noto Sans TC", sans-serif !important;
+
 }
 
 .el-button {
-  font-family: "Noto Sans TC", sans-serif;
+  font-family: "Noto Sans TC", sans-serif !important;
 }
 
 .youtube_img_fix {
@@ -100,5 +105,14 @@ export default {
 
 .placeholder {
   cursor: alias !important;
+}
+
+.logoicon {
+  width: 38%;
+}
+
+.footer_logoicon {
+  width: 10%;
+
 }
 </style>
