@@ -1,0 +1,181 @@
+<template>
+    <div>
+        <QuillEditor theme="snow" v-model:content="incontent" contentType="html" :options="editorOptions"
+            :readOnly="readOnly" :placeholder="placeholder"
+            :class="[readOnly ? 'read ql-container ql-snow ql-disabled' : 'ql-container ql-snow ']" :key="key" />
+        {{ readOnly }}
+    </div>
+<!-- {{ value }} --></template>
+
+<script>
+import Quill from 'quill'
+import mention from 'quill-mention' // 引入mention 组件
+import 'quill-mention/dist/quill.mention.min.css'
+import { ElMessage } from "element-plus";
+
+Quill.register({
+    'modules/mention': mention,
+})
+
+export default {
+    name: "test",
+    components: {
+    },
+    mounted() {
+        window.addEventListener('mention-clicked', (event) => {
+            console.log('hovered: ', event.value.id)
+            this.$router.push({ name: 'Profile', params: { user_account: event.value.id } });
+
+        }, false);
+
+    },
+    props: ["content", "readOnly", "newcomment"],
+    created() {
+        this.$watch(
+            () => ({
+                readOnly: this.readOnly,
+            }),
+            () => {
+                if (this.$route.name != 'Video') {
+                    return;
+                }
+                this.key++
+                if (this.readOnly == true) {
+
+                }
+            },
+            { deep: true, immediate: true }
+        );
+    },
+    methods: {
+        comment() {
+
+            this.axios
+                .post("/api/forum/comment", {
+                    post_id: this.post_id,
+                    content: this.incontent,
+                    mention: this.mention,
+                    // comment_id: this.comment_id,
+                    // parent_comment_id: this.parent_comment_id,
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ` + this.token
+                    }
+                })
+                .then((res) => {
+                    ElMessage({
+                        message: "留言成功",
+                        type: "success",
+                        duration: 3000,
+                    });
+                    this.incontent = ''
+                    this.key++
+                    this.$emit('newcomment', res.data.comment)
+                })
+        },
+    },
+
+    data() {
+        return {
+            token: this.$cookies.get("token"),
+            key: 0,
+            incontent: this.content ? this.content : '',
+            userList: [{ 'value': 'a', 'key': 'test' }],
+            output: [],
+            mention: '[]',
+            placeholder: this.content ? '' : '發表留言:',
+            post_id: this.$route.params.post_id,
+            editorOptions: {
+
+                modules: {
+
+                    mention: {  // 重点： 提醒功能配置项
+
+                        allowedChars: /^[A-Za-z\s]*$/, // 正则匹配
+
+                        mentionDenotationChars: ['@'], // 匹配符号，匹配到@符号弹出提醒框
+
+                        offsetLeft: 4,
+
+                        source: (searchTerm, renderList, mentionChar) => {
+
+                            const values = this.userList.map(item => ({
+
+                                id: item.value,
+
+                                value: item.key,
+
+                            }))
+
+                            renderList(values, searchTerm) // 渲染函数（生成提醒框）
+
+                        },
+
+                        onSelect: (data, insertItem) => { // 注意：选中后的回调函数
+
+                            const item = {
+
+                                text: `@${data.value}`,
+
+                                name: data.value,
+
+                                id: data.id,
+
+                            }
+
+                            insertItem(data) // 注意：这个函数必须加上，有这个才会在文本框显示选中的值
+
+                            console.log(item)
+                            if (!this.output.includes(item.id)) {
+                                this.output.push(item.id)
+
+                            }
+                        },
+
+                    },
+
+                },
+
+            },
+
+        };
+    },
+
+};
+</script>
+<style>
+.ql-container.ql-snow {
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+}
+
+.read {
+    border-bottom: none !important;
+}
+
+.ql-editor {
+    padding: 3px 15px !important
+}
+
+.ql-toolbar.ql-snow {
+    display: none !important;
+}
+
+.ql-editor.ql-blank::before {
+    font-style: inherit !important;
+}
+
+.ql-container {
+    font-family: "Noto Sans TC", sans-serif !important;
+    font-size: 15px !important;
+}
+
+.ql-editor p {
+    cursor: default;
+}
+
+.mention {
+    cursor: pointer;
+}
+</style>

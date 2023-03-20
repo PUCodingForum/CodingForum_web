@@ -8,7 +8,6 @@ import SignUp from "@/views/user/SignUp.vue";
 import ForgetPassword from "@/views/user/ForgetPassword.vue";
 import ResetPassword from "@/views/user/ResetPassword.vue";
 import ResendPassword from "@/views/user/ResendPassword.vue";
-import test from "@/views/test.vue";
 
 const routes = [
   {
@@ -21,11 +20,7 @@ const routes = [
     name: "Dashboard",
     component: Dashboard,
   },
-  {
-    path: "/test",
-    name: "test",
-    component: test,
-  },
+
   {
     path: "/tables",
     name: "Tables",
@@ -37,7 +32,7 @@ const routes = [
     component: Video,
   },
   {
-    path: "/profile/:user_id?",
+    path: "/profile/:user_account?",
     name: "Profile",
     component: Profile,
   },
@@ -79,6 +74,9 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
   linkActiveClass: "active",
+  scrollBehavior() {
+    document.getElementById("app").scrollIntoView({ behavior: "smooth" });
+  },
 });
 
 export default router;

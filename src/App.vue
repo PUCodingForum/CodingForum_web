@@ -1,11 +1,10 @@
 <template>
   <sidenav :custom_class="this.$store.state.mcolor" :class="[
     this.$store.state.isTransparent,
-    this.$store.state.isRTL ? 'fixed-end' : 'fixed-start',
+    'fixed-start',
   ]" v-if="this.$store.state.showSidenav" />
 
-  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
-    :style="this.$store.state.isRTL ? 'overflow-x: hidden' : ''">
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
 
     <navbar :class="[navClasses]" :textWhite="this.$store.state.isAbsolute ? 'text-white opacity-8' : ''"
       :minNav="navbarMinimize" v-if="this.$store.state.showNavbar" />
@@ -15,9 +14,9 @@
     <app-footer v-show="this.$store.state.showFooter" />
 
     <!-- <configurator :toggle="toggleConfigurator" :class="[
-                  this.$store.state.showConfig ? 'show' : '',
-                  this.$store.state.hideConfigButton ? 'd-none' : '',
-                ]" /> -->
+                        this.$store.state.showConfig ? 'show' : '',
+                        this.$store.state.hideConfigButton ? 'd-none' : '',
+                      ]" /> -->
   </main>
 </template>
 <script>
@@ -114,5 +113,10 @@ export default {
 .footer_logoicon {
   width: 10%;
 
+}
+
+.userimg {
+  background-color: antiquewhite;
+  width: 100%;
 }
 </style>

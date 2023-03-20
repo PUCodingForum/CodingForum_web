@@ -1,15 +1,14 @@
-<template>
-  <!-- Navbar -->
+<template><!-- Navbar -->
   <nav class="top-0 navbar navbar-expand-lg position-absolute z-index-3"
     :class="isBlur ? isBlur : 'shadow-none my-2 navbar-transparent w-100'">
     <div class="container">
       <!-- <router-link class="navbar-brand font-weight-bolder ms-lg-0 ms-3" to="/dashboard" v-bind="$attrs"
-        :class="isBlur ? 'text-dark' : 'text-white'">
-        程式交流網
-      </router-link> -->
+          :class="isBlur ? 'text-dark' : 'text-white'">
+          程式交流網
+        </router-link> -->
 
-      <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse"
-        data-bs-target="#navigation" aria-expanded="false" aria-controls="navigation">
+      <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation"
+        aria-expanded="false" aria-controls="navigation">
         <span class="navbar-toggler-icon mt-2">
           <span class="navbar-toggler-bar bar1"></span>
           <span class="navbar-toggler-bar bar2"></span>
@@ -23,12 +22,6 @@
               <i class="fa fa-chart-pie opacity-6 me-1" aria-hidden="true"
                 :class="isBlur ? 'text-dark' : 'text-white'"></i>
               主頁
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link me-2" :to="{ name: 'Profile' }">
-              <i class="fa fa-user opacity-6 me-1" aria-hidden="true" :class="isBlur ? 'text-dark' : 'text-white'"></i>
-              個人檔案
             </router-link>
           </li>
           <li class="nav-item">
@@ -53,8 +46,7 @@
       </div>
     </div>
   </nav>
-  <!-- End Navbar -->
-</template>
+<!-- End Navbar --></template>
 
 <script>
 import downArrWhite from "@/assets/img/down-arrow-white.svg";

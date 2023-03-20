@@ -21,27 +21,27 @@
           PAGES
         </h6>
       </li>
-      <li class="nav-item">
-        <sidenav-collapse navText="個人頁面" :to="{ name: 'Profile' }">
+      <li class="nav-item" v-if="user_account">
+        <sidenav-collapse navText="個人頁面" :to="{ name: 'Profile', params: { user_account: user_account } }">
           <template #icon>
             <customer-support />
           </template>
         </sidenav-collapse>
       </li>
-      <li class="nav-item">
-        <sidenav-collapse navText="Sign In" :to="{ name: 'Sign In' }">
-          <template #icon>
-            <document />
-          </template>
-        </sidenav-collapse>
-      </li>
-      <li class="nav-item">
-        <sidenav-collapse navText="Sign Up" :to="{ name: 'Sign Up' }">
-          <template #icon>
-            <spaceship />
-          </template>
-        </sidenav-collapse>
-      </li>
+      <!-- <li class="nav-item">
+                      <sidenav-collapse navText="Sign In" :to="{ name: 'Sign In' }">
+                        <template #icon>
+                          <document />
+                        </template>
+                      </sidenav-collapse>
+                    </li>
+                    <li class="nav-item">
+                      <sidenav-collapse navText="Sign Up" :to="{ name: 'Sign Up' }">
+                        <template #icon>
+                          <spaceship />
+                        </template>
+                      </sidenav-collapse>
+                    </li> -->
     </ul>
   </div>
   <div class="pt-3 mx-3 mt-3 sidenav-footer">
@@ -73,6 +73,7 @@ export default {
       title: "Soft UI Dashboard PRO",
       controls: "dashboardsExamples",
       isActive: "active",
+      user_account: this.$cookies.get("user_account")
     };
   },
   components: {

@@ -13,11 +13,21 @@
         </div>
         <ul class="navbar-nav justify-content-end">
           <li class="nav-item d-flex align-items-center">
-            <router-link :to="{ name: 'Sign In' }" class="px-0 nav-link font-weight-bold"
-              :class="textWhite ? textWhite : 'text-body'">
-              <i class="fa fa-user" :class="this.$store.state.isRTL ? 'ms-sm-2' : 'me-sm-1'"></i>
-              <span class="d-sm-inline d-none">登入</span>
+            <router-link v-if="user_account" :to="{ name: 'Profile', params: { user_account: user_account } }"
+              class="px-0 nav-link font-weight-bold text-body">
+              <i class="fa fa-user me-sm-1"></i>
+              <span class="d-sm-inline d-none">個人頁面</span>
             </router-link>
+            <div v-if="user_account" @click="logout" class="px-0 nav-link font-weight-bold text-body"
+              style="cursor:pointer">
+              <i class="fa-solid fa-right-from-bracket me-sm-1 ms-4"></i>
+              <span class="d-sm-inline d-none">登出</span>
+            </div>
+            <div v-if="!user_account" @click="login" class="px-0 nav-link font-weight-bold text-body"
+              style="cursor:pointer">
+              <i class="fa fa-user me-sm-1"></i>
+              <span class="d-sm-inline d-none">登入</span>
+            </div>
           </li>
           <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
             <a href="#" @click="toggleSidebar" class="p-0 nav-link text-body" id="iconNavbarSidenav">
@@ -30,8 +40,8 @@
           </li>
           <li class="px-3 nav-item d-flex align-items-center">
             <!-- <a class="p-0 nav-link" @click="toggleConfigurator" :class="textWhite ? textWhite : 'text-body'">
-              <i class="cursor-pointer fa fa-cog fixed-plugin-button-nav"></i>
-            </a> -->
+                                                                                                                      <i class="cursor-pointer fa fa-cog fixed-plugin-button-nav"></i>
+                                                                                                                    </a> -->
           </li>
           <li class="nav-item dropdown d-flex align-items-center" :class="this.$store.state.isRTL ? 'ps-2' : 'pe-2'">
             <a href="#" class="p-0 nav-link" :class="[
@@ -85,8 +95,8 @@
                 <a class="dropdown-item border-radius-md" href="javascript:;">
                   <div class="py-1 d-flex">
                     <div class="my-auto avatar avatar-sm bg-gradient-secondary me-3">
-                      <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1"
-                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                      <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink">
                         <title>credit-card</title>
                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                           <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -126,17 +136,35 @@
 <script>
 import Breadcrumbs from "../Breadcrumbs.vue";
 import { mapMutations, mapActions } from "vuex";
+import { ElMessage } from "element-plus";
 
 export default {
   name: "navbar",
   data() {
     return {
       showMenu: false,
+      token: this.$cookies.get("token"),
+      user_account: this.$cookies.get("user_account"),
+
     };
   },
   props: ["minNav", "textWhite"],
   created() {
     this.minNav;
+    this.$watch(
+      () => ({
+        post_id: this.$route.params.post_id,
+      }),
+      () => {
+        if (this.$route.name != 'Video') {
+          this.post_id = ''
+          return;
+        }
+        this.post_id = this.$route.params.post_id
+
+      },
+      { deep: true, immediate: true }
+    );
   },
   methods: {
     ...mapMutations(["navbarMinimize", "toggleConfigurator"]),
@@ -146,7 +174,35 @@ export default {
       this.toggleSidebarColor("bg-white");
       this.navbarMinimize();
     },
+    login() {
+      if (this.post_id) {
+        this.$cookies.set("go_login_then_backpost", this.post_id, "3min");
+      }
+      this.$router.push({ name: 'Sign In' });
+
+    },
+    logout() {
+
+      this.axios
+        .post("/api/auth/logout", {
+        }, {
+          headers: {
+            'Authorization': `Bearer ` + this.token
+          }
+        }).then((res) => {
+          this.$router.go()
+          this.$cookies.remove("token")
+          this.$cookies.remove("user_account")
+          this.$cookies.remove("now_user_pic_url")
+          ElMessage({
+            message: "登出成功",
+            type: "success",
+            duration: 3000,
+          });
+        })
+    }
   },
+
   components: {
     Breadcrumbs,
   },

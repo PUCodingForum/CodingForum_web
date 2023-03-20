@@ -66,7 +66,7 @@
                   </h5>
                   <p>CPE星數: <i class="fa-solid fa-star-of-david" v-for="star in post.uva_topic.star"></i> </p>
                   <p class="card-text placeholder-glow">
-                    <router-link class="" :to="{ name: 'Profile', params: { user_id: post.user_id } }">
+                    <router-link class="" :to="{ name: 'Profile', params: { user_account: post.user_account } }">
                       作者 : {{ post.user_name }} </router-link>
                   </p>
                 </div>

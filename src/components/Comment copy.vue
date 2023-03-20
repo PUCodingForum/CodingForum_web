@@ -1,39 +1,34 @@
 <template>
     <div>
-        <div class="comment mt-4" :class="[{ shaddow: lastOne }, { corner: hasCorner }]">
-            <div class="comment__header row">
-                <div class="comment__author col-1" style="    align-self: flex-start;">
-                    <img class="userimg comment__avatar " :src="pic_url" alt="" />
-                </div>
-                <div class="comment__content col-11">
-                    <h3 class="comment__title">
-                        <router-link class="" :to="{ name: 'Profile', params: { user_id: user_id } }">
-                            {{ user_name }} </router-link>
-                    </h3>
-
-                    <p class="comment__body">
-                        <CommentTextArea :content="content" :readOnly="readOnly" />
-                    </p>
-                    <div style="display: flex;">
-                        <Vote v-bind="{
-                            count: likes,
-                            id: comment_id,
-                            isLiked: is_liked,
-                            isDisliked: is_disliked,
-                        }" />
-                        <a class="btn btn-link text-dark px-3 mb-0" @click="readOnly = !readOnly" href="javascript:;">
-                            <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>{{ showtext }}
-                        </a>
-                        <a class="btn btn-link text-dark px-3 mb-0" v-if="!readOnly" href="javascript:;">
-                            <i class="fa-solid fa-floppy-disk  me-2"></i>保存
-                        </a>
+        <div class="comment" :class="[{ shaddow: lastOne }, { corner: hasCorner }]">
+            <div class="comment__header">
+                <div class="comment__author">
+                    <div class="comment__avatar">
+                        <img class="userimg" :src="pic_url" alt="" />
                     </div>
-
+                    <div class="comment__content">
+                        <h3 class="comment__title">
+                            <router-link class="" :to="{ name: 'Profile', params: { user_id: user_id } }">
+                                {{ user_name }} </router-link>
+                        </h3>
+                    </div>
                 </div>
-
+                <Vote v-bind="{
+                    count: likes,
+                    id: comment_id,
+                    isLiked: is_liked,
+                    isDisliked: is_disliked,
+                }" />
 
             </div>
-
+            <div>
+                <p class="comment__body">
+                    {{ content }}
+                </p>
+            </div>
+            <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;">
+                <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit
+            </a>
         </div>
         <div v-if="children_comments.length" class="comment__inner-commment">
             <template v-for="(item, index) in children_comments" :key="index">
@@ -58,36 +53,17 @@
 </template>
   
 <script>
-import CommentTextArea from "@/components/CommentTextArea.vue";
-
 import Vote from "./Vote.vue";
 export default {
     components: {
         Vote,
-        CommentTextArea
     }, data() {
         return {
-            showtext: '編輯',
             now_count: 0,
-            page: 1,
-            readOnly: true,
-            post_id: this.$route.params.post_id,
+            page: 1
         }
     },
-    created() {
-        this.$watch(
-            () => ({
-                readOnly: this.readOnly,
-            }),
-            () => {
-                if (this.$route.name != 'Video') {
-                    return;
-                }
-                this.showtext = this.readOnly ? '編輯' : '取消'
-            },
-            { deep: true, immediate: true }
-        );
-    },
+
     props: {
         hasCorner: {
             type: Boolean,
@@ -187,9 +163,9 @@ export default {
 };
 </script>
   
-
 <style>
 .comment {
+    padding-top: 20px;
     position: relative;
 }
 

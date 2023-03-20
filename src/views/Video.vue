@@ -28,48 +28,68 @@
         <invoice-card />
       </div>
     </div>
+
     <div class="row mt-4">
       <div class="col-md-7">
-        <div class="card">
-          <div class="card-body p-3">
-            <div class="ms-4 mt-5">
-              <div v-for="(item, index) in comments" :key="index">
-                <Comment v-bind="{
-                  pic_url: item.pic_url,
-                  user_name: item.user_name,
-                  user_id: item.user_id,
-                  content: item.content,
-                  children_comments: item.children_comments,
-                  likes: item.likes,
-                  id: item.id,
-                  created_at: item.created_at,
-                }" />
+        <infinite-scroll @infinite-scroll="loadDataFromServer" :message="message" :noResult="noResult">
+
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="ms-4 mt-5">
+                <div class="row mt-4">
+                  <div class="col-1 px-0">
+                    <img class="userimg comment__avatar" :src="now_user_pic_url" alt="">
+                  </div>
+                  <div class="col-10 px-0">
+                    <CommentTextArea ref="postcomment" @newcomment="newcomment" />
+
+                  </div>
+                  <div class="col-1 px-0">
+                    <a class="btn btn-link text-dark px-3 mb-0" @click="$refs.postcomment.comment()">
+                      <i class="fa-solid fa-paper-plane"></i> 送出
+                    </a>
+                  </div>
+                </div>
+                <div v-for="(item, index) in comments" :key="item.id">
+                  <Comment v-if="item.id != null" v-bind="{
+                    pic_url: item.pic_url,
+                    user_name: item.user_name,
+                    user_id: item.user_id,
+                    content: item.content,
+                    children_comment_count: item.children_comment_count,
+                    children_comments: item.children_comments,
+                    likes: item.likes,
+                    comment_id: item.id,
+                    created_at: item.created_at,
+                  }" />
+
+                </div>
 
               </div>
             </div>
           </div>
-        </div>
+        </infinite-scroll>
 
         <!-- <billing-card title="Billing Information" :bills="[
-                                                                                                                                                                                                                                                                                                                                                                                                                                                      {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        name: 'Oliver Liam',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        company: 'Viking Burrito',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        email: 'oliver@burrito.com',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        id: 'FRB1235476',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                      },
-                                                                                                                                                                                                                                                                                                                                                                                                                                                      {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        name: 'Lucas Harper',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        company: 'Stone Tech Zone',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        email: 'lucas@stone-tech.com',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        id: 'FRB1235476',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                      },
-                                                                                                                                                                                                                                                                                                                                                                                                                                                      {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        name: 'Ethan James',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        company: 'Fiber Notion',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        email: 'ethan@fiber.com',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        id: 'FRB1235476',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                      },
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    ]" /> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                name: 'Oliver Liam',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                company: 'Viking Burrito',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                email: 'oliver@burrito.com',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                id: 'FRB1235476',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              },
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                name: 'Lucas Harper',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                company: 'Stone Tech Zone',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                email: 'lucas@stone-tech.com',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                id: 'FRB1235476',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              },
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                name: 'Ethan James',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                company: 'Fiber Notion',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                email: 'ethan@fiber.com',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                id: 'FRB1235476',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              },
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ]" /> -->
       </div>
       <div class="col-md-5 mt-4">
         <ranking-list-card :horizontal-break="false" :card="{
@@ -125,6 +145,7 @@
         </ranking-list-card>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -141,8 +162,10 @@ import RankingListCard from "@/examples/Cards/RankingListCard.vue";
 import { ElMessage } from "element-plus";
 import { YoutubeVue3 } from 'youtube-vue3'
 import Comment from "@/components/Comment.vue";
+import CommentTextArea from "@/components/CommentTextArea.vue";
 import Vote from "@/components/Vote.vue";
 const axios = require('axios');
+import InfiniteScroll from "infinite-loading-vue3";
 
 export default {
   name: "Billing",
@@ -157,7 +180,9 @@ export default {
     RankingListCard,
     YoutubeVue3,
     Comment,
+    CommentTextArea,
     Vote,
+    InfiniteScroll
   },
   data() {
     return {
@@ -167,12 +192,17 @@ export default {
       video_loading: true,
       loading: 0,
       comments: [],
-      page: 2,
+      page: 1,
       user_post_like: 0,
       user_comment_like: [],
       token: this.$cookies.get("token"),
+      now_user_pic_url: this.$cookies.get("now_user_pic_url"),
       isLiked: false,
       isDisliked: false,
+      noResult: false,
+      message: "",
+      more_lock: false,
+      new_add_comment_id: {}
     };
   },
   created() {
@@ -276,6 +306,12 @@ export default {
 
   },
   methods: {
+    newcomment(comment) {
+      console.log(comment)
+      this.comments.unshift(comment);
+      this.new_add_comment_id[comment.id] = 0
+      console.log(this.new_add_comment_id)
+    },
     onPlayed() {
       this.loading = false
     },
@@ -312,7 +348,36 @@ export default {
           this.loading++
 
         })
+    },
+
+    async loadDataFromServer() {
+      if (!this.more_lock) {
+        this.more_lock = true;
+        console.log(this.page)
+        if (!this.noResult) {
+          console.log(this.page)
+          await this.axios
+            .post("/api/forum/get_comment", {
+              post_id: this.post_id,
+              page: ++this.page
+            })
+            .then((res) => {
+              console.log(res.data.success)
+              if (res.data.success.length) {
+                res.data.success.forEach((item) => {
+                  this.comments.push(item);
+                });
+                console.log(this.comments);
+              } else {
+                this.noResult = true;
+              }
+            })
+        }
+        this.more_lock = false;
+
+      }
     }
+
 
   },
 };

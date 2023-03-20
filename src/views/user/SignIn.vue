@@ -186,18 +186,20 @@ export default {
             // }
           }
           console.log(res);
-          const token = res.data.success;
-          this.$cookies.set("token", token, "1d");
-          if (this.$cookies.isKey("go_login_then_like")) {
+          const user_account = res.data.user.account;
+          this.$cookies.set("token", res.data.success, "1d");
+          this.$cookies.set("user_account", user_account, "1d");
+          this.$cookies.set("now_user_pic_url", res.data.user.pic_url, "1d");
+          if (this.$cookies.isKey("go_login_then_backpost")) {
             this.$router.push({
               name: 'Video',
               params: {
-                post_id: this.$cookies.get("go_login_then_like"),
+                post_id: this.$cookies.get("go_login_then_backpost"),
               }
             });
-            this.$cookies.remove("go_login_then_like")
+            this.$cookies.remove("go_login_then_backpost")
           } else {
-            this.$router.push({ name: 'Profile' });
+            this.$router.push({ name: 'Profile', params: { user_account: user_account } });
           }
           ElMessage({
             message: "登入成功",
