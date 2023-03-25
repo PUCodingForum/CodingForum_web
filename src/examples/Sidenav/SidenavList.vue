@@ -9,7 +9,7 @@
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="Tables" :to="{ name: 'Tables' }">
+        <sidenav-collapse navText="Upload" :to="{ name: 'Upload' }">
           <template #icon>
             <office />
           </template>
