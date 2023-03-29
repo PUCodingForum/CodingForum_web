@@ -13,12 +13,13 @@
               </div>
             </el-main>
             {{ uva_topic.title }}
-            <Vote @like_post="like_post" v-bind="{
+            <Vote @like_function="like_post" v-bind="{
               post_id: post.id,
               count: this.post_likes,
               isLiked: this.isLiked,
               isDisliked: this.isDisliked,
               loading: this.loading,
+              type: 0//0post //1comment
             }" />
 
           </div>
@@ -61,6 +62,7 @@
                     likes: item.likes,
                     comment_id: item.id,
                     created_at: item.created_at,
+                    user_comment_like: user_comment_like,
                   }" />
 
                 </div>
@@ -192,7 +194,6 @@ export default {
       video_loading: true,
       loading: 0,
       comments: [],
-      page: 1,
       user_post_like: 0,
       user_comment_like: [],
       token: this.$cookies.get("token"),
@@ -202,7 +203,6 @@ export default {
       noResult: false,
       message: "",
       more_lock: false,
-      new_add_comment_id: {}
     };
   },
   created() {
@@ -230,11 +230,10 @@ export default {
           post_id: post_id,
         });
     }
-    function get_comment(post_id, page) {
+    function get_comment(post_id) {
       return axios
         .post("/api/forum/get_comment", {
           post_id: post_id,
-          page: page
         });
     }
     function get_like(post_id, token) {
@@ -253,7 +252,7 @@ export default {
 
     }
 
-    this.axios.all([get_post(this.post_id), get_comment(this.post_id, this.page), get_like(this.post_id, this.token)]).then(
+    this.axios.all([get_post(this.post_id), get_comment(this.post_id), get_like(this.post_id, this.token)]).then(
       this.axios.spread((res1, res2, res3) => {
         console.log(res1);
         this.post = res1.data.success;
@@ -261,7 +260,7 @@ export default {
         this.video_loading = false;
         this.post_likes = res1.data.success.likes
         this.uva_topic = res1.data.success.uva_topic;
-        this.comments = res2.data.success;
+        this.comments = res2.data.success.slice(0, 3);
         if (res3 == '') {
           this.loading++
         }
@@ -307,10 +306,8 @@ export default {
   },
   methods: {
     newcomment(comment) {
-      console.log(comment)
-      this.comments.unshift(comment);
-      this.new_add_comment_id[comment.id] = 0
-      console.log(this.new_add_comment_id)
+      console.log(comment);
+      this.comments.unshift(comment[0]);
     },
     onPlayed() {
       this.loading = false
@@ -353,26 +350,36 @@ export default {
     async loadDataFromServer() {
       if (!this.more_lock) {
         this.more_lock = true;
-        console.log(this.page)
         if (!this.noResult) {
-          console.log(this.page)
           await this.axios
             .post("/api/forum/get_comment", {
               post_id: this.post_id,
-              page: ++this.page
             })
             .then((res) => {
+              let allsame = true;
+              let newcommentcount = 0;
               console.log(res.data.success)
-              if (res.data.success.length) {
-                res.data.success.forEach((item) => {
-                  this.comments.push(item);
+              res.data.success.forEach((item) => {
+                if (newcommentcount == 6) return;
+                let same = false;
+                this.comments.forEach((comment) => {
+                  if (comment.id == item.id) {
+                    same = true;
+                    return;
+                  };
                 });
-                console.log(this.comments);
-              } else {
-                this.noResult = true;
-              }
+                if (same == false) {
+                  this.comments.push(item);
+                  newcommentcount++;
+                  allsame = false;
+                }
+              });
+              if (allsame)
+                this.noResult = true
+
             })
         }
+
         this.more_lock = false;
 
       }

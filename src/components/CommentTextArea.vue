@@ -3,9 +3,10 @@
         <QuillEditor theme="snow" v-model:content="incontent" contentType="html" :options="editorOptions"
             :readOnly="readOnly" :placeholder="placeholder"
             :class="[readOnly ? 'read ql-container ql-snow ql-disabled' : 'ql-container ql-snow ']" :key="key" />
-        {{ readOnly }}
     </div>
-<!-- {{ value }} --></template>
+    <!-- {{ incontent }} -->
+    <!-- {{ value }} -->
+</template>
 
 <script>
 import Quill from 'quill'
@@ -29,7 +30,7 @@ export default {
         }, false);
 
     },
-    props: ["content", "readOnly", "newcomment"],
+    props: ["content", "readOnly", "newcomment", "comment_id", "change_readOnly"],
     created() {
         this.$watch(
             () => ({
@@ -71,7 +72,43 @@ export default {
                     this.incontent = ''
                     this.key++
                     this.$emit('newcomment', res.data.comment)
+                }).catch(function (error) {
+                    if (error.response) {
+                        console.log(error.response.status);
+                        if (error.response.status == 402) {
+                            ElMessage.error(error.response.data.error);
+                        }
+                    }
+                });
+        },
+        save() {
+            this.axios
+                .post("/api/forum/comment", {
+                    post_id: this.post_id,
+                    content: this.incontent,
+                    mention: this.mention,
+                    comment_id: this.comment_id,
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ` + this.token
+                    }
                 })
+                .then((res) => {
+                    ElMessage({
+                        message: res.data.success,
+                        type: "success",
+                        duration: 3000,
+                    });
+                    this.$emit('change_readOnly')
+
+                }).catch(function (error) {
+                    if (error.response) {
+                        console.log(error.response.status);
+                        if (error.response.status == 402) {
+                            ElMessage.error(error.response.data.error);
+                        }
+                    }
+                });
         },
     },
 

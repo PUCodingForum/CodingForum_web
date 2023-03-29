@@ -193,6 +193,7 @@ export default {
           this.$router.go()
           this.$cookies.remove("token")
           this.$cookies.remove("user_account")
+          this.$cookies.remove("user_id")
           this.$cookies.remove("now_user_pic_url")
           ElMessage({
             message: "登出成功",

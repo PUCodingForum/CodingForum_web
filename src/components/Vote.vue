@@ -23,9 +23,9 @@
                     stroke-linejoin="round" />
             </svg>
         </div>
-        num :{{ num }} count:{{ count }}
+        <!-- num :{{ num }} count:{{ count }}
         liked:{{ liked }} disliked:{{ disliked }}
-        limit:{{ limit }} loading:{{ loading }}
+        limit:{{ limit }} loading:{{ loading }} -->
 
     </div>
 </template>
@@ -61,9 +61,12 @@ export default {
         loading: {
             type: Number,
         },
-        like_post: {
+        like_function: {
             type: Function
-        }
+        },
+        type: {
+            type: Number,//0post //1comment
+        },
     },
     data() {
         return {
@@ -85,8 +88,13 @@ export default {
                 if (this.$route.name != 'Video') {
                     return;
                 }
-                if (this.loading <= 1)
-                    this.num = this.count;
+                if (this.type == 0) {
+                    if (this.loading <= 1)
+                        this.num = this.count;
+                } else if (this.type == 1) {
+                    if (this.loading < 1)
+                        this.num = this.count;
+                }
                 this.liked = this.isLiked;
                 this.disliked = this.isDisliked;
 
@@ -112,8 +120,10 @@ export default {
         downvote() {
             this.check();
             if (this.disliked != true && !this.limit) {
+                console.log('test:' + this.num)
                 this.num--
-                this.$emit('like_post', -1);
+                console.log('test:' + this.num)
+                this.$emit('like_function', -1);
                 this.limit = true;
                 this.change(0);
                 setTimeout(this.timelimit, 500);
@@ -122,8 +132,12 @@ export default {
         upvote() {
             this.check();
             if (this.liked != true && !this.limit) {
+                console.log('test:' + this.num)
+
                 this.num++
-                this.$emit('like_post', 1);
+                console.log('test:' + this.num)
+
+                this.$emit('like_function', 1);
                 this.limit = true;
                 this.change(0);
                 setTimeout(this.timelimit, 500);
@@ -156,6 +170,7 @@ export default {
 }
 
 .vote__count {
+    margin: 0px 5px;
     min-width: 30px;
     height: 24px;
     font-style: normal;

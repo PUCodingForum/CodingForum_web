@@ -9,22 +9,29 @@
                     <h3 class="comment__title">
                         <router-link class="" :to="{ name: 'Profile', params: { user_id: user_id } }">
                             {{ user_name }} </router-link>
+
                     </h3>
 
                     <p class="comment__body">
-                        <CommentTextArea :content="content" :readOnly="readOnly" />
+                        <CommentTextArea @change_readOnly="change_readOnly" ref="comment" :content="content"
+                            :readOnly="readOnly" :comment_id="comment_id" :key="textrefresh" />
+                        <!-- {{ content }} -->
                     </p>
                     <div style="display: flex;">
-                        <Vote v-bind="{
-                            count: likes,
+                        <Vote @like_function="like_comment" v-bind="{
                             id: comment_id,
-                            isLiked: is_liked,
-                            isDisliked: is_disliked,
+                            count: likes,
+                            isLiked: this.isLiked,
+                            isDisliked: this.isDisliked,
+                            loading: this.loading,
+                            type: 1 //0post //1comment
                         }" />
-                        <a class="btn btn-link text-dark px-3 mb-0" @click="readOnly = !readOnly" href="javascript:;">
+                        <a class="btn btn-link text-dark px-3 mb-0" v-if="token_user_id == user_id" @click="edit"
+                            href="javascript:;">
                             <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>{{ showtext }}
                         </a>
-                        <a class="btn btn-link text-dark px-3 mb-0" v-if="!readOnly" href="javascript:;">
+                        <a class="btn btn-link text-dark px-3 mb-0" v-if="!readOnly" @click="$refs.comment.save()"
+                            href="javascript:;">
                             <i class="fa-solid fa-floppy-disk  me-2"></i>保存
                         </a>
                     </div>
@@ -44,12 +51,13 @@
                     user_id: item.user_id,
                     likes: item.likes,
                     content: item.content,
-                    lastOne: index === children_comments.length - 1,
+                    lastOne: index === children_comments.length - noResult_corner,
                     hasCorner: children_comments.length >= 1,
                     created_at: item.created_at,
+                    user_comment_like: user_comment_like,
                 }" />
-                <div v-if="index === children_comments.length - 1 && children_comments.length < children_comment_count">
-                    <button @click="get_more_children_comment(comment_id, page)">get more</button>
+                <div v-if="!noResult && index === children_comments.length - 1">
+                    <button @click="get_children_comment(comment_id)">查看更多回覆</button>
                 </div>
             </template>
         </div>
@@ -59,6 +67,7 @@
   
 <script>
 import CommentTextArea from "@/components/CommentTextArea.vue";
+import { ElMessage } from "element-plus";
 
 import Vote from "./Vote.vue";
 export default {
@@ -69,21 +78,56 @@ export default {
         return {
             showtext: '編輯',
             now_count: 0,
-            page: 1,
             readOnly: true,
             post_id: this.$route.params.post_id,
+            noResult: false,
+            noResult_corner: 0,
+            isLiked: false,
+            isDisliked: false,
+            loading: 0,
+            token: this.$cookies.get("token"),
+            token_user_id: this.$cookies.get("user_id"),
+            content_temp: '',
+            textrefresh: 0,
+            content: this.content,
+            mention: '[]'
         }
     },
     created() {
+
         this.$watch(
             () => ({
-                readOnly: this.readOnly,
+                user_comment_like: this.user_comment_like,
             }),
             () => {
                 if (this.$route.name != 'Video') {
                     return;
                 }
-                this.showtext = this.readOnly ? '編輯' : '取消'
+                this.user_comment_like.forEach(element => {
+                    if (element.comment_id == this.comment_id) {
+                        console.log(this.comment_id)
+                        switch (element.dislike_or_like) {
+                            case null:
+                                this.isLiked = false;
+                                this.isDisliked = false;
+                                break;
+                            case 1:
+                                this.isLiked = true;
+                                this.isDisliked = false;
+                                break;
+                            case -1:
+                                this.isLiked = false;
+                                this.isDisliked = true;
+                                break;
+                            default:
+                                this.isLiked = false;
+                                this.isDisliked = false;
+                                break;
+                        }
+                    }
+                });
+
+
             },
             { deep: true, immediate: true }
         );
@@ -117,14 +161,6 @@ export default {
             type: Number,
             default: 0,
         },
-        is_liked: {
-            type: Boolean,
-            default: false,
-        },
-        is_disliked: {
-            type: Boolean,
-            default: false,
-        },
         children_comment_count: {
             type: Number,
             default: 0,
@@ -133,13 +169,34 @@ export default {
             type: Array,
             default: () => [],
         },
+        user_comment_like: {
+            type: Array,
+            default: () => [],
+        },
+        like_post: {
+            type: Function
+        }
     },
     methods: {
+        change_readOnly() {
+            this.readOnly = !this.readOnly
+            this.showtext = this.readOnly ? '編輯' : '取消';
+        },
+        edit() {
+            this.readOnly = !this.readOnly
+            this.showtext = this.readOnly ? '編輯' : '取消';
+            if (!this.readOnly) //備份
+                this.content_temp = this.content
+            else {
+                this.content = this.content_temp
+                this.textrefresh++
+            }
+        },
 
         like_comment(dislike_or_like) {
             this.axios
                 .post("/api/forum/like_comment", {
-                    comment_id: this.post_id,
+                    comment_id: this.comment_id,
                     dislike_or_like: dislike_or_like,
                 }, {
                     headers: {
@@ -147,8 +204,8 @@ export default {
                     }
                 })
                 .then((res) => {
-                    this.user_post_like = res.data.user_post_like;
-                    switch (this.user_post_like) {
+                    let new_user_comment_like = res.data.user_comment_like;
+                    switch (new_user_comment_like) {
                         case null:
                             this.isLiked = false;
                             this.isDisliked = false;
@@ -170,17 +227,34 @@ export default {
 
                 })
         },
-        get_more_children_comment(comment_id, page) {
+        get_children_comment(comment_id) {
 
             this.axios
-                .post("/api/forum/get_more_children_comment", {
-                    comment_id: comment_id,
-                    page: page
+                .post("/api/forum/get_children_comment", {
+                    parent_comment_id: comment_id,
                 }).then((res) => {
+                    let allsame = true;
+                    let newcommentcount = 0;
+                    console.log(res.data.success)
                     res.data.success.forEach((item) => {
-                        this.children_comments.push(item);
+                        if (newcommentcount == 3) return;
+                        let same = false;
+                        this.children_comments.forEach((comment) => {
+                            if (comment.id == item.id) {
+                                same = true;
+                                return;
+                            };
+                        });
+                        if (same == false) {
+                            this.children_comments.push(item);
+                            newcommentcount++;
+                            allsame = false;
+                        }
                     });
-                    console.log(this.children_comments)
+                    if (allsame) {
+                        this.noResult = true;
+                        this.noResult_corner = 1;
+                    }
                 })
         },
     }
