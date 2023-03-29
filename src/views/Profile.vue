@@ -82,10 +82,13 @@
     </div>
   </div>
   <div class="py-4 container-fluid">
-    <div class="mt-3 row">
-      <!-- 設定 -->
-      <!-- <div class="col-12 col-md-6 col-xl-4"> -->
-      <!-- <div class="card h-100">
+    <infinite-scroll @infinite-scroll="loadDataFromServer" :message="message" :noResult="noResult">
+
+      <div class="mt-3 row">
+
+        <!-- 設定 -->
+        <!-- <div class="col-12 col-md-6 col-xl-4"> -->
+        <!-- <div class="card h-100">
           <div class="p-3 pb-0 card-header">
             <h6 class="mb-0">Platform Settings</h6>
           </div>
@@ -130,47 +133,47 @@
             </ul>
           </div>
         </div> -->
-      <!-- </div> -->
+        <!-- </div> -->
 
-      <!-- 個人介紹 -->
-      <div class="mt-4 col-12 col-md-4 col-xl-4 mt-md-0">
+        <!-- 個人介紹 -->
+        <div class="mt-4 col-12 col-md-4 col-xl-4 mt-md-0">
 
-        <div class="card h-100">
-          <div class="p-3 pb-0 card-header">
-            <div class="row">
-              <div class="col-md-8 d-flex align-items-center">
-                <h6 class="mb-0">個人資訊</h6>
-              </div>
-              <div class="col-md-4 text-end">
-                <a>
-                  <i class="text-sm fas fa-user-edit text-secondary" data-bs-toggle="tooltip" data-bs-placement="top"></i>
-                </a>
+          <div class="card h-100">
+            <div class="p-3 pb-0 card-header">
+              <div class="row">
+                <div class="col-md-8 d-flex align-items-center">
+                  <h6 class="mb-0">個人資訊</h6>
+                </div>
+                <div class="col-md-4 text-end">
+                  <a>
+                    <i class="text-sm fas fa-user-edit text-secondary" data-bs-toggle="tooltip"
+                      data-bs-placement="top"></i>
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="p-3 card-body">
-            <p class="text-sm">
-              {{ user.intro }}
-            </p>
-            <hr class="my-4 horizontal gray-light" />
-            <ul class="list-group">
-              <li class="text-sm border-0 list-group-item ps-0">
-                <strong class="text-dark">電子郵件:</strong> &nbsp; {{ user.email }}
-              </li>
-              <li v-if="social.length != 0" class="pb-0 border-0 list-group-item ps-0">
-                <strong class="text-sm text-dark">社群媒體:</strong> &nbsp;
-                <a v-for="({ link, iconclass }, index) of social" :key="index" class="py-0 mb-0 btn-simple ps-1 pe-2"
-                  :href="link">
-                  <i :class=iconclass></i>
-                </a>
-              </li>
-            </ul>
+            <div class="p-3 card-body">
+              <p class="text-sm">
+                {{ user.intro }}
+              </p>
+              <hr class="my-4 horizontal gray-light" />
+              <ul class="list-group">
+                <li class="text-sm border-0 list-group-item ps-0">
+                  <strong class="text-dark">電子郵件:</strong> &nbsp; {{ user.email }}
+                </li>
+                <li v-if="social.length != 0" class="pb-0 border-0 list-group-item ps-0">
+                  <strong class="text-sm text-dark">社群媒體:</strong> &nbsp;
+                  <a v-for="({ link, iconclass }, index) of social" :key="index" class="py-0 mb-0 btn-simple ps-1 pe-2"
+                    :href="link">
+                    <i :class=iconclass></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- 貼文 -->
-      <div class="mt-4 col-12 col-md-8 col-xl-8 mt-md-0">
-        <infinite-scroll @infinite-scroll="loadDataFromServer" :message="message" :noResult="noResult">
+        <!-- 貼文 -->
+        <div class="mt-4 col-12 col-md-8 col-xl-8 mt-md-0">
 
           <div class="card">
             <div class="card-body p-3">
@@ -213,10 +216,8 @@
               </div>
             </div>
           </div>
-        </infinite-scroll>
-      </div>
-
-      <!-- <div class="mt-4 col-12 col-xl-4 mt-xl-0">
+        </div>
+        <!-- <div class="mt-4 col-12 col-xl-4 mt-xl-0">
         <div class="card h-100">
           <div class="p-3 pb-0 card-header">
             <h6 class="mb-0">Conversations</h6>
@@ -267,7 +268,8 @@
           </div>
         </div>
       </div> -->
-    </div>
+      </div>
+    </infinite-scroll>
   </div>
 </template>
 
@@ -301,6 +303,7 @@ export default {
     SoftAvatar,
     DefaultProjectCard,
     PlaceHolderCard,
+    InfiniteScroll
   },
   data() {
     return {
@@ -325,7 +328,8 @@ export default {
       page: 1,
       noResult: false,
       message: "",
-      social: []
+      social: [],
+      more_lock: false,
 
     };
   },
@@ -384,30 +388,45 @@ export default {
     this.$store.state.isAbsolute = false;
   }, methods: {
     async loadDataFromServer() {
-      if (!this.noResult) {
-        console.log(this.page)
-        this.loading = true;
-        await this.axios
-          .post("/api/forum/get_post", {
-            star: this.star,
-            sort: this.sort,
-            page: this.page,
-            user_account: this.$route.params.user_account
-            // headers: {
-            //   Authorization: `Bearer ` + this.token,
-            // }
-          })
-          .then((res) => {
-            console.log(res.data.success)
-            if (res.data.success.length) {
-              this.posts = this.posts.concat(res.data.success);
-              this.page++;
-            } else {
-              this.noResult = true;
-            }
-            this.loading = false;
+      if (!this.more_lock) {
+        this.more_lock = true;
+        if (!this.noResult) {
+          this.loading = true;
+          await this.axios
+            .post("/api/forum/get_post", {
+              star: this.star,
+              sort: this.sort,
+              page: this.page
+            })
+            .then((res) => {
+              let allsame = true;
+              let newpostcount = 0;
+              console.log(res.data.success)
+              res.data.success.forEach((item) => {
+                if (newpostcount == 8) return;
+                let same = false;
+                this.posts.forEach((post) => {
+                  if (post.id == item.id) {
+                    same = true;
+                    return;
+                  };
+                });
+                if (same == false) {
+                  this.posts.push(item);
+                  newpostcount++;
+                  allsame = false;
 
-          })
+                }
+              });
+              if (allsame)
+                this.noResult = true
+
+            })
+        }
+        this.loading = false;
+
+        this.more_lock = false;
+
       }
     }
   },
