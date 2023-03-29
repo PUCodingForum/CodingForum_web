@@ -159,9 +159,10 @@ export default {
       },
       posts: [],
       loading: true,
-      page: 1,
       noResult: false,
-      message: ""
+      message: "",
+      more_lock: false,
+
 
     };
   },
@@ -178,29 +179,45 @@ export default {
     this.loadDataFromServer()
   }, methods: {
     async loadDataFromServer() {
-      if (!this.noResult) {
-        console.log(this.page)
-        this.loading = true;
-        await this.axios
-          .post("/api/forum/get_post", {
-            star: this.star,
-            sort: this.sort,
-            page: this.page
-            // headers: {
-            //   Authorization: `Bearer ` + this.token,
-            // }
-          })
-          .then((res) => {
-            console.log(res.data.success)
-            if (res.data.success.length) {
-              this.posts = this.posts.concat(res.data.success);
-              this.page++;
-            } else {
-              this.noResult = true;
-            }
-            this.loading = false;
+      if (!this.more_lock) {
+        this.more_lock = true;
+        if (!this.noResult) {
+          this.loading = true;
+          await this.axios
+            .post("/api/forum/get_post", {
+              star: this.star,
+              sort: this.sort,
+              page: this.page
+            })
+            .then((res) => {
+              let allsame = true;
+              let newpostcount = 0;
+              console.log(res.data.success)
+              res.data.success.forEach((item) => {
+                if (newpostcount == 8) return;
+                let same = false;
+                this.posts.forEach((post) => {
+                  if (post.id == item.id) {
+                    same = true;
+                    return;
+                  };
+                });
+                if (same == false) {
+                  this.posts.push(item);
+                  newpostcount++;
+                  allsame = false;
 
-          })
+                }
+              });
+              if (allsame)
+                this.noResult = true
+
+            })
+        }
+        this.loading = false;
+
+        this.more_lock = false;
+
       }
     }
   },
