@@ -203,6 +203,8 @@ export default {
       noResult: false,
       message: "",
       more_lock: false,
+      limit: 0,
+
     };
   },
   created() {
@@ -346,9 +348,14 @@ export default {
 
         })
     },
-
+    timelimit() {
+      this.limit++;
+    },
     async loadDataFromServer() {
-      if (!this.more_lock) {
+      if (this.limit == 0)
+        setTimeout(this.timelimit, 500);
+
+      if (!this.more_lock && this.limit >= 1) {
         this.more_lock = true;
         if (!this.noResult) {
           await this.axios

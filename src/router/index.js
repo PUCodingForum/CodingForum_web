@@ -74,8 +74,11 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
   linkActiveClass: "active",
-  scrollBehavior() {
-    document.getElementById("app").scrollIntoView({ behavior: "smooth" });
+  // scrollBehavior() {
+  //   document.getElementById("app").scrollIntoView({ behavior: "smooth" });
+  // },
+  scrollBehavior(to, from, savedPosition) {
+    return { top: 0 };
   },
 });
 

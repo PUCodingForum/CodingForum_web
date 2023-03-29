@@ -105,7 +105,6 @@ export default {
                 }
                 this.user_comment_like.forEach(element => {
                     if (element.comment_id == this.comment_id) {
-                        console.log(this.comment_id)
                         switch (element.dislike_or_like) {
                             case null:
                                 this.isLiked = false;

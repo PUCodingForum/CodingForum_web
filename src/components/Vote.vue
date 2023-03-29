@@ -120,9 +120,7 @@ export default {
         downvote() {
             this.check();
             if (this.disliked != true && !this.limit) {
-                console.log('test:' + this.num)
                 this.num--
-                console.log('test:' + this.num)
                 this.$emit('like_function', -1);
                 this.limit = true;
                 this.change(0);
@@ -132,10 +130,8 @@ export default {
         upvote() {
             this.check();
             if (this.liked != true && !this.limit) {
-                console.log('test:' + this.num)
 
                 this.num++
-                console.log('test:' + this.num)
 
                 this.$emit('like_function', 1);
                 this.limit = true;
