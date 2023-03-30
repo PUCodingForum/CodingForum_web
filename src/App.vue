@@ -57,17 +57,13 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap");
 
-#app {
+#app,
+.el-button,
+p,
+.card .card-body,
+a {
   font-family: "Noto Sans TC", sans-serif !important;
-}
-
-.card .card-body {
-  font-family: "Noto Sans TC", sans-serif !important;
-
-}
-
-.el-button {
-  font-family: "Noto Sans TC", sans-serif !important;
+  font-weight: bold !important;
 }
 
 .youtube_img_fix {

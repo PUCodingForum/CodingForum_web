@@ -152,6 +152,7 @@ export default {
 <style>
 .el-select-dropdown__item {
   width: 300px;
+  width: 100%;
 }
 
 .el-select {

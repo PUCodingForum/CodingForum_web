@@ -191,6 +191,14 @@
                         {{ post.uva_topic.serial + "-" + post.uva_topic.title }}
                       </h5>
                       <p>CPE星數: <i class="fa-solid fa-star-of-david" v-for="star in post.uva_topic.star"></i> </p>
+                      <p>
+                      <div class="vote__count" :class="[{ positive: post.likes > 0 }, { negative: post.likes < 0 },]"
+                        style="display: inline;">
+                        愛心數:
+                        <span class="vote__count-n"> <i class="fa-solid fa-heart"></i> x {{ post.likes }} </span>
+                      </div>
+                      </p>
+                      {{ post.created_at }}
                     </div>
                   </div>
                 </div>

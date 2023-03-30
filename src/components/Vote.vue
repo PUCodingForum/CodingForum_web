@@ -182,7 +182,6 @@ export default {
     position: relative;
     display: flex;
     flex-direction: column;
-    max-height: 20px;
     overflow: hidden;
 }
 

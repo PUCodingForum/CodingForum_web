@@ -35,7 +35,7 @@
                             <i class="fa-solid fa-floppy-disk  me-2"></i>保存
                         </a>
                         <a class="btn btn-link text-dark px-3 mb-0" data-bs-toggle="modal"
-                            :data-bs-target="'#staticBackdrop' + comment_id" v-if="token_user_id == user_id"
+                            :data-bs-target="'#staticBackdrop' + comment_id" v-if="token_user_id == user_id && readOnly"
                             href="javascript:;">
                             <i class="fa-solid fa-trash me-2"></i>刪除
                         </a>

@@ -22,6 +22,14 @@ import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 
+import timeago from "vue-timeago3";
+import { zhTW } from "date-fns/locale";
+const timeagoOptions = {
+  locale: zhTW,
+};
+
+import { InstallCodemirro } from "codemirror-editor-vue3";
+
 const app = createApp(App);
 app.component("QuillEditor", QuillEditor);
 
@@ -35,8 +43,10 @@ app
   .use(store)
   .use(VueAxios, axios)
   .use(router)
+  .use(timeago, timeagoOptions)
   .use(require("vue-cookies"))
   .use(SoftUIDashboard)
+  .use(InstallCodemirro)
   .mount("#app");
 //ncu --upgrade
 //npm install --legacy-peer-deps 衝突時用

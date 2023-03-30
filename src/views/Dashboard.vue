@@ -46,6 +46,7 @@
   background: iconBackground,
 }" direction-reverse />
       </div>
+
     </div>
     <infinite-scroll @infinite-scroll="loadDataFromServer" :message="message" :noResult="noResult">
 
@@ -64,10 +65,21 @@
                   <h5 class="card-title placeholder-glow">
                     {{ post.uva_topic.serial + "-" + post.uva_topic.title }}
                   </h5>
-                  <p>CPE星數: <i class="fa-solid fa-star-of-david" v-for="star in post.uva_topic.star"></i> </p>
+                  <p>CPE星數: <i class="fa-solid fa-star-of-david" v-for="star in post.uva_topic.star"></i>
+
+                  <div class="vote__count" :class="[{ positive: post.likes > 0 }, { negative: post.likes < 0 },]"
+                    style="display: inline;">
+                    愛心數:
+                    <span class="vote__count-n"> <i class="fa-solid fa-heart"></i> x {{ post.likes }} </span>
+                  </div>
+
+                  </p>
                   <p class="card-text placeholder-glow">
                     <router-link class="" :to="{ name: 'Profile', params: { user_account: post.user_account } }">
-                      作者 : {{ post.user_name }} </router-link>
+                      作者 : {{ post.user_name }}。 </router-link>
+
+                    <timeago :datetime="post.created_at.replaceAll('/', '-')" :locale="zhTW" />
+
                   </p>
                 </div>
               </div>
@@ -111,7 +123,6 @@ import GB from "../assets/img/icons/flags/GB.png";
 import BR from "../assets/img/icons/flags/BR.png";
 import { ElMessage } from "element-plus";
 import InfiniteScroll from "infinite-loading-vue3";
-
 import {
   faHandPointer,
   faUsers,
