@@ -34,6 +34,11 @@
                             href="javascript:;">
                             <i class="fa-solid fa-floppy-disk  me-2"></i>保存
                         </a>
+                        <a class="btn btn-link text-dark px-3 mb-0" data-bs-toggle="modal"
+                            :data-bs-target="'#staticBackdrop' + comment_id" v-if="token_user_id == user_id"
+                            href="javascript:;">
+                            <i class="fa-solid fa-trash me-2"></i>刪除
+                        </a>
                     </div>
 
                 </div>
@@ -63,6 +68,25 @@
         </div>
 
     </div>
+
+    <div class="modal fade" :id="'staticBackdrop' + comment_id" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">是否確認要刪除這則留言</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <CommentTextArea :content="content" :readOnly="true" :comment_id="comment_id" :key="textrefresh" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="deletecomment">確定</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
   
 <script>
@@ -90,7 +114,7 @@ export default {
             content_temp: '',
             textrefresh: 0,
             content: this.content,
-            mention: '[]'
+            mention: '[]',
         }
     },
     created() {
@@ -174,6 +198,9 @@ export default {
         },
         like_post: {
             type: Function
+        },
+        remove_comment: {
+            type: Function
         }
     },
     methods: {
@@ -191,7 +218,24 @@ export default {
                 this.textrefresh++
             }
         },
-
+        deletecomment() {
+            this.axios
+                .post("/api/forum/del_comment", {
+                    comment_id: this.comment_id,
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ` + this.token
+                    }
+                })
+                .then((res) => {
+                    this.$emit('remove_comment', this.comment_id)
+                    ElMessage({
+                        message: "留言刪除成功",
+                        type: "success",
+                        duration: 3000,
+                    });
+                })
+        },
         like_comment(dislike_or_like) {
             this.axios
                 .post("/api/forum/like_comment", {

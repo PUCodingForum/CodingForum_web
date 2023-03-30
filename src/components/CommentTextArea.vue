@@ -50,7 +50,11 @@ export default {
     },
     methods: {
         comment() {
-
+            if (!this.token) {
+                ElMessage.error("請先登入以進行操作");
+                this.$cookies.set("go_login_then_backpost", this.post_id, "3min");
+                this.$router.push({ name: 'Sign In' });
+            }
             this.axios
                 .post("/api/forum/comment", {
                     post_id: this.post_id,

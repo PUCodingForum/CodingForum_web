@@ -119,4 +119,12 @@ export default {
   background-color: antiquewhite;
   width: 100%;
 }
+
+@media (min-width: 1200px) {}
+
+@media (max-width: 1200px) {
+  .sidenav {
+    z-index: 9999;
+  }
+}
 </style>

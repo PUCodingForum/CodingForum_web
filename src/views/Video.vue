@@ -42,7 +42,7 @@
                     <img class="userimg comment__avatar" :src="now_user_pic_url" alt="">
                   </div>
                   <div class="col-10 px-0">
-                    <CommentTextArea ref="postcomment" @newcomment="newcomment" />
+                    <CommentTextArea ref="postcomment" @newcomment="newcomment" @click="checklogin" />
 
                   </div>
                   <div class="col-1 px-0">
@@ -52,7 +52,7 @@
                   </div>
                 </div>
                 <div v-for="(item, index) in comments" :key="item.id">
-                  <Comment v-if="item.id != null" v-bind="{
+                  <Comment @remove_comment="remove_comment" v-if="item.id != null" v-bind="{
                     pic_url: item.pic_url,
                     user_name: item.user_name,
                     user_id: item.user_id,
@@ -197,7 +197,7 @@ export default {
       user_post_like: 0,
       user_comment_like: [],
       token: this.$cookies.get("token"),
-      now_user_pic_url: this.$cookies.get("now_user_pic_url"),
+      now_user_pic_url: '',
       isLiked: false,
       isDisliked: false,
       noResult: false,
@@ -208,6 +208,7 @@ export default {
     };
   },
   created() {
+
     this.$watch(
       () => ({
         post_id: this.post_id,
@@ -224,6 +225,10 @@ export default {
     );
   },
   mounted() {
+    if (this.$cookies.isKey("now_user_pic_url"))
+      this.now_user_pic_url = this.$cookies.get("now_user_pic_url")
+    else
+      this.now_user_pic_url = 'https://bakerychu.com/CodingForum/default_user.png';
     const that = this;
 
     function get_post(post_id) {
@@ -307,6 +312,20 @@ export default {
 
   },
   methods: {
+    checklogin() {
+      if (!this.token) {
+        ElMessage.error("請先登入以進行操作");
+        this.$cookies.set("go_login_then_backpost", this.post_id, "3min");
+        this.$router.push({ name: 'Sign In' });
+      }
+    },
+    remove_comment(comment_id) {
+      this.comments.forEach((comment, index) => {
+        if (comment.id == comment_id) {
+          this.comments.splice(index, 1);
+        };
+      });
+    },
     newcomment(comment) {
       console.log(comment);
       this.comments.unshift(comment[0]);
@@ -353,7 +372,7 @@ export default {
     },
     async loadDataFromServer() {
       if (this.limit == 0)
-        setTimeout(this.timelimit, 500);
+        setTimeout(this.timelimit, 100);
 
       if (!this.more_lock && this.limit >= 1) {
         this.more_lock = true;

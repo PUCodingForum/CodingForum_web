@@ -124,7 +124,7 @@ export default {
                 this.$emit('like_function', -1);
                 this.limit = true;
                 this.change(0);
-                setTimeout(this.timelimit, 500);
+                setTimeout(this.timelimit, 100);
             }
         },
         upvote() {
@@ -136,7 +136,7 @@ export default {
                 this.$emit('like_function', 1);
                 this.limit = true;
                 this.change(0);
-                setTimeout(this.timelimit, 500);
+                setTimeout(this.timelimit, 100);
 
             }
         },
