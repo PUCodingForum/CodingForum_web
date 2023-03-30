@@ -63,6 +63,8 @@
                     comment_id: item.id,
                     created_at: item.created_at,
                     user_comment_like: user_comment_like,
+                    all_user: all_user,
+                    type: 0
                   }" />
 
                 </div>
@@ -327,6 +329,7 @@ export default {
       }
     },
     remove_comment(comment_id) {
+      console.log(comment_id)
       this.comments.forEach((comment, index) => {
         if (comment.id == comment_id) {
           this.comments.splice(index, 1);

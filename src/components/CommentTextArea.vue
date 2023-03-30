@@ -4,6 +4,7 @@
             :readOnly="readOnly" :placeholder="placeholder"
             :class="[readOnly ? 'read ql-container ql-snow ql-disabled' : 'ql-container ql-snow ']" :key="key" />
     </div>
+    <!-- {{ all_user }} -->
     <!-- {{ incontent }} -->
     <!-- {{ value }} -->
 </template>

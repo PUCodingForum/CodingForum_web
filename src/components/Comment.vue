@@ -14,7 +14,7 @@
 
                     <p class="comment__body">
                         <CommentTextArea @change_readOnly="change_readOnly" ref="comment" :content="content"
-                            :readOnly="readOnly" :comment_id="comment_id" :key="textrefresh" />
+                            :readOnly="readOnly" :comment_id="comment_id" :key="textrefresh" :all_user="all_user" />
                         <!-- {{ content }} -->
                     </p>
                     <div style="display: flex;">
@@ -48,8 +48,8 @@
 
         </div>
         <div v-if="children_comments.length" class="comment__inner-commment">
-            <template v-for="(item, index) in children_comments" :key="index">
-                <Comment v-bind="{
+            <template v-for="(item, index) in children_comments" :key="item.id">
+                <Comment @delete_child_comment="delete_child_comment" v-bind="{
                     comment_id: item.id,
                     pic_url: item.pic_url,
                     user_name: item.user_name,
@@ -60,6 +60,9 @@
                     hasCorner: children_comments.length >= 1,
                     created_at: item.created_at,
                     user_comment_like: user_comment_like,
+                    all_user: all_user,
+                    type: 1
+
                 }" />
                 <div v-if="!noResult && index === children_comments.length - 1">
                     <button @click="get_children_comment(comment_id)">查看更多回覆</button>
@@ -82,7 +85,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="deletecomment">確定</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="deletecomment">確定
+                        {{ comment_id }}</button>
                 </div>
             </div>
         </div>
@@ -114,7 +118,7 @@ export default {
             content_temp: '',
             textrefresh: 0,
             content: this.content,
-            mention: '[]',
+            children_comments: this.children_comments
         }
     },
     created() {
@@ -196,14 +200,34 @@ export default {
             type: Array,
             default: () => [],
         },
+        all_user: {
+            type: Array,
+            default: () => [],
+        },
         like_post: {
             type: Function
         },
         remove_comment: {
             type: Function
+        },
+        delete_child_comment: {
+            type: Function
+        },
+        type: {
+            type: Number, //0 父 ，1 child
         }
     },
     methods: {
+        delete_child_comment(comment_id) {
+            console.log(comment_id)
+            this.children_comments.forEach((comment, index) => {
+
+                if (comment.id == comment_id) {
+                    console.log(index)
+                    this.children_comments.splice(index, 1);
+                };
+            });
+        },
         change_readOnly() {
             this.readOnly = !this.readOnly
             this.showtext = this.readOnly ? '編輯' : '取消';
@@ -228,7 +252,11 @@ export default {
                     }
                 })
                 .then((res) => {
-                    this.$emit('remove_comment', this.comment_id)
+                    if (this.type == 0)
+                        this.$emit('remove_comment', this.comment_id);
+                    else if (this.type == 1)
+                        this.$emit('delete_child_comment', this.comment_id);
+
                     ElMessage({
                         message: "留言刪除成功",
                         type: "success",
