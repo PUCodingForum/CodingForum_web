@@ -72,7 +72,7 @@
                     愛心數:
                     <span class="vote__count-n"> <i class="fa-solid fa-heart"></i> x {{ post.likes }} </span>
                   </div>
-
+                  type: {{ post.code_type }}
                   </p>
                   <p class="card-text placeholder-glow">
                     <router-link class="" :to="{ name: 'Profile', params: { user_account: post.user_account } }">

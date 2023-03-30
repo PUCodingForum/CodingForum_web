@@ -61,7 +61,8 @@ export default {
 .el-button,
 p,
 .card .card-body,
-a {
+a,
+input {
   font-family: "Noto Sans TC", sans-serif !important;
   font-weight: bold !important;
 }

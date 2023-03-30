@@ -26,7 +26,23 @@
         </div>
       </div>
       <div class="col-lg-4">
-        <invoice-card />
+        <div class="card">
+          <div class="card-body p-3">
+            <div class="mb-3">
+              <label>程式語言</label>
+              <el-select v-model="post.code_editor_type" class="" placeholder="請選擇程式語言" disabled>
+                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </div>
+            <div class="mb-3">
+              <label>程式碼</label>
+
+              <Codemirror v-model:value="post.code" :options="cmOptions" border ref="cmRef" height="500" width="100%"
+                @change="onChange" @input="onInput" @ready="onReady" :key="selete_loading">
+              </Codemirror>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -74,26 +90,6 @@
           </div>
         </infinite-scroll>
 
-        <!-- <billing-card title="Billing Information" :bills="[
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                name: 'Oliver Liam',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                company: 'Viking Burrito',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                email: 'oliver@burrito.com',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                id: 'FRB1235476',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              },
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                name: 'Lucas Harper',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                company: 'Stone Tech Zone',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                email: 'lucas@stone-tech.com',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                id: 'FRB1235476',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              },
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                name: 'Ethan James',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                company: 'Fiber Notion',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                email: 'ethan@fiber.com',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                id: 'FRB1235476',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              },
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ]" /> -->
       </div>
       <div class="col-md-5 mt-4">
         <ranking-list-card :horizontal-break="false" :card="{
@@ -206,7 +202,21 @@ export default {
       message: "",
       more_lock: false,
       limit: 0,
-      all_user: []
+      all_user: [],
+      options: [{ value: 'text/x-csrc', label: 'C' }, { value: 'text/x-c++src', label: 'C++' }, { value: 'text/x-java', label: 'Java' }, { value: 'python', label: 'Python' }],
+      code_type: 'text/x-csrc',
+      selete_loading: 0,
+      cmOptions: {
+        mode: 'text/x-csrc', // Language mode
+        theme: 'lucario', // Theme
+        indentWithTabs: true,
+        smartIndent: true,
+        lineNumbers: true,
+        lineWrapping: true,
+        matchBrackets: true,
+        autofocus: true,
+        readOnly: true,
+      },
 
     };
   },
@@ -272,6 +282,17 @@ export default {
         this.all_user = res4.data.success;
         console.log(res1);
         this.post = res1.data.success;
+        this.cmOptions = {
+          mode: this.post.code_editor_type, // Language mode
+          theme: 'lucario', // Theme
+          indentWithTabs: true,
+          smartIndent: true,
+          lineNumbers: true,
+          lineWrapping: true,
+          matchBrackets: true,
+          autofocus: true,
+          readOnly: true,
+        }
 
         this.video_loading = false;
         this.post_likes = res1.data.success.likes

@@ -26,6 +26,18 @@
                     :data-key="'id'" :data-sources="uvas" :data-component="itemComponent" :keeps="20" />
                 </el-select>
               </div>
+              <div class="mb-3">
+                <label>請選擇程式語言</label>
+                <el-select v-model="code_select" class="" placeholder="請選擇程式語言">
+                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item" />
+                </el-select>
+              </div>
+              <div class="mb-3">
+                <label>請輸入程式碼</label>
+                <Codemirror v-model:value="code" :options="cmOptions" border ref="cmRef" height="400" width="100%"
+                  @change="onChange" @input="onInput" @ready="onReady" :key="selete_loading">
+                </Codemirror>
+              </div>
               <div class="text-center">
                 <soft-button color="dark" full-width variant="gradient" class="my-4 mb-2">上傳</soft-button>
               </div>
@@ -44,12 +56,21 @@ import virtualList from 'vue3-virtual-scroll-list'
 import ElOptionNode from '@/components/el-option-node';
 import SoftButton from "@/components/SoftButton.vue";
 import { ElMessage } from "element-plus";
+import Codemirror from "codemirror-editor-vue3"
 
+// language
+import "codemirror/mode/clike/clike.js";
+import "codemirror/mode/python/python.js";
+// placeholder
+import "codemirror/addon/display/placeholder.js";
+// theme
+import "codemirror/theme/lucario.css";
 export default {
   name: "Upload",
   components: {
     'virtual-list': virtualList,
     SoftButton,
+    Codemirror
   },
   data() {
     return {
@@ -63,10 +84,45 @@ export default {
       content: '',
       select_uva: null,
       token: this.$cookies.get("token"),
+      options: [{ value: 'text/x-csrc', label: 'C' }, { value: 'text/x-c++src', label: 'C++' }, { value: 'text/x-java', label: 'Java' }, { value: 'python', label: 'Python' }],
+      code_select: { value: 'text/x-csrc', label: 'C' },
+      selete_loading: 0,
+      cmOptions: {
+        mode: 'text/x-csrc', // Language mode
+        theme: 'lucario', // Theme
+        indentWithTabs: true,
+        smartIndent: true,
+        lineNumbers: true,
+        lineWrapping: true,
+        matchBrackets: true,
+        autofocus: true,
+      },
+      code: ''
     };
   },
   created() {
-
+    this.$watch(
+      () => ({
+        code_select: this.code_select,
+      }),
+      () => {
+        if (this.$route.name != 'Upload') {
+          return;
+        }
+        this.cmOptions = {
+          mode: this.code_select.value,
+          theme: "lucario",
+          indentWithTabs: true,
+          smartIndent: true,
+          lineNumbers: true,
+          lineWrapping: true,
+          matchBrackets: true,
+          autofocus: true,
+        },
+          this.selete_loading++
+      },
+      { deep: true, immediate: true }
+    );
     this.axios
       .get("/api/forum/get_uva", {
       })
@@ -111,6 +167,9 @@ export default {
             serial: this.select_uva.serial,
             video_url: this.video_url,
             content: this.content,
+            code: this.code,
+            code_type: this.code_select.label,
+            code_editor_type: this.code_select.value,
           }, {
             headers: {
               'Authorization': `Bearer ` + this.token
@@ -121,9 +180,7 @@ export default {
             console.log(res);
 
             this.$router.push({
-              name: 'Dashboard',
-              params: {
-              }
+              name: 'Video', params: { post_id: res.data.post_id }
             });
 
             ElMessage({
@@ -149,7 +206,7 @@ export default {
 }
 </script>
 
-<style>
+<style >
 .el-select-dropdown__item {
   width: 300px;
   width: 100%;
@@ -157,5 +214,9 @@ export default {
 
 .el-select {
   display: block !important;
+}
+
+.codemirror-container {
+  display: block;
 }
 </style>

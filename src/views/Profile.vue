@@ -179,7 +179,7 @@
             <div class="card-body p-3">
 
               <div class="row">
-                <div class="col-lg-3" v-for="post in posts" :key="post.id">
+                <div class="col-lg-4" v-for="post in posts" :key="post.id">
                   <div class="card mb-2" aria-hidden="true">
                     <div style="overflow: hidden;">
                       <router-link :to="{ name: 'Video', params: { post_id: post.id } }"><img
@@ -190,13 +190,14 @@
                       <h5 class="card-title placeholder-glow">
                         {{ post.uva_topic.serial + "-" + post.uva_topic.title }}
                       </h5>
-                      <p>CPE星數: <i class="fa-solid fa-star-of-david" v-for="star in post.uva_topic.star"></i> </p>
-                      <p>
+                      <p>CPE星數: <i class="fa-solid fa-star-of-david" v-for="star in post.uva_topic.star"></i>
+
                       <div class="vote__count" :class="[{ positive: post.likes > 0 }, { negative: post.likes < 0 },]"
                         style="display: inline;">
                         愛心數:
                         <span class="vote__count-n"> <i class="fa-solid fa-heart"></i> x {{ post.likes }} </span>
                       </div>
+                      type: {{ post.code_type }}
                       </p>
                       {{ post.created_at }}
                     </div>

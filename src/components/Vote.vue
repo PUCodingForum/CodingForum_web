@@ -174,7 +174,6 @@ export default {
     font-size: 16px;
     line-height: 19px;
     text-align: center;
-    color: #595959;
     display: flex;
     align-items: center;
     user-select: none;
