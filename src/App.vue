@@ -120,6 +120,10 @@ export default {
   width: 100%;
 }
 
+.ql-mention-list-container {
+  max-height: 20vh;
+}
+
 @media (min-width: 1200px) {}
 
 @media (max-width: 1200px) {

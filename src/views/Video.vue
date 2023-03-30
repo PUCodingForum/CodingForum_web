@@ -42,8 +42,8 @@
                     <img class="userimg comment__avatar" :src="now_user_pic_url" alt="">
                   </div>
                   <div class="col-10 px-0">
-                    <CommentTextArea ref="postcomment" @newcomment="newcomment" @click="checklogin" />
-
+                    <CommentTextArea ref="postcomment" @newcomment="newcomment" :all_user="all_user"
+                      @click="checklogin" />
                   </div>
                   <div class="col-1 px-0">
                     <a class="btn btn-link text-dark px-3 mb-0" @click="$refs.postcomment.comment()">
@@ -204,6 +204,7 @@ export default {
       message: "",
       more_lock: false,
       limit: 0,
+      all_user: []
 
     };
   },
@@ -256,11 +257,17 @@ export default {
       }
       else
         return ''
-
+    }
+    function get_all_user() {
+      return axios
+        .get("/api/auth/get_all_user", {
+        });
     }
 
-    this.axios.all([get_post(this.post_id), get_comment(this.post_id), get_like(this.post_id, this.token)]).then(
-      this.axios.spread((res1, res2, res3) => {
+    this.axios.all([get_post(this.post_id), get_comment(this.post_id), get_like(this.post_id, this.token), get_all_user()]).then(
+      this.axios.spread((res1, res2, res3, res4) => {
+        console.log(res4.data.success);
+        this.all_user = res4.data.success;
         console.log(res1);
         this.post = res1.data.success;
 

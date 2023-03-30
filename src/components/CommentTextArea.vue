@@ -1,6 +1,6 @@
 <template>
     <div>
-        <QuillEditor theme="snow" v-model:content="incontent" contentType="html" :options="editorOptions"
+        <QuillEditor ref="editor" theme="snow" v-model:content="incontent" contentType="html" :options="editorOptions"
             :readOnly="readOnly" :placeholder="placeholder"
             :class="[readOnly ? 'read ql-container ql-snow ql-disabled' : 'ql-container ql-snow ']" :key="key" />
     </div>
@@ -30,7 +30,7 @@ export default {
         }, false);
 
     },
-    props: ["content", "readOnly", "newcomment", "comment_id", "change_readOnly"],
+    props: ["content", "readOnly", "newcomment", "comment_id", "change_readOnly", "all_user"],
     created() {
         this.$watch(
             () => ({
@@ -59,7 +59,6 @@ export default {
                 .post("/api/forum/comment", {
                     post_id: this.post_id,
                     content: this.incontent,
-                    mention: this.mention,
                     // comment_id: this.comment_id,
                     // parent_comment_id: this.parent_comment_id,
                 }, {
@@ -121,9 +120,7 @@ export default {
             token: this.$cookies.get("token"),
             key: 0,
             incontent: this.content ? this.content : '',
-            userList: [{ 'value': 'a', 'key': 'test' }],
             output: [],
-            mention: '[]',
             placeholder: this.content ? '' : '發表留言:',
             post_id: this.$route.params.post_id,
             editorOptions: {
@@ -140,15 +137,24 @@ export default {
 
                         source: (searchTerm, renderList, mentionChar) => {
 
-                            const values = this.userList.map(item => ({
+                            const values = this.all_user.map(item => ({
 
-                                id: item.value,
+                                id: item.account,
 
-                                value: item.key,
+                                value: item.name,
 
                             }))
-
-                            renderList(values, searchTerm) // 渲染函数（生成提醒框）
+                            if (searchTerm.length === 0) {
+                                renderList(values, searchTerm);
+                            } else {
+                                const matches = [];
+                                for (let i = 0; i < values.length; i++)
+                                    if (
+                                        ~values[i].value.toLowerCase().indexOf(searchTerm.toLowerCase())
+                                    )
+                                        matches.push(values[i]);
+                                renderList(matches, searchTerm);
+                            }
 
                         },
 
@@ -167,10 +173,7 @@ export default {
                             insertItem(data) // 注意：这个函数必须加上，有这个才会在文本框显示选中的值
 
                             console.log(item)
-                            if (!this.output.includes(item.id)) {
-                                this.output.push(item.id)
 
-                            }
                         },
 
                     },
