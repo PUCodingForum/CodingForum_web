@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Dashboard from "@/views/Dashboard.vue";
 import Upload from "@/views/Upload.vue";
+import Edit from "@/views/Edit.vue";
 import Video from "@/views/Video.vue";
 import Profile from "@/views/Profile.vue";
 import SignIn from "@/views/user/SignIn.vue";
@@ -30,6 +31,11 @@ const routes = [
     path: "/video/:post_id?",
     name: "Video",
     component: Video,
+  },
+  {
+    path: "/edit/:post_id?",
+    name: "Edit",
+    component: Edit,
   },
   {
     path: "/profile/:user_account?",

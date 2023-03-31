@@ -9,7 +9,7 @@
             <el-main style="padding:0" v-loading="video_loading" element-loading-text="影片載入中"
               element-loading-background="rgba(0, 0, 0, 0.1)">
               <div class="container_video">
-                <!-- <YoutubeVue3 ref="youtube" :videoid="post.video_id" :controls="1" class="youtub" @played="onPlayed" /> -->
+                <YoutubeVue3 ref="youtube" :videoid="post.video_id" :controls="1" class="youtub" @played="onPlayed" />
               </div>
 
               <div class="title_font">
@@ -37,10 +37,12 @@
                   loading: this.loading,
                   type: 0//0post //1comment
                 }" />
+                <router-link style=" font-size: 13px;" v-if="token_user_id == post.user_id"
+                  :to="{ name: 'Edit', params: { post_id: post.id } }">
+                  <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>編輯文章</router-link>
               </div>
               <div class="mt-2">
-                <textarea class="form-control" id="content" v-model="post.content" rows="4" placeholder="請輸入文章內容" required
-                  readonly></textarea>
+                <textarea class="form-control" id="content" v-model="post.content" rows="4" readonly></textarea>
                 <!-- {{ post.content }} -->
 
               </div>
@@ -169,6 +171,7 @@ export default {
       user_post_like: 0,
       user_comment_like: [],
       token: this.$cookies.get("token"),
+      token_user_id: this.$cookies.get("user_id"),
       now_user_pic_url: this.$global_pic_url,
       isLiked: false,
       isDisliked: false,

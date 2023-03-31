@@ -42,13 +42,13 @@ export default createStore({
     cardBackground(state, payload) {
       state.color = payload;
     },
-    navbarFixed(state) {
-      if (state.isNavFixed === false) {
-        state.isNavFixed = true;
-      } else {
-        state.isNavFixed = false;
-      }
-    },
+    // navbarFixed(state) {
+    //   if (state.isNavFixed === false) {
+    //     state.isNavFixed = true;
+    //   } else {
+    //     state.isNavFixed = false;
+    //   }
+    // },
     toggleEveryDisplay(state) {
       state.showNavbar = !state.showNavbar;
       state.showSidenav = !state.showSidenav;

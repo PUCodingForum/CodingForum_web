@@ -200,6 +200,9 @@
                       type: {{ post.code_type }}
                       </p>
                       {{ post.created_at }}
+                      <router-link class="ms-2" style=" font-size: 13px;" v-if="token_user_id == post.user_id"
+                        :to="{ name: 'Edit', params: { post_id: post.id } }">
+                        <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>編輯文章</router-link>
                     </div>
                   </div>
                 </div>
@@ -339,6 +342,7 @@ export default {
       message: "",
       social: [],
       more_lock: false,
+      token_user_id: this.$cookies.get("user_id"),
 
     };
   },
@@ -388,14 +392,7 @@ export default {
     );
 
   },
-  mounted() {
-    this.$store.state.isAbsolute = true;
-    setNavPills();
-    setTooltip(this.$store.state.bootstrap);
-  },
-  beforeUnmount() {
-    this.$store.state.isAbsolute = false;
-  }, methods: {
+  methods: {
     async loadDataFromServer() {
       if (!this.more_lock) {
         this.more_lock = true;
@@ -405,7 +402,8 @@ export default {
             .post("/api/forum/get_post", {
               star: this.star,
               sort: this.sort,
-              page: this.page
+              page: this.page,
+              user_account: this.$route.params.user_account
             })
             .then((res) => {
               let allsame = true;

@@ -1,5 +1,6 @@
 <template>
-    <el-option :key="index" :label="source['show']" :value="{ value: source['id'], serial: source['serial'] }"></el-option>
+    <el-option :key="index" :label="source['show']"
+        :value="{ value: source['id'], serial: source['serial'], label: source['show'] }"></el-option>
 </template>
   
 <script>
