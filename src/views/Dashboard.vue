@@ -66,6 +66,7 @@
                     {{ post.uva_topic.serial + "-" + post.uva_topic.title }}
                   </h5>
                   <p>CPE星數: <i class="fa-solid fa-star-of-david" v-for="star in post.uva_topic.star"></i>
+                  <div v-if="post.uva_topic.star == null" style="    display: inline-block;">無</div>
 
                   <div class="vote__count" :class="[{ positive: post.likes > 0 }, { negative: post.likes < 0 },]"
                     style="display: inline;">
@@ -78,7 +79,7 @@
                     <router-link class="" :to="{ name: 'Profile', params: { user_account: post.user_account } }">
                       作者 : {{ post.user_name }}。 </router-link>
 
-                    <timeago :datetime="post.created_at.replaceAll('/', '-')" :locale="zhTW" />
+                    <timeago :datetime="post.created_at.replaceAll('/', '-')" />
 
                   </p>
                 </div>

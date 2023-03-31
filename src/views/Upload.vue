@@ -13,8 +13,10 @@
               </div>
               <div class="mb-3">
                 <label>內容</label>
-                <input class="form-control" v-model="content" id="content" type="text" placeholder="請輸入文章內容"
-                  name="content" required />
+
+                <textarea class="form-control" id="content" v-model="content" rows="5" placeholder="請輸入文章內容"
+                  required></textarea>
+
               </div>
 
               <div class="mb-3">
@@ -65,12 +67,14 @@ import "codemirror/mode/python/python.js";
 import "codemirror/addon/display/placeholder.js";
 // theme
 import "codemirror/theme/lucario.css";
+
+
 export default {
   name: "Upload",
   components: {
     'virtual-list': virtualList,
     SoftButton,
-    Codemirror
+    Codemirror,
   },
   data() {
     return {

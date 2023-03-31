@@ -357,8 +357,13 @@ export default {
 
 .comment__author {
     display: flex;
-    align-items: flex-start;
+    justify-content: flex-start;
+    align-items: center;
     gap: 10px;
+}
+
+.comment__content {
+    padding: 0 !important;
 }
 
 .comment__avatar {
@@ -371,7 +376,7 @@ export default {
 }
 
 .comment__title {
-    font-size: 14px;
+    font-size: 15px;
     line-height: 16px;
 }
 

@@ -8,23 +8,22 @@
           </template>
         </sidenav-collapse>
       </li>
-      <li class="nav-item">
-        <sidenav-collapse navText="上傳影片" :to="{ name: 'Upload' }">
-          <template #icon>
-            <office />
-          </template>
-        </sidenav-collapse>
-      </li>
-      <li class="mt-3 nav-item">
-        <h6 class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6"
-          :class="this.$store.state.isRTL ? 'me-4' : 'ms-2'">
-          PAGES
+      <li class="mt-3 nav-item" v-if="user_account">
+        <h6 class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6 ms-2">
+          個人
         </h6>
       </li>
       <li class="nav-item" v-if="user_account">
         <sidenav-collapse navText="個人頁面" :to="{ name: 'Profile', params: { user_account: user_account } }">
           <template #icon>
             <customer-support />
+          </template>
+        </sidenav-collapse>
+      </li>
+      <li class="nav-item" v-if="user_account">
+        <sidenav-collapse navText="上傳影片" :to="{ name: 'Upload' }">
+          <template #icon>
+            <office />
           </template>
         </sidenav-collapse>
       </li>

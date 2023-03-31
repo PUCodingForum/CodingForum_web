@@ -5,23 +5,47 @@
       <div class="col-lg-8">
 
         <div class="card">
-          <div class="card-body p-3">
+          <div class="card-body">
             <el-main style="padding:0" v-loading="video_loading" element-loading-text="影片載入中"
               element-loading-background="rgba(0, 0, 0, 0.1)">
               <div class="container_video">
                 <!-- <YoutubeVue3 ref="youtube" :videoid="post.video_id" :controls="1" class="youtub" @played="onPlayed" /> -->
               </div>
-            </el-main>
-            {{ uva_topic.title }}
-            <Vote @like_function="like_post" v-bind="{
-              post_id: post.id,
-              count: this.post_likes,
-              isLiked: this.isLiked,
-              isDisliked: this.isDisliked,
-              loading: this.loading,
-              type: 0//0post //1comment
-            }" />
 
+              <div class="title_font">
+                {{ uva_topic.show }}
+              </div>
+
+              <div class="comment__author" style="    align-self: flex-start;" v-if="post.length != 0">
+                <img class="userimg comment__avatar " :src="post.user_pic_url" alt="" />
+                <h3 class="comment__title" style="margin:0">
+                  <router-link class="" :to="{ name: 'Profile', params: { user_id: post.user_id } }">
+                    {{ post.user_name }} </router-link>
+                </h3>
+                <div v-if="post.length != 0">
+                  CPE星數: <i class="fa-solid fa-star-of-david" v-for="star in post.uva_topic.star"></i>
+                  <div v-if="post.uva_topic.star == null" style="    display: inline-block;">無</div> 。
+                </div>
+
+                <timeago :datetime="post.created_at.replaceAll('/', '-')" v-if="post.length != 0" />
+                。
+                <Vote @like_function="like_post" v-bind="{
+                  post_id: post.id,
+                  count: this.post_likes,
+                  isLiked: this.isLiked,
+                  isDisliked: this.isDisliked,
+                  loading: this.loading,
+                  type: 0//0post //1comment
+                }" />
+              </div>
+              <div class="mt-2">
+                <textarea class="form-control" id="content" v-model="post.content" rows="4" placeholder="請輸入文章內容" required
+                  readonly></textarea>
+                <!-- {{ post.content }} -->
+
+              </div>
+
+            </el-main>
           </div>
         </div>
       </div>
@@ -37,7 +61,7 @@
             <div class="mb-3">
               <label>程式碼</label>
 
-              <Codemirror v-model:value="post.code" :options="cmOptions" border ref="cmRef" height="500" width="100%"
+              <Codemirror v-model:value="post.code" :options="cmOptions" border ref="cmRef" height="600" width="100%"
                 @change="onChange" @input="onInput" @ready="onReady" :key="selete_loading">
               </Codemirror>
             </div>
@@ -92,57 +116,7 @@
 
       </div>
       <div class="col-md-5 mt-4">
-        <ranking-list-card :horizontal-break="false" :card="{
-          title: 'Transactions',
-          date: '23 - 30 March 2021',
-          subtitle: 'Newest',
-        }" :item="[
-  {
-    title: 'Netflix',
-    date: '27 March 2020, at 12:30 PM',
-    amount: '- $ 2,500',
-    icon: 'fa-arrow-down',
-    color: 'danger',
-  },
-  {
-    title: 'Apple',
-    date: '23 March 2020, at 04:30 AM',
-    amount: '+ $ 2,000',
-    icon: 'fa-arrow-up',
-    color: 'success',
-  },
-]">
-          <ranking-list title="Yesterday" :item="[
-            {
-              title: 'Stripe',
-              date: '26 March 2020, at 13:45 PM',
-              amount: '+ $ 750',
-              icon: 'fa-arrow-up',
-              color: 'success',
-            },
-            {
-              title: 'HubSpot',
-              date: '26 March 2020, at 12:30 PM',
-              amount: '+ $ 1,000',
-              icon: 'fa-arrow-up',
-              color: 'success',
-            },
-            {
-              title: 'Creative Tim',
-              date: '26 March 2020, at 08:30 AM',
-              amount: '+ $ 2,500',
-              icon: 'fa-arrow-up',
-              color: 'success',
-            },
-            {
-              title: 'Webflow',
-              date: '26 March 2020, at 05:00 AM',
-              amount: 'Pending',
-              icon: 'fa-info',
-              color: 'dark',
-            },
-          ]" :horizontal-break="false" />
-        </ranking-list-card>
+
       </div>
     </div>
 
@@ -195,7 +169,7 @@ export default {
       user_post_like: 0,
       user_comment_like: [],
       token: this.$cookies.get("token"),
-      now_user_pic_url: '',
+      now_user_pic_url: this.$global_pic_url,
       isLiked: false,
       isDisliked: false,
       noResult: false,
@@ -240,8 +214,7 @@ export default {
   mounted() {
     if (this.$cookies.isKey("now_user_pic_url"))
       this.now_user_pic_url = this.$cookies.get("now_user_pic_url")
-    else
-      this.now_user_pic_url = 'https://bakerychu.com/CodingForum/default_user.png';
+
     const that = this;
 
     function get_post(post_id) {
@@ -450,5 +423,34 @@ export default {
 .boss {
   margin-top: 100px;
 
+}
+
+@media (min-width: 1200px) {
+  .title_font {
+    font-size: 1.4rem;
+  }
+}
+
+
+@media (max-width: 1200px) {
+  .title_font {
+    font-size: 1.1rem;
+  }
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: #ffffff00;
+}
+
+textarea {
+  cursor: default;
+  border: #ffffff00;
+}
+
+textarea:focus {
+  border-color: #d2d6da;
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.075) inset, 0 0 0px #d2d6da;
+  outline: 0 none;
 }
 </style>

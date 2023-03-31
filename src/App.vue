@@ -62,7 +62,8 @@ export default {
 p,
 .card .card-body,
 a,
-input {
+input,
+textarea {
   font-family: "Noto Sans TC", sans-serif !important;
   font-weight: bold !important;
 }
@@ -127,5 +128,41 @@ input {
   .sidenav {
     z-index: 9999;
   }
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+  border-color: rgba(126, 239, 104, 0.8);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);
+  outline: 0 none;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  background: rgb(219, 219, 219);
 }
 </style>

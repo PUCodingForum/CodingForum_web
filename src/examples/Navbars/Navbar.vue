@@ -3,9 +3,8 @@
     data-scroll="true">
     <div class="px-3 py-1 container-fluid">
       <breadcrumbs :currentPage="currentRouteName" :textWhite="textWhite" />
-      <div class="mt-2 collapse navbar-collapse mt-sm-0 me-md-0 me-sm-4"
-        :class="this.$store.state.isRTL ? 'px-0' : 'me-sm-4'" id="navbar">
-        <div class="pe-md-3 d-flex align-items-center" :class="this.$store.state.isRTL ? 'me-md-auto' : 'ms-md-auto'">
+      <div class="mt-2 collapse navbar-collapse mt-sm-0 me-md-0 me-sm-4" id="navbar">
+        <div class="pe-md-3 d-flex align-items-center ms-md-auto">
           <div class="input-group">
             <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
             <input type="text" class="form-control" :placeholder="'Type here...'" />
@@ -39,11 +38,8 @@
             </a>
           </li>
           <li class="px-3 nav-item d-flex align-items-center">
-            <!-- <a class="p-0 nav-link" @click="toggleConfigurator" :class="textWhite ? textWhite : 'text-body'">
-                                                                                                                      <i class="cursor-pointer fa fa-cog fixed-plugin-button-nav"></i>
-                                                                                                                    </a> -->
           </li>
-          <li class="nav-item dropdown d-flex align-items-center" :class="this.$store.state.isRTL ? 'ps-2' : 'pe-2'">
+          <li class="nav-item dropdown d-flex align-items-center pe-2">
             <a href="#" class="p-0 nav-link" :class="[
               textWhite ? textWhite : 'text-body',
               showMenu ? 'show' : '',
