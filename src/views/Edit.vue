@@ -18,7 +18,7 @@
               <div class="mb-3">
                 <label>內容</label>
 
-                <textarea class="form-control" id="content" v-model="content" rows="5" placeholder="請輸入文章內容"
+                <textarea class="form-control" id="content" v-model="content" rows="5" placeholder="請輸入貼文內容"
                   required></textarea>
 
               </div>
@@ -52,7 +52,7 @@
                 <soft-button color="warning" full-width variant="gradient" class="mb-5"
                   @click.stop.prevent="$router.go(-1)">取消</soft-button>
                 <soft-button color="danger" full-width variant="gradient" class="mt-5" data-bs-toggle="modal"
-                  :data-bs-target="'#staticBackdrop' + post_id" @click.stop.prevent="">刪除文章</soft-button>
+                  :data-bs-target="'#staticBackdrop' + post_id" @click.stop.prevent="">刪除貼文</soft-button>
               </div>
             </form>
           </div>
@@ -67,7 +67,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">是否確認要刪除這篇文章</h5>
+          <h5 class="modal-title">是否確認要刪除這篇貼文</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-footer">

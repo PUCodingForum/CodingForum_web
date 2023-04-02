@@ -202,7 +202,7 @@
                       {{ post.created_at }}
                       <router-link class="ms-2" style=" font-size: 13px;" v-if="token_user_id == post.user_id"
                         :to="{ name: 'Edit', params: { post_id: post.id } }">
-                        <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>編輯文章</router-link>
+                        <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>編輯貼文</router-link>
                     </div>
                   </div>
                 </div>

@@ -39,7 +39,7 @@
                 }" />
                 <router-link style=" font-size: 13px;" v-if="token_user_id == post.user_id"
                   :to="{ name: 'Edit', params: { post_id: post.id } }">
-                  <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>編輯文章</router-link>
+                  <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>編輯貼文</router-link>
               </div>
               <div class="mt-2">
                 <textarea class="form-control" id="content" v-model="post.content" rows="4" readonly></textarea>

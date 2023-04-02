@@ -1,53 +1,6 @@
 <template>
   <div class="py-4 container-fluid">
-    <div class="row justify-content-around">
-      <div class="col-xl-2 col-sm-2 col-2 mb-xl-0 mb-4">
-        <mini-statistics-card title="CPE" value="一星題目" :percentage="{
-          value: '+505%',
-          color: 'text-success',
-        }" :icon="{
-  component: 'ni ni-money-coins',
-  background: iconBackground,
-}" direction-reverse />
-      </div>
-      <div class="col-xl-2 col-sm-2 col-2  mb-xl-0 mb-4">
-        <mini-statistics-card title="CPE" value="二星題目" :percentage="{
-          value: '+505%',
-          color: 'text-success',
-        }" :icon="{
-  component: 'ni ni-money-coins',
-  background: iconBackground,
-}" direction-reverse />
-      </div>
-      <div class="col-xl-2 col-sm-2 col-2  mb-xl-0 mb-4">
-        <mini-statistics-card title="CPE" value="三星題目" :percentage="{
-          value: '+505%',
-          color: 'text-success',
-        }" :icon="{
-  component: 'ni ni-money-coins',
-  background: iconBackground,
-}" direction-reverse />
-      </div>
-      <div class="col-xl-2 col-sm-2 col-2  mb-xl-0 mb-4">
-        <mini-statistics-card title="CPE" value="四星題目" :percentage="{
-          value: '+505%',
-          color: 'text-success',
-        }" :icon="{
-  component: 'ni ni-money-coins',
-  background: iconBackground,
-}" direction-reverse />
-      </div>
-      <div class="col-xl-2 col-sm-2 col-2  mb-xl-0 mb-4">
-        <mini-statistics-card title="CPE" value="五星題目" :percentage="{
-          value: '+505%',
-          color: 'text-success',
-        }" :icon="{
-  component: 'ni ni-money-coins',
-  background: iconBackground,
-}" direction-reverse />
-      </div>
 
-    </div>
     <infinite-scroll @infinite-scroll="loadDataFromServer" :message="message" :noResult="noResult">
 
       <div class="card">
@@ -73,7 +26,8 @@
                     愛心數:
                     <span class="vote__count-n"> <i class="fa-solid fa-heart"></i> x {{ post.likes }} </span>
                   </div>
-                  type: {{ post.code_type }}
+                  語言: {{ post.code_type }}
+                  留言數: {{ post.comments_count }}
                   </p>
                   <p class="card-text placeholder-glow">
                     <router-link class="" :to="{ name: 'Profile', params: { user_account: post.user_account } }">
@@ -131,7 +85,7 @@ import {
   faScrewdriverWrench,
 } from "@fortawesome/free-solid-svg-icons";
 export default {
-  name: "dashboard-default",
+  name: "Dashboard",
   data() {
     return {
       iconBackground: "bg-gradient-success",
@@ -174,7 +128,7 @@ export default {
       noResult: false,
       message: "",
       more_lock: false,
-
+      sort: ''
 
     };
   },
@@ -187,9 +141,22 @@ export default {
     TimelineItem,
     InfiniteScroll
   },
+
   mounted() {
     this.loadDataFromServer()
-  }, methods: {
+  },
+  methods: {
+    changesort(sort) {
+      this.sort = sort;
+      this.posts = [];
+      this.noResult = false
+      this.loadDataFromServer()
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      })
+    },
     async loadDataFromServer() {
       if (!this.more_lock) {
         this.more_lock = true;

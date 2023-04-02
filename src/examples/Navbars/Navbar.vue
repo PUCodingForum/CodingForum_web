@@ -205,7 +205,16 @@ export default {
   },
   computed: {
     currentRouteName() {
-      return this.$route.name;
+      if (this.$route.name == "Dashboard")
+        return "首頁";
+      if (this.$route.name == "Profile")
+        return "個人頁面";
+      if (this.$route.name == "Video")
+        return "影片";
+      if (this.$route.name == "Upload")
+        return "上傳貼文";
+      if (this.$route.name == "Edit")
+        return "編輯貼文";
     },
   },
   updated() {

@@ -30,6 +30,8 @@ const timeagoOptions = {
 
 import { InstallCodemirro } from "codemirror-editor-vue3";
 
+import "@/assets/css/test2.css";
+
 const app = createApp(App);
 app.component("QuillEditor", QuillEditor);
 

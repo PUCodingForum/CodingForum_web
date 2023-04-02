@@ -1,8 +1,9 @@
 <template>
-  <div class="w-auto h-auto collapse navbar-collapse max-height-vh-100 h-100" id="sidenav-collapse-main">
+  <!-- max-height-vh-100 h-100 -->
+  <div class="w-auto h-auto collapse navbar-collapse " id="sidenav-collapse-main">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <sidenav-collapse navText="主頁" :to="{ name: 'Dashboard' }">
+        <sidenav-collapse navText="首頁" :to="{ name: 'Dashboard' }">
           <template #icon>
             <shop />
           </template>
@@ -21,34 +22,61 @@
         </sidenav-collapse>
       </li>
       <li class="nav-item" v-if="user_account">
-        <sidenav-collapse navText="上傳影片" :to="{ name: 'Upload' }">
+        <sidenav-collapse navText="上傳貼文" :to="{ name: 'Upload' }">
           <template #icon>
             <office />
           </template>
         </sidenav-collapse>
       </li>
-      <!-- <li class="nav-item">
-                      <sidenav-collapse navText="Sign In" :to="{ name: 'Sign In' }">
-                        <template #icon>
-                          <document />
-                        </template>
-                      </sidenav-collapse>
-                    </li>
-                    <li class="nav-item">
-                      <sidenav-collapse navText="Sign Up" :to="{ name: 'Sign Up' }">
-                        <template #icon>
-                          <spaceship />
-                        </template>
-                      </sidenav-collapse>
-                    </li> -->
+      <li class="nav-item" v-if="this.$route.name == 'Dashboard'">
+
+        <div class="relative  rounded-xl bg-deep-black px-3 py-3 text-white" style="font-size: 13px;">
+          <div class="font-bold">
+
+            <span>"貼文排序方式"</span>
+            => [
+            <CodeCard type=0 sort='"最新發布" ' comment=" // 🕒🕒🕒🕒🕒 " />
+            <CodeCard type=1 sort='"最早發布" ' comment=" // 🕒 " />
+            <CodeCard type=2 sort='"最多愛心" ' comment=" // ❤️❤️❤️❤️❤️ " />
+            <CodeCard type=3 sort='"最少愛心" ' comment=" // ❤️ " />
+            <CodeCard type=4 sort='"最多留言" ' comment=" //💬💬💬💬💬 " />
+            <CodeCard type=5 sort='"最少留言" ' comment=" //💬" />
+            <span class="font-bold"><br>],<br></span>
+
+            <span>"貼文CPE星數"</span>
+            => [<br>
+            <CodeCard type=1 sort='"全部" ' comment="" /><br>
+            <CodeCard type=1 sort='"0星" ' comment="" />
+            <CodeCard type=1 sort='"1星" ' comment="" />
+            <CodeCard type=1 sort='"2星" ' comment="" />
+            <CodeCard type=1 sort='"3星" ' comment="" />
+            <CodeCard type=1 sort='"4星" ' comment="" />
+            <CodeCard type=1 sort='"5星" ' comment="" />
+            <span class="font-bold"><br>],<br></span>
+
+            <span>"貼文程式語言"</span>
+            => [<br>
+            <CodeCard type=2 sort='"全部" ' comment="" /><br>
+            <CodeCard type=2 sort='"&nbsp;&nbsp;&nbsp;&nbsp;C&nbsp;&nbsp;&nbsp;&nbsp;"' comment="" />
+            <CodeCard type=2 sort='"C++" ' comment="" />
+            <br>
+            <CodeCard type=2 sort='"Java" ' comment="" />
+            <CodeCard type=2 sort='"Python" ' comment="" />
+            <span class="font-bold"><br>],</span>
+          </div>
+        </div>
+
+
+      </li>
+
     </ul>
   </div>
-  <div class="pt-3 mx-3 mt-3 sidenav-footer">
+  <!-- <div class="pt-3 mx-3 mt-3 sidenav-footer">
     <sidenav-card :class="cardBg" textPrimary="Need Help?" textSecondary="Please check our docs"
       route="https://www.creative-tim.com/learning-lab/vue/overview/soft-ui-dashboard/" label="專案開源"
       icon="ni ni-diamond" />
 
-  </div>
+  </div> -->
 </template>
 <script>
 import SidenavCollapse from "./SidenavCollapse.vue";
@@ -61,7 +89,7 @@ import CustomerSupport from "../../components/Icon/CustomerSupport.vue";
 import Document from "../../components/Icon/Document.vue";
 import Spaceship from "../../components/Icon/Spaceship.vue";
 import Settings from "../../components/Icon/Settings.vue";
-
+import CodeCard from "./CodeCard.vue";
 export default {
   name: "SidenavList",
   props: {
@@ -86,12 +114,15 @@ export default {
     Document,
     Spaceship,
     Settings,
+    CodeCard
   },
+
   methods: {
     getRoute() {
       const routeArr = this.$route.path.split("/");
       return routeArr[1];
     },
+
   },
 };
 </script>

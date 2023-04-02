@@ -2,14 +2,15 @@
   <sidenav :custom_class="this.$store.state.mcolor" :class="[
     this.$store.state.isTransparent,
     'fixed-start',
-  ]" v-if="this.$store.state.showSidenav" />
+  ]" v-if="this.$store.state.showSidenav" @changesort="ref_changesort" />
 
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
-
     <navbar :class="[navClasses]" :textWhite="this.$store.state.isAbsolute ? 'text-white opacity-8' : ''"
       :minNav="navbarMinimize" v-if="this.$store.state.showNavbar" />
 
-    <router-view />
+    <router-view v-slot="{ Component }">
+      <component ref="view" :is="Component" />
+    </router-view>
 
     <app-footer v-show="this.$store.state.showFooter" />
   </main>
@@ -31,6 +32,9 @@ export default {
   },
   methods: {
     ...mapMutations(["toggleConfigurator", "navbarMinimize"]),
+    ref_changesort(sort) {
+      this.$refs.view.changesort(sort);
+    }
   },
   computed: {
     navClasses() {
@@ -46,9 +50,14 @@ export default {
   beforeMount() {
     this.$store.state.isTransparent = "bg-transparent";
   },
+
 };
 </script>
-
+<!-- @font-face {
+  font-family: "Pixel";
+  src: local("Pixel"),
+    url(@/assets/K8x12.ttf) format("truetype");
+} -->
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap");
 
