@@ -34,7 +34,7 @@ export default {
       default: "",
     },
   },
-  emits: ['changesort'],
+  emits: ['changepost'],
   computed: {
     ...mapState(["isRTL"]),
   },

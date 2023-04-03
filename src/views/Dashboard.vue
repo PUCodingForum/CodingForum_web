@@ -2,7 +2,6 @@
   <div class="py-4 container-fluid">
 
     <infinite-scroll @infinite-scroll="loadDataFromServer" :message="message" :noResult="noResult">
-
       <div class="card">
         <div class="card-body p-3">
 
@@ -128,8 +127,9 @@ export default {
       noResult: false,
       message: "",
       more_lock: false,
-      sort: ''
-
+      sort: '',
+      star: [],
+      code_type: []
     };
   },
   components: {
@@ -146,8 +146,51 @@ export default {
     this.loadDataFromServer()
   },
   methods: {
-    changesort(sort) {
-      this.sort = sort;
+    changepost(type) {
+      console.log('type ' + type)
+      if (type <= 5) {
+        this.sort = type;
+      } else if (type == 6) {
+        this.star = [];
+      }
+      else if (type == 7) {
+        if (!this.star.includes(null))
+          this.star.push(null);
+        else {
+          this.star.forEach((star, index) => {
+            if (star == null) {
+              this.star.splice(index, 1);
+            };
+          });
+        }
+      }
+      else if (type >= 8 && type <= 12) {
+        if (!this.star.includes(type - 7))
+          this.star.push(type - 7)
+        else {
+          this.star.forEach((star, index) => {
+            if (star == type - 7 || star == null) {
+              this.star.splice(index, 1);
+            };
+          });
+        }
+      } else if (type == 13) {
+        this.code_type = []
+      }
+      else if (type >= 14) {
+        if (!this.code_type.includes(type))
+          this.code_type.push(type)
+        else {
+          this.code_type.forEach((code_type, index) => {
+            if (code_type == type) {
+              this.code_type.splice(index, 1);
+            };
+          });
+        }
+      }
+
+
+
       this.posts = [];
       this.noResult = false
       this.loadDataFromServer()
@@ -164,9 +207,9 @@ export default {
           this.loading = true;
           await this.axios
             .post("/api/forum/get_post", {
+              code_type: this.code_type,
               star: this.star,
               sort: this.sort,
-              page: this.page
             })
             .then((res) => {
               let allsame = true;

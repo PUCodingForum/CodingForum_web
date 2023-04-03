@@ -45,23 +45,23 @@
 
             <span>"貼文CPE星數"</span>
             => [<br>
-            <CodeCard type=1 sort='"全部" ' comment="" /><br>
-            <CodeCard type=1 sort='"0星" ' comment="" />
-            <CodeCard type=1 sort='"1星" ' comment="" />
-            <CodeCard type=1 sort='"2星" ' comment="" />
-            <CodeCard type=1 sort='"3星" ' comment="" />
-            <CodeCard type=1 sort='"4星" ' comment="" />
-            <CodeCard type=1 sort='"5星" ' comment="" />
+            <CodeCard type=6 sort='"全部" ' comment="" /><br>
+            <CodeCard type=7 sort='"0星" ' comment="" />
+            <CodeCard type=8 sort='"1星" ' comment="" />
+            <CodeCard type=9 sort='"2星" ' comment="" />
+            <CodeCard type=10 sort='"3星" ' comment="" />
+            <CodeCard type=11 sort='"4星" ' comment="" />
+            <CodeCard type=12 sort='"5星" ' comment="" />
             <span class="font-bold"><br>],<br></span>
 
             <span>"貼文程式語言"</span>
             => [<br>
-            <CodeCard type=2 sort='"全部" ' comment="" /><br>
-            <CodeCard type=2 sort='"&nbsp;&nbsp;&nbsp;&nbsp;C&nbsp;&nbsp;&nbsp;&nbsp;"' comment="" />
-            <CodeCard type=2 sort='"C++" ' comment="" />
+            <CodeCard type=13 sort='"全部" ' comment="" /><br>
+            <CodeCard type=14 sort='"&nbsp;&nbsp;&nbsp;&nbsp;C&nbsp;&nbsp;&nbsp;&nbsp;"' comment="" />
+            <CodeCard type=15 sort='"C++" ' comment="" />
             <br>
-            <CodeCard type=2 sort='"Java" ' comment="" />
-            <CodeCard type=2 sort='"Python" ' comment="" />
+            <CodeCard type=16 sort='"Java" ' comment="" />
+            <CodeCard type=17 sort='"Python" ' comment="" />
             <span class="font-bold"><br>],</span>
           </div>
         </div>

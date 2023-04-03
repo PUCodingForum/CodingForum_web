@@ -2,7 +2,7 @@
   <sidenav :custom_class="this.$store.state.mcolor" :class="[
     this.$store.state.isTransparent,
     'fixed-start',
-  ]" v-if="this.$store.state.showSidenav" @changesort="ref_changesort" />
+  ]" v-if="this.$store.state.showSidenav" @changepost="ref_changepost" />
 
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
     <navbar :class="[navClasses]" :textWhite="this.$store.state.isAbsolute ? 'text-white opacity-8' : ''"
@@ -32,8 +32,8 @@ export default {
   },
   methods: {
     ...mapMutations(["toggleConfigurator", "navbarMinimize"]),
-    ref_changesort(sort) {
-      this.$refs.view.changesort(sort);
+    ref_changepost(sort) {
+      this.$refs.view.changepost(sort);
     }
   },
   computed: {
