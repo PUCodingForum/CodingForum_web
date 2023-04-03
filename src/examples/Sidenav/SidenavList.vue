@@ -28,7 +28,8 @@
           </template>
         </sidenav-collapse>
       </li>
-      <li class="nav-item" v-if="this.$route.name == 'Dashboard'">
+      <li class="nav-item" v-if="this.$route.name == 'Dashboard' || this.$route.name == 'Profile'"
+        :key="this.$route.name">
 
         <div class="relative  rounded-xl bg-deep-black px-3 py-3 text-white" style="font-size: 13px;">
           <div class="font-bold">

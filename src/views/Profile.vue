@@ -343,7 +343,9 @@ export default {
       social: [],
       more_lock: false,
       token_user_id: this.$cookies.get("user_id"),
-
+      sort: '',
+      star: [],
+      code_type: []
     };
   },
   created() {
@@ -393,6 +395,60 @@ export default {
 
   },
   methods: {
+    changepost(type) {
+      console.log('type ' + type)
+      if (type <= 5) {
+        this.sort = type;
+      } else if (type == 6) {
+        this.star = [];
+      }
+      else if (type == 7) {
+        if (!this.star.includes(null))
+          this.star.push(null);
+        else {
+          this.star.forEach((star, index) => {
+            if (star == null) {
+              this.star.splice(index, 1);
+            };
+          });
+        }
+      }
+      else if (type >= 8 && type <= 12) {
+        if (!this.star.includes(type - 7))
+          this.star.push(type - 7)
+        else {
+          this.star.forEach((star, index) => {
+            if (star == type - 7 || star == null) {
+              this.star.splice(index, 1);
+            };
+          });
+        }
+      } else if (type == 13) {
+        this.code_type = []
+      }
+      else if (type >= 14) {
+        if (!this.code_type.includes(type))
+          this.code_type.push(type)
+        else {
+          this.code_type.forEach((code_type, index) => {
+            if (code_type == type) {
+              this.code_type.splice(index, 1);
+            };
+          });
+        }
+      }
+
+
+
+      this.posts = [];
+      this.noResult = false
+      this.loadDataFromServer()
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      })
+    },
     async loadDataFromServer() {
       if (!this.more_lock) {
         this.more_lock = true;
@@ -400,9 +456,9 @@ export default {
           this.loading = true;
           await this.axios
             .post("/api/forum/get_post", {
+              code_type: this.code_type,
               star: this.star,
               sort: this.sort,
-              page: this.page,
               user_account: this.$route.params.user_account
             })
             .then((res) => {
