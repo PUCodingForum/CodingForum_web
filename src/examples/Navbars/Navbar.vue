@@ -213,8 +213,10 @@ export default {
         return "影片";
       if (this.$route.name == "Upload")
         return "上傳貼文";
-      if (this.$route.name == "Edit")
+      if (this.$route.name == "EditPost")
         return "編輯貼文";
+      if (this.$route.name == "EditUser")
+        return "編輯用戶";
     },
   },
   updated() {

@@ -98,7 +98,7 @@ import "codemirror/theme/lucario.css";
 
 
 export default {
-  name: "Edit",
+  name: "EditPost",
   components: {
     'virtual-list': virtualList,
     SoftButton,
@@ -142,7 +142,7 @@ export default {
         post_id: this.post_id,
       }),
       () => {
-        if (this.$route.name != 'Edit') {
+        if (this.$route.name != 'EditPost') {
           return;
         }
         if (!this.post_id) {
@@ -176,7 +176,7 @@ export default {
         code_select: this.code_select,
       }),
       () => {
-        if (this.$route.name != 'Edit') {
+        if (this.$route.name != 'EditPost') {
           return;
         }
         this.cmOptions = {

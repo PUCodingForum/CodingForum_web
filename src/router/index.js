@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Dashboard from "@/views/Dashboard.vue";
 import Upload from "@/views/Upload.vue";
-import Edit from "@/views/Edit.vue";
+import EditPost from "@/views/EditPost.vue";
 import Video from "@/views/Video.vue";
 import Profile from "@/views/Profile.vue";
 import SignIn from "@/views/user/SignIn.vue";
@@ -9,6 +9,7 @@ import SignUp from "@/views/user/SignUp.vue";
 import ForgetPassword from "@/views/user/ForgetPassword.vue";
 import ResetPassword from "@/views/user/ResetPassword.vue";
 import ResendPassword from "@/views/user/ResendPassword.vue";
+import EditUser from "@/views/user/EditUser.vue";
 
 const routes = [
   {
@@ -33,9 +34,9 @@ const routes = [
     component: Video,
   },
   {
-    path: "/edit/:post_id?",
-    name: "Edit",
-    component: Edit,
+    path: "/edit_post/:post_id?",
+    name: "EditPost",
+    component: EditPost,
   },
   {
     path: "/profile/:user_account?",
@@ -71,6 +72,11 @@ const routes = [
         path: "resend_password",
         name: "resend_password",
         component: ResendPassword,
+      },
+      {
+        path: "edit_user",
+        name: "EditUser",
+        component: EditUser,
       },
     ],
   },

@@ -38,7 +38,7 @@
                   type: 0//0post //1comment
                 }" />
                 <router-link style=" font-size: 13px;" v-if="token_user_id == post.user_id"
-                  :to="{ name: 'Edit', params: { post_id: post.id } }">
+                  :to="{ name: 'EditPost', params: { post_id: post.id } }">
                   <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>編輯貼文</router-link>
               </div>
               <div class="mt-2">
@@ -305,13 +305,11 @@ export default {
       .catch(function (error) {
         if (error.response) {
           console.log(error.response.status);
-          if (error.response.status == 401) {
-          }
-          if (error.response.status == 402) {
-            ElMessage.error("影片不存在");
-            that.$router.push({ name: 'Dashboard' });
 
-          }
+          ElMessage.error("影片不存在");
+          that.$router.push({ name: 'Dashboard' });
+
+
         }
       }
       );
