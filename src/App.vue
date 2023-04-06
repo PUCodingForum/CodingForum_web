@@ -67,7 +67,8 @@ p,
 .card .card-body,
 a,
 input,
-textarea {
+textarea,
+button {
   font-family: "Noto Sans TC", sans-serif !important;
   font-weight: bold !important;
 }

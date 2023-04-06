@@ -7,14 +7,6 @@
           <div class="card-body">
             <form role="form" class="mx-auto col-xl-9">
               <div class="mb-3">
-                <p>封面照片</p>
-                <img :src="pic_url" alt="" class="user_pic">
-              </div>
-              <div class="mb-3">
-                <p>個人頭貼</p>
-                <img :src="pic_url" alt="" class="user_pic">
-              </div>
-              <div class="mb-3">
                 <label>自我介紹</label>
                 <textarea class="form-control" v-model="intro" rows="5" placeholder="Hi,I'm XXX"></textarea>
               </div>
@@ -63,8 +55,8 @@ export default {
   },
   data() {
     return {
+      upload_userpic: '上傳頭貼',
       temp: '',
-      pic_url: '',
       intro: '',
       github: '',
       instagram: '',
@@ -72,7 +64,7 @@ export default {
       token: this.$cookies.get("token"),
       token_user_id: this.$cookies.get("user_id"),
       token_user_account: this.$cookies.get("user_account"),
-      user: []
+      user: [],
     };
   },
   created() {
@@ -90,7 +82,6 @@ export default {
       .then((res) => {
 
         console.log(res);
-        this.pic_url = res.data.user.pic_url
         this.intro = res.data.user.intro
         this.github = res.data.user.github
         this.instagram = res.data.user.instagram
@@ -120,7 +111,7 @@ export default {
           facebook: this.facebook,
         }, {
           headers: {
-            'Authorization': `Bearer ` + this.token
+            'Authorization': `Bearer ` + this.token,
           }
         })
         .then((res) => {
@@ -145,7 +136,8 @@ export default {
             }
           }
         });
-    }
+
+    },
   },
 
 
@@ -164,18 +156,5 @@ export default {
 
 .codemirror-container {
   display: block;
-}
-</style>
-<style scoped>
-@media (min-width: 1200px) {
-  .user_pic {
-    width: 20%;
-  }
-}
-
-@media (max-width: 1200px) {
-  .user_pic {
-    width: 100%;
-  }
 }
 </style>

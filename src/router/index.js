@@ -10,7 +10,8 @@ import ForgetPassword from "@/views/user/ForgetPassword.vue";
 import ResetPassword from "@/views/user/ResetPassword.vue";
 import ResendPassword from "@/views/user/ResendPassword.vue";
 import EditUser from "@/views/user/EditUser.vue";
-
+import EditPic from "@/views/user/EditPic.vue";
+import EditCover from "@/views/user/EditCover.vue";
 const routes = [
   {
     path: "/",
@@ -77,6 +78,16 @@ const routes = [
         path: "edit_user",
         name: "EditUser",
         component: EditUser,
+      },
+      {
+        path: "edit_pic",
+        name: "EditPic",
+        component: EditPic,
+      },
+      {
+        path: "edit_cover",
+        name: "EditCover",
+        component: EditCover,
       },
     ],
   },

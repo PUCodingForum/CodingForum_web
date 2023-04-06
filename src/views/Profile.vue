@@ -1,13 +1,12 @@
 <template>
   <div class="container-fluid">
-    <div class="mt-4 page-header min-height-300 border-radius-xl" :style="{
+    <div class="mt-4 page-header cover_height border-radius-xl" :style="{
       backgroundImage:
-        'url(' + require('@/assets/img/curved-images/curved14.jpg') + ')',
+        'url(' + user.cover_url + ')',
       backgroundPositionY: '50%',
     }">
-      <span class="mask bg-gradient-success opacity-6"></span>
     </div>
-    <div class="mx-4 overflow-hidden card card-body blur shadow-blur mt-n6">
+    <div class="mx-4 overflow-hidden card card-body blur shadow-blur user_cover">
       <div class="row gx-4">
         <div class="col-auto">
           <div class="avatar avatar-xl position-relative">
@@ -22,10 +21,10 @@
       </div>
     </div>
   </div>
-  <div class="py-4 container-fluid">
+  <div class="pb-4 container-fluid">
     <infinite-scroll @infinite-scroll="loadDataFromServer" :message="message" :noResult="noResult">
 
-      <div class="mt-3 row">
+      <div class="mt-xl-3 row">
 
         <!-- 設定 -->
         <!-- <div class="col-12 col-md-6 col-xl-4"> -->
@@ -82,14 +81,20 @@
           <div class="card h-100">
             <div class="p-3 pb-0 card-header">
               <div class="row">
-                <div class="col-md-8 d-flex align-items-center">
+                <div class="col-md-4 d-flex align-items-center">
                   <h6 class="mb-0">個人資訊</h6>
                 </div>
-                <div class="col-md-4 text-end">
+                <div class="col-md-8 edit_button">
                   <a>
                     <router-link class="ms-2" style=" font-size: 13px;" :to="{ name: 'EditUser' }"
                       v-if="token_user_account == this.$route.params.user_account">
                       <i class="text-sm fas fa-user-edit text-secondary me-2"></i>編輯</router-link>
+                    <router-link class="ms-2" style=" font-size: 13px;" :to="{ name: 'EditPic' }"
+                      v-if="token_user_account == this.$route.params.user_account">
+                      <i class="text-sm fas fa-user-edit text-secondary me-2"></i>編輯頭貼</router-link>
+                    <router-link class="ms-2" style=" font-size: 13px;" :to="{ name: 'EditCover' }"
+                      v-if="token_user_account == this.$route.params.user_account">
+                      <i class="text-sm fas fa-user-edit text-secondary me-2"></i>編輯封面</router-link>
 
                   </a>
                 </div>
@@ -450,3 +455,33 @@ export default {
   },
 };
 </script>
+<style scoped>
+@media (min-width: 1200px) {
+  .user_cover {
+    margin-top: -0.5rem !important;
+    margin-bottom: 2rem !important;
+  }
+
+  .cover_height {
+    min-height: 300px !important;
+  }
+
+  .edit_button {
+    text-align: end !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .user_cover {
+    margin-top: 1rem !important;
+  }
+
+  .cover_height {
+    height: 7vh;
+  }
+
+  .edit_button {
+    text-align: center !important;
+  }
+}
+</style>
