@@ -45,8 +45,9 @@
                 <soft-button color="warning" full-width variant="gradient" class="mb-5"
                   @click.stop.prevent="$router.go(-1)">取消</soft-button>
 
-                <soft-button color="danger mt-4" full-width variant="gradient" class="mt-2 mb-2"
-                  @click.stop.prevent="deletepic()">回復預設頭貼</soft-button>
+                <soft-button color="danger mt-4" full-width variant="gradient" class="mt-2 mb-2" data-bs-toggle="modal"
+                  data-bs-target="#deletepic" @click.stop.prevent="">回復預設頭貼</soft-button>
+
               </div>
             </form>
           </div>
@@ -54,6 +55,23 @@
       </div>
     </div>
 
+  </div>
+
+  <div class="modal fade" id="deletepic" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">是否確認要回復預設頭貼</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+            @click.stop.prevent="deletepic()">確定</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
