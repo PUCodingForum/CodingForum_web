@@ -7,7 +7,7 @@
                 </div>
                 <div class="comment__content col-11">
                     <h3 class="comment__title">
-                        <router-link class="" :to="{ name: 'Profile', params: { user_id: user_id } }">
+                        <router-link class="" :to="{ name: 'Profile', params: { user_account: user_account } }">
                             {{ user_name }} </router-link>
 
                     </h3>
@@ -53,6 +53,7 @@
                     comment_id: item.id,
                     pic_url: item.pic_url,
                     user_name: item.user_name,
+                    user_account: item.user_account,
                     user_id: item.user_id,
                     likes: item.likes,
                     content: item.content,
@@ -174,6 +175,9 @@ export default {
             type: String,
         },
         user_id: {
+            type: String,
+        },
+        user_account: {
             type: String,
         },
         content: {

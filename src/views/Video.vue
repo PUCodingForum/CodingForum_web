@@ -19,7 +19,7 @@
               <div class="comment__author" style="    align-self: flex-start;" v-if="post.length != 0">
                 <img class="userimg comment__avatar " :src="post.user_pic_url" alt="" />
                 <h3 class="comment__title" style="margin:0">
-                  <router-link class="" :to="{ name: 'Profile', params: { user_id: post.user_id } }">
+                  <router-link class="" :to="{ name: 'Profile', params: { user_account: post.user_account } }">
                     {{ post.user_name }} </router-link>
                 </h3>
                 <div v-if="post.length != 0">
@@ -97,6 +97,7 @@
                   <Comment @remove_comment="remove_comment" v-if="item.id != null" v-bind="{
                     pic_url: item.pic_url,
                     user_name: item.user_name,
+                    user_account: item.user_account,
                     user_id: item.user_id,
                     content: item.content,
                     children_comment_count: item.children_comment_count,
