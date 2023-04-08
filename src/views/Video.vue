@@ -9,7 +9,7 @@
             <el-main style="padding:0" v-loading="video_loading" element-loading-text="影片載入中"
               element-loading-background="rgba(0, 0, 0, 0.1)">
               <div class="container_video">
-                <!-- <YoutubeVue3 ref="youtube" :videoid="post.video_id" :controls="1" class="youtub" @played="onPlayed" /> -->
+                <YoutubeVue3 ref="youtube" :videoid="post.video_id" :controls="1" class="youtub" @played="onPlayed" />
               </div>
 
               <div class="title_font">
@@ -80,7 +80,7 @@
             <div class="card-body p-3">
               <div class="ms-4 mt-5">
                 <div class="row mt-4">
-                  <div class="col-1 px-0">
+                  <div class="col-1 px-0" style="    text-align: center;">
                     <img class="userimg comment__avatar" :src="now_user_pic_url" alt="">
                   </div>
                   <div class="col-10 px-0">
