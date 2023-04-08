@@ -95,7 +95,6 @@ export default {
             that.$router.push({ name: 'resend_password' });
           } else if (error.response.status == 402) {
             that.$router.push({ name: 'Dashboard' });
-
           }
         }
       });
@@ -133,7 +132,7 @@ export default {
           .catch(function (error) {
             if (error.response) {
               console.log(error.response.status);
-              if (error.response.status == 401) {
+              if (error.response.status == 402) {
                 ElMessage.error(error.response.data.error);
               }
             }
