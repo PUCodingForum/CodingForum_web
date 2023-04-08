@@ -355,14 +355,25 @@ export default {
 
   },
   methods: {
-    changepost(type) {
-      console.log('type ' + type)
-      if (type <= 5) {
-        this.sort = type;
-      } else if (type == 6) {
+    resetpost() {
+      this.send_serial = ''
+      this.posts = [];
+      this.noResult = false
+      this.loadDataFromServer()
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      })
+    },
+    changepost(options) {
+      console.log('type ' + options.type)
+      if (options.type <= 5) {
+        this.sort = options.type;
+      } else if (options.type == 6) {
         this.star = [];
       }
-      else if (type == 7) {
+      else if (options.type == 7) {
         if (!this.star.includes(null))
           this.star.push(null);
         else {
@@ -373,31 +384,34 @@ export default {
           });
         }
       }
-      else if (type >= 8 && type <= 12) {
-        if (!this.star.includes(type - 7))
-          this.star.push(type - 7)
+      else if (options.type >= 8 && options.type <= 12) {
+        if (!this.star.includes(options.type - 7))
+          this.star.push(options.type - 7)
         else {
           this.star.forEach((star, index) => {
-            if (star == type - 7 || star == null) {
+            if (star == options.type - 7 || star == null) {
               this.star.splice(index, 1);
             };
           });
         }
-      } else if (type == 13) {
+      } else if (options.type == 13) {
         this.code_type = []
       }
-      else if (type >= 14) {
-        if (!this.code_type.includes(type))
-          this.code_type.push(type)
+      else if (options.type >= 14 && options.type <= 17) {
+        if (!this.code_type.includes(options.type))
+          this.code_type.push(options.type)
         else {
           this.code_type.forEach((code_type, index) => {
-            if (code_type == type) {
+            if (code_type == options.type) {
               this.code_type.splice(index, 1);
             };
           });
         }
       }
-
+      else if (options.type == 99) {
+        console.log(options.select_uva)
+        this.send_serial = options.select_uva.serial
+      }
 
 
       this.posts = [];

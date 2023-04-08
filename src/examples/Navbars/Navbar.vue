@@ -5,10 +5,6 @@
       <breadcrumbs :currentPage="currentRouteName" :textWhite="textWhite" />
       <div class="mt-2 collapse navbar-collapse mt-sm-0 me-md-0 me-sm-4" id="navbar">
         <div class="pe-md-3 d-flex align-items-center ms-md-auto">
-          <div class="input-group">
-            <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-            <input type="text" class="form-control" :placeholder="'Type here...'" />
-          </div>
         </div>
         <ul class="navbar-nav justify-content-end">
           <li class="nav-item d-flex align-items-center">
@@ -136,6 +132,9 @@ import { ElMessage } from "element-plus";
 
 export default {
   name: "navbar",
+  components: {
+    Breadcrumbs,
+  },
   data() {
     return {
       showMenu: false,
@@ -197,11 +196,10 @@ export default {
             duration: 3000,
           });
         })
+    },
+    test() {
+      console.log(this.$refs.SelectUva.return_select_uva())
     }
-  },
-
-  components: {
-    Breadcrumbs,
   },
   computed: {
     currentRouteName() {

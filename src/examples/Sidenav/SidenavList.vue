@@ -2,14 +2,14 @@
   <!-- max-height-vh-100 h-100 -->
   <div class="w-auto h-auto collapse navbar-collapse " id="sidenav-collapse-main">
     <ul class="navbar-nav">
-      <li class="nav-item">
+      <li class="nav-item mb-3">
         <sidenav-collapse navText="首頁" :to="{ name: 'Dashboard' }">
           <template #icon>
             <shop />
           </template>
         </sidenav-collapse>
       </li>
-      <li class="mt-3 nav-item" v-if="user_account">
+      <!-- <li class="mt-3 nav-item" v-if="user_account">
         <h6 class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6 ms-2">
           個人
         </h6>
@@ -27,12 +27,22 @@
             <office />
           </template>
         </sidenav-collapse>
-      </li>
+      </li> -->
       <li class="nav-item" v-if="this.$route.name == 'Dashboard' || this.$route.name == 'Profile'"
         :key="this.$route.name">
 
         <div class="relative  rounded-xl bg-deep-black px-3 py-3 text-white" style="font-size: 13px;">
           <div class="font-bold">
+
+            <span>"貼文搜尋"</span>
+            => [
+            <div class="text-center" style="    display: inline-block;">
+              <soft-button color="dark" full-width variant="gradient" class="" style="margin-bottom: 0;!important"
+                @click="resetpost">全部</soft-button>
+            </div>
+            <SelectUva :key="resetpostvalue" />
+            <span>],<br></span>
+
 
             <span>"貼文排序方式"</span>
             => [
@@ -91,6 +101,9 @@ import Document from "../../components/Icon/Document.vue";
 import Spaceship from "../../components/Icon/Spaceship.vue";
 import Settings from "../../components/Icon/Settings.vue";
 import CodeCard from "./CodeCard.vue";
+import SelectUva from "../../components/SelectUva.vue";
+import SoftButton from "@/components/SoftButton.vue";
+
 export default {
   name: "SidenavList",
   props: {
@@ -101,10 +114,12 @@ export default {
       title: "Soft UI Dashboard PRO",
       controls: "dashboardsExamples",
       isActive: "active",
-      user_account: this.$cookies.get("user_account")
+      user_account: this.$cookies.get("user_account"),
+      resetpostvalue: 0
     };
   },
   components: {
+    SoftButton,
     SidenavCollapse,
     SidenavCard,
     Shop,
@@ -115,7 +130,8 @@ export default {
     Document,
     Spaceship,
     Settings,
-    CodeCard
+    CodeCard,
+    SelectUva
   },
 
   methods: {
@@ -123,6 +139,12 @@ export default {
       const routeArr = this.$route.path.split("/");
       return routeArr[1];
     },
+    resetpost() {
+      this.$nextTick(() => {
+        this.$parent.$emit('resetpost')
+        this.resetpostvalue++
+      });
+    }
 
   },
 };

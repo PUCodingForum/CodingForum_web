@@ -23,12 +23,7 @@
 
               <div class="mb-3">
                 <label>請選擇題目</label>
-                <el-select ref="elselect" :key="selreload" v-model="select_uva" popper-class="virtualSelect"
-                  @visible-change="visibleVirtualoptions" filterable remote :remote-method="remoteMethod"
-                  placeholder="請選擇題目" no-data-text="找不到題目" loading-text="題目加載中...">
-                  <virtual-list ref="VirtualList" :key="reload" style="max-height: 245px; overflow-y: auto;"
-                    :data-key="'id'" :data-sources="uvas" :data-component="itemComponent" :keeps="20" />
-                </el-select>
+                <SelectUva ref="SelectUva" />
               </div>
               <div class="mb-3">
                 <label>請選擇程式語言</label>
@@ -55,9 +50,7 @@
 </template>
 
 <script>
-
-import virtualList from 'vue3-virtual-scroll-list'
-import ElOptionNode from '@/components/el-option-node';
+import SelectUva from "../components/SelectUva.vue";
 import SoftButton from "@/components/SoftButton.vue";
 import { ElMessage } from "element-plus";
 import Codemirror from "codemirror-editor-vue3"
@@ -74,17 +67,12 @@ import "codemirror/theme/lucario.css";
 export default {
   name: "Upload",
   components: {
-    'virtual-list': virtualList,
     SoftButton,
     Codemirror,
+    SelectUva
   },
   data() {
     return {
-      uvas: [],
-      itemComponent: ElOptionNode,
-      virtualoptions: [],
-      reload: 0,
-      selreload: 0,
       temp: '',
       video_url: '',
       content: '',
@@ -129,48 +117,20 @@ export default {
       },
       { deep: true, immediate: true }
     );
-    this.axios
-      .get("/api/forum/get_uva", {
-      })
-      .then((res) => {
-        this.virtualoptions = res.data.success
-        this.uvas = this.virtualoptions;
-        this.reload++;
-      })
   },
 
   methods: {
-    remoteMethod(query) {
-      if (query !== '') {
-        this.reload++
-        this.uvas = this.virtualoptions.filter(item => {
-          return item.show.toLowerCase()
-            .indexOf(query.toLowerCase()) > -1;
-        });
-      } else {
-        this.uvas = this.virtualoptions;
-      }
-    },
-    visibleVirtualoptions(bool) {
-      if (!bool) {
-        // this.selreload++
-      }
-      if (this.select_uva) {
-        this.$refs.VirtualList.scrollToIndex(this.select_uva.value - 3)
-
-      }
-    },
     post() {
       if (!this.token) {
         ElMessage.error("請先登入以進行操作");
         this.$router.push({ name: 'Sign In' });
       }
-      if (!this.select_uva) {
+      if (!this.$refs.SelectUva.return_select_uva()) {
         ElMessage.error("請選擇題目");
       } else {
         this.axios
           .post("/api/forum/post", {
-            serial: this.select_uva.serial,
+            serial: this.$refs.SelectUva.return_select_uva().serial,
             video_url: this.video_url,
             content: this.content,
             code: this.code,
@@ -213,15 +173,6 @@ export default {
 </script>
 
 <style >
-.el-select-dropdown__item {
-  width: 300px;
-  width: 100%;
-}
-
-.el-select {
-  display: block !important;
-}
-
 .codemirror-container {
   display: block;
 }

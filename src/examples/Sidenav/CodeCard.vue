@@ -63,7 +63,7 @@ export default {
             }
 
             this.$nextTick(() => {
-                this.$parent.$parent.$emit('changepost', this.type)
+                this.$parent.$parent.$emit('changepost', { type: this.type })
             });
 
         }
