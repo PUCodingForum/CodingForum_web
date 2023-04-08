@@ -104,7 +104,6 @@
               <p class="text-sm">
                 {{ user.intro }}
               </p>
-              <hr class="my-4 horizontal gray-light" />
               <ul class="list-group">
                 <li class="text-sm border-0 list-group-item ps-0">
                   <strong class="text-dark">電子郵件:</strong> &nbsp; {{ user.email }}
@@ -127,6 +126,7 @@
             <div class="card-body p-3">
 
               <div class="row">
+                <h4 v-if="posts.length == 0" style="text-align: center;">無符合條件之貼文</h4>
                 <div class="col-lg-4" v-for="post in posts" :key="post.id">
                   <div class="card mb-2" aria-hidden="true">
                     <div style="overflow: hidden;">

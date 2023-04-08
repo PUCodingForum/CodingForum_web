@@ -9,7 +9,7 @@
             <el-main style="padding:0" v-loading="video_loading" element-loading-text="影片載入中"
               element-loading-background="rgba(0, 0, 0, 0.1)">
               <div class="container_video">
-                <YoutubeVue3 ref="youtube" :videoid="post.video_id" :controls="1" class="youtub" @played="onPlayed" />
+                <!-- <YoutubeVue3 ref="youtube" :videoid="post.video_id" :controls="1" class="youtub" @played="onPlayed" /> -->
               </div>
 
               <div class="title_font">

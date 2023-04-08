@@ -18,7 +18,7 @@
 
               <div class="mb-3">
                 <label>instagram</label>
-                <input class="form-control" v-model="github" type="text" placeholder="請貼入網址" />
+                <input class="form-control" v-model="instagram" type="text" placeholder="請貼入網址" />
               </div>
 
               <div class="mb-3">

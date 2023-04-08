@@ -16,7 +16,7 @@
                         <CommentTextArea @change_readOnly="change_readOnly" @updatevalue="updatevalue" ref="comment"
                             :content="real_content" :readOnly="readOnly" :comment_id="comment_id" :key="textrefresh"
                             :all_user="all_user" />
-                        {{ real_content }}
+                        <!-- {{ real_content }} -->
                     </p>
                     <div style="display: flex;">
                         <Vote @like_function="like_comment" v-bind="{
