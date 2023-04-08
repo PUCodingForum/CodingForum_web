@@ -37,8 +37,8 @@
             <span>"貼文搜尋"</span>
             => [
             <div class="text-center" style="    display: inline-block;">
-              <soft-button color="dark" full-width variant="gradient" class="" style="margin-bottom: 0;!important"
-                @click="resetpost">全部</soft-button>
+              <soft-button color="success" size="sm" variant="gradient" style="padding: 8px;
+                  margin-bottom: 5px;" @click="resetpost">全部</soft-button>
             </div>
             <SelectUva :key="resetpostvalue" />
             <span>],<br></span>
