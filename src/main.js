@@ -41,7 +41,7 @@ app.use(ElementPlus, {
 app.config.globalProperties.$axios = axios;
 app.config.globalProperties.$app_name = "程式交流網";
 app.config.globalProperties.$global_pic_url =
-  "https://bakerychu.com/CodingForum/default_user.png";
+  "https://code.bakerychu.com/api/default_user.png";
 
 app
   .use(store)

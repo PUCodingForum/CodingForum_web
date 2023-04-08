@@ -276,7 +276,7 @@ export default {
 
       this.axios
         .post("/api/auth/edit_user", {
-          pic_url: 'https://bakerychu.com/CodingForum/default_user.png',
+          pic_url: 'https://code.bakerychu.com/api/default_user.png',
           reset: 1,
         }, {
           headers: {

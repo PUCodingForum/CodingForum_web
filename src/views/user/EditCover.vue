@@ -272,7 +272,7 @@ export default {
 
       this.axios
         .post("/api/auth/edit_user", {
-          cover_url: 'https://bakerychu.com/CodingForum/default_cover.jpeg',
+          cover_url: 'https://code.bakerychu.com/api/default_cover.jpeg',
           reset: 1
         }, {
           headers: {
