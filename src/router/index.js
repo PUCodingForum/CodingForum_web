@@ -14,6 +14,12 @@ import EditPic from "@/views/user/EditPic.vue";
 import EditCover from "@/views/user/EditCover.vue";
 const routes = [
   {
+    // path: "*",
+    path: "/:catchAll(.*)",
+    name: "NotFound",
+    redirect: "/dashboard",
+  },
+  {
     path: "/",
     name: "/",
     redirect: "/dashboard",
