@@ -320,7 +320,6 @@ export default {
       this.comments.unshift(comment[0]);
     },
     onPlayed() {
-      this.loading = false
     },
     like_post(dislike_or_like) {
       this.axios

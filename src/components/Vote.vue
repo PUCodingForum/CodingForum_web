@@ -75,7 +75,7 @@ export default {
             disliked: this.isDisliked,
             token: this.$cookies.get("token"),
             limit: false,
-            isVisible: true
+            isVisible: true,
         };
     },
 
@@ -114,7 +114,11 @@ export default {
                 this.$router.push({ name: 'Sign In' });
             }
             if (this.limit) {
-                ElMessage.error("操作過於頻繁，請稍等");
+                ElMessage({
+                    message: '操作過於頻繁，請稍等',
+                    grouping: true,
+                    type: 'error',
+                })
             }
         },
         downvote() {
@@ -124,7 +128,7 @@ export default {
                 this.$emit('like_function', -1);
                 this.limit = true;
                 this.change(0);
-                setTimeout(this.timelimit, 100);
+                setTimeout(this.timelimit, 1000);
             }
         },
         upvote() {
@@ -136,7 +140,7 @@ export default {
                 this.$emit('like_function', 1);
                 this.limit = true;
                 this.change(0);
-                setTimeout(this.timelimit, 100);
+                setTimeout(this.timelimit, 1000);
 
             }
         },
