@@ -13,9 +13,10 @@
                     </h3>
 
                     <p class="comment__body">
-                        <CommentTextArea @change_readOnly="change_readOnly" ref="comment" :content="content"
-                            :readOnly="readOnly" :comment_id="comment_id" :key="textrefresh" :all_user="all_user" />
-                        <!-- {{ content }} -->
+                        <CommentTextArea @change_readOnly="change_readOnly" @updatevalue="updatevalue" ref="comment"
+                            :content="real_content" :readOnly="readOnly" :comment_id="comment_id" :key="textrefresh"
+                            :all_user="all_user" />
+                        {{ real_content }}
                     </p>
                     <div style="display: flex;">
                         <Vote @like_function="like_comment" v-bind="{
@@ -66,7 +67,10 @@
 
                 }" />
                 <div v-if="!noResult && index === children_comments.length - 1">
-                    <button @click="get_children_comment(comment_id)">查看更多回覆</button>
+                    <soft-button color="dark" variant="gradient" class="my-4 mb-2"
+                        @click="get_children_comment(comment_id)">查看更多回覆</soft-button>
+
+                    <!-- <button @click="get_children_comment(comment_id)">查看更多回覆</button> -->
                 </div>
             </template>
         </div>
@@ -82,7 +86,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <CommentTextArea :content="content" :readOnly="true" :comment_id="comment_id" :key="textrefresh" />
+                    <CommentTextArea :content="real_content" :readOnly="true" :comment_id="comment_id" :key="textrefresh" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
@@ -96,12 +100,13 @@
 <script>
 import CommentTextArea from "@/components/CommentTextArea.vue";
 import { ElMessage } from "element-plus";
-
+import SoftButton from "./SoftButton.vue";
 import Vote from "./Vote.vue";
 export default {
     components: {
         Vote,
-        CommentTextArea
+        CommentTextArea,
+        SoftButton
     }, data() {
         return {
             showtext: '編輯',
@@ -117,7 +122,7 @@ export default {
             token_user_id: this.$cookies.get("user_id"),
             content_temp: '',
             textrefresh: 0,
-            content: this.content,
+            real_content: this.content,
             children_comments: this.children_comments
         }
     },
@@ -221,6 +226,11 @@ export default {
         }
     },
     methods: {
+        updatevalue(newvalue) {
+            console.log('new' + newvalue)
+            this.real_content = newvalue
+            this.textrefresh++
+        },
         delete_child_comment(comment_id) {
             console.log(comment_id)
             this.children_comments.forEach((comment, index) => {
@@ -239,9 +249,9 @@ export default {
             this.readOnly = !this.readOnly
             this.showtext = this.readOnly ? '編輯' : '取消';
             if (!this.readOnly) //備份
-                this.content_temp = this.content
+                this.content_temp = this.real_content
             else {
-                this.content = this.content_temp
+                this.real_content = this.content_temp
                 this.textrefresh++
             }
         },

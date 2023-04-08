@@ -31,7 +31,7 @@ export default {
         }, false);
 
     },
-    props: ["content", "readOnly", "newcomment", "comment_id", "change_readOnly", "all_user"],
+    props: ["content", "readOnly", "newcomment", "comment_id", "change_readOnly", "all_user", "updatevalue"],
     created() {
         this.$watch(
             () => ({
@@ -103,6 +103,7 @@ export default {
                         type: "success",
                         duration: 3000,
                     });
+                    this.$emit('updatevalue', this.incontent)
                     this.$emit('change_readOnly')
 
                 }).catch(function (error) {
