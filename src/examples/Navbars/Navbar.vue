@@ -162,7 +162,7 @@ export default {
     );
   },
   methods: {
-    ...mapMutations(["navbarMinimize", "toggleConfigurator"]),
+    ...mapMutations(["navbarMinimize"]),
     ...mapActions(["toggleSidebarColor"]),
 
     toggleSidebar() {

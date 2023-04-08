@@ -234,9 +234,7 @@
 </template>
 
 <script>
-import SoftSwitch from "@/components/SoftSwitch.vue";
 import ProfileInfoCard from "./components/ProfileInfoCard.vue";
-import SoftAvatar from "@/components/SoftAvatar.vue";
 import sophie from "@/assets/img/kal-visuals-square.jpg";
 import marie from "@/assets/img/marie.jpg";
 import ivana from "@/assets/img/ivana-square.jpg";
@@ -249,21 +247,14 @@ import team1 from "@/assets/img/team-1.jpg";
 import team2 from "@/assets/img/team-2.jpg";
 import team3 from "@/assets/img/team-3.jpg";
 import team4 from "@/assets/img/team-4.jpg";
-import DefaultProjectCard from "./components/DefaultProjectCard.vue";
-import PlaceHolderCard from "@/examples/Cards/PlaceHolderCard.vue";
-import setNavPills from "@/assets/js/nav-pills.js";
-import setTooltip from "@/assets/js/tooltip.js";
+
 import InfiniteScroll from "infinite-loading-vue3";
 import { ElMessage } from "element-plus";
 
 export default {
   name: "ProfileOverview",
   components: {
-    SoftSwitch,
     ProfileInfoCard,
-    SoftAvatar,
-    DefaultProjectCard,
-    PlaceHolderCard,
     InfiniteScroll
   },
   data() {

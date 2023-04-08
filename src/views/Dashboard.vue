@@ -66,12 +66,8 @@
   </div>
 </template>
 <script>
-import MiniStatisticsCard from "@/examples/Cards/MiniStatisticsCard.vue";
-import ReportsBarChart from "@/examples/Charts/ReportsBarChart.vue";
-import GradientLineChart from "@/examples/Charts/GradientLineChart.vue";
 import TimelineList from "./components/TimelineList.vue";
 import TimelineItem from "./components/TimelineItem.vue";
-import ProjectsCard from "./components/ProjectsCard.vue";
 import US from "../assets/img/icons/flags/US.png";
 import DE from "../assets/img/icons/flags/DE.png";
 import GB from "../assets/img/icons/flags/GB.png";
@@ -135,10 +131,6 @@ export default {
     };
   },
   components: {
-    MiniStatisticsCard,
-    ReportsBarChart,
-    GradientLineChart,
-    ProjectsCard,
     TimelineList,
     TimelineItem,
     InfiniteScroll

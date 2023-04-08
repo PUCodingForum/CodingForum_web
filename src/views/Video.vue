@@ -127,15 +127,6 @@
 </template>
 
 <script>
-import setTooltip from "@/assets/js/tooltip.js";
-import NavPill from "./components/NavPill.vue";
-import MasterCard from "@/examples/Cards/MasterCard.vue";
-import DefaultInfoCard from "@/examples/Cards/DefaultInfoCard.vue";
-import PaymentMethodsCard from "./components/PaymentMethodsCard.vue";
-import InvoiceCard from "./components/InvoiceCard.vue";
-import BillingCard from "./components/BillingCard.vue";
-import RankingList from "@/examples/Cards/RankingList.vue";
-import RankingListCard from "@/examples/Cards/RankingListCard.vue";
 import { ElMessage } from "element-plus";
 import { YoutubeVue3 } from 'youtube-vue3'
 import Comment from "@/components/Comment.vue";
@@ -147,14 +138,6 @@ import InfiniteScroll from "infinite-loading-vue3";
 export default {
   name: "Billing",
   components: {
-    NavPill,
-    MasterCard,
-    DefaultInfoCard,
-    PaymentMethodsCard,
-    InvoiceCard,
-    BillingCard,
-    RankingList,
-    RankingListCard,
     YoutubeVue3,
     Comment,
     CommentTextArea,
