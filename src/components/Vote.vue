@@ -110,7 +110,7 @@ export default {
         check() {
             if (!this.token) {
                 ElMessage.error("請先登入以進行操作");
-                this.$cookies.set("go_login_then_backpost", this.post_id, "3min");
+                this.$cookies.set("go_login_then_backpost", this.$route.params.post_id, "10min");
                 this.$router.push({ name: 'Sign In' });
             }
             if (this.limit) {

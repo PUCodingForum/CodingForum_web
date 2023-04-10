@@ -31,7 +31,7 @@ export default {
         }, false);
 
     },
-    props: ["content", "readOnly", "newcomment", "comment_id", "change_readOnly", "all_user", "updatevalue"],
+    props: ["content", "readOnly", "newcomment", "newchildcomment", "comment_id", "change_readOnly", "all_user", "updatevalue", "parent_comment_id", "type"],
     created() {
         this.$watch(
             () => ({
@@ -60,8 +60,7 @@ export default {
                 .post("/api/forum/comment", {
                     post_id: this.post_id,
                     content: this.incontent,
-                    // comment_id: this.comment_id,
-                    // parent_comment_id: this.parent_comment_id,
+                    parent_comment_id: this.parent_comment_id,
                 }, {
                     headers: {
                         'Authorization': `Bearer ` + this.token
@@ -75,7 +74,10 @@ export default {
                     });
                     this.incontent = ''
                     this.key++
-                    this.$emit('newcomment', res.data.comment)
+                    if (this.type == 1)
+                        this.$emit('newchildcomment', res.data.comment)
+                    else
+                        this.$emit('newcomment', res.data.comment)
                 }).catch(function (error) {
                     if (error.response) {
                         console.log(error.response.status);

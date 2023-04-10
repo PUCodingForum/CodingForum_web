@@ -17,8 +17,11 @@
                             :content="real_content" :readOnly="readOnly" :comment_id="comment_id" :key="textrefresh"
                             :all_user="all_user" />
                         <!-- {{ real_content }} -->
+                        <!-- {{ real_children_comment_count }} -->
                     </p>
-                    <div style="display: flex;">
+                    <div style="display: flex;    align-items: center;">
+                        <timeago :datetime="created_at.replaceAll('/', '-')" />
+
                         <Vote @like_function="like_comment" v-bind="{
                             id: comment_id,
                             count: likes,
@@ -27,10 +30,14 @@
                             loading: this.loading,
                             type: 1 //0post //1comment
                         }" />
+                        <a class="btn btn-link text-dark px-3 mb-0" @click="reply" href="javascript:;" v-if="token_user_id">
+                            <i class="fa-solid fa-comment  me-2"></i>回應
+                        </a>
                         <a class="btn btn-link text-dark px-3 mb-0" v-if="token_user_id == user_id" @click="edit"
                             href="javascript:;">
                             <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>{{ showtext }}
                         </a>
+
                         <a class="btn btn-link text-dark px-3 mb-0" v-if="!readOnly" @click="$refs.comment.save()"
                             href="javascript:;">
                             <i class="fa-solid fa-floppy-disk  me-2"></i>保存
@@ -46,10 +53,23 @@
 
 
             </div>
-
+            <div class="row mt-4" v-if="(lastOne == true || type == 0) && open_reply">
+                <div class="col-1 px-0" style="    text-align: center;">
+                    <img class="userimg comment__avatar" :src="now_user_pic_url" alt="">
+                </div>
+                <div class="col-10 px-0">
+                    <CommentTextArea ref="childcomment" :content="reply_content" @newchildcomment="newchildcomment"
+                        :all_user="all_user" :parent_comment_id="comment_id" :type=1 />
+                </div>
+                <div class="col-1 px-0">
+                    <a class="btn btn-link text-dark px-3 mb-0" @click="$refs.childcomment.comment()">
+                        <i class="fa-solid fa-paper-plane"></i> 送出
+                    </a>
+                </div>
+            </div>
         </div>
-        <div v-if="children_comments.length" class="comment__inner-commment">
-            <template v-for="(item, index) in children_comments" :key="item.id">
+        <div v-if="real_children_comments.length" class="comment__inner-commment">
+            <template v-for="(item, index) in real_children_comments" :key="item.id">
                 <Comment @delete_child_comment="delete_child_comment" v-bind="{
                     comment_id: item.id,
                     pic_url: item.pic_url,
@@ -58,19 +78,17 @@
                     user_id: item.user_id,
                     likes: item.likes,
                     content: item.content,
-                    lastOne: index === children_comments.length - noResult_corner,
-                    hasCorner: children_comments.length >= 1,
+                    lastOne: index === real_children_comments.length - noResult_corner,
+                    hasCorner: real_children_comments.length >= 1,
                     created_at: item.created_at,
                     user_comment_like: user_comment_like,
                     all_user: all_user,
                     type: 1
 
                 }" />
-                <div v-if="!noResult && index === children_comments.length - 1">
+                <div v-if="!noResult && index === real_children_comments.length - 1">
                     <soft-button color="dark" variant="gradient" class="my-4 mb-2"
                         @click="get_children_comment(comment_id)">查看更多回覆</soft-button>
-
-                    <!-- <button @click="get_children_comment(comment_id)">查看更多回覆</button> -->
                 </div>
             </template>
         </div>
@@ -123,7 +141,14 @@ export default {
             content_temp: '',
             textrefresh: 0,
             real_content: this.content,
-            children_comments: this.children_comments
+            now_user_pic_url: this.$global_pic_url,
+            open_reply: false,
+            reply_content: '',
+            real_children_comments: this.children_comments,
+            real_children_comment_count_temp: this.children_comment_count - this.$child_comment_onceshow,
+            real_children_comment_count: this.children_comment_count - this.$child_comment_onceshow,
+            self_add: 0,
+            calltime: 1
         }
     },
     created() {
@@ -163,6 +188,28 @@ export default {
             },
             { deep: true, immediate: true }
         );
+        this.$watch(
+            () => ({
+                real_children_comment_count: this.real_children_comment_count
+            }),
+            () => {
+                if (this.$route.name != 'Video') {
+                    return;
+                }
+                if (this.real_children_comment_count <= 0) {
+                    this.noResult = true;
+                    this.noResult_corner = 1;
+                }
+            },
+            { deep: true, immediate: true }
+        );
+    },
+    mounted() {
+        if (this.$cookies.isKey("now_user_pic_url"))
+            this.now_user_pic_url = this.$cookies.get("now_user_pic_url")
+        if (this.children_comment_count <= this.$child_comment_onceshow)
+            this.noResult_corner = 1;
+
     },
     props: {
         hasCorner: {
@@ -196,6 +243,9 @@ export default {
             type: Number,
             default: 0,
         },
+        created_at: {
+            type: String,
+        },
         children_comment_count: {
             type: Number,
             default: 0,
@@ -226,6 +276,19 @@ export default {
         }
     },
     methods: {
+        newchildcomment(comment) {
+            this.open_reply = false
+            console.log(comment);
+            this.real_children_comments.unshift(comment[0]);
+            console.log(this.real_children_comments);
+            console.log(this.real_children_comment_count);
+            this.self_add++
+        },
+        reply() {
+            this.open_reply = !this.open_reply
+            this.reply_content = '<p><span class="mention" data-index="0" data-denotation-char="@" data-id="' + this.user_account + '" data-value="' + this.user_name + '"><span contenteditable="false"><span class="ql-mention-denotation-char">@</span>' + this.user_name + '</span></span>  </p>'
+            console.log(this.reply_content)
+        },
         updatevalue(newvalue) {
             console.log('new' + newvalue)
             this.real_content = newvalue
@@ -233,11 +296,11 @@ export default {
         },
         delete_child_comment(comment_id) {
             console.log(comment_id)
-            this.children_comments.forEach((comment, index) => {
+            this.real_children_comments.forEach((comment, index) => {
 
                 if (comment.id == comment_id) {
                     console.log(index)
-                    this.children_comments.splice(index, 1);
+                    this.real_children_comments.splice(index, 1);
                 };
             });
         },
@@ -317,28 +380,36 @@ export default {
                 .post("/api/forum/get_children_comment", {
                     parent_comment_id: comment_id,
                 }).then((res) => {
-                    let allsame = true;
                     let newcommentcount = 0;
-                    console.log(res.data.success)
+                    //16-3  15-3  //分成自己加  別人加_才要多加回去
+                    console.log("A " + (res.data.children_comments_count - this.$child_comment_onceshow * this.calltime))
+                    console.log("B " + this.real_children_comment_count_temp)
+                    if (res.data.children_comments_count - this.$child_comment_onceshow * this.calltime > this.real_children_comment_count_temp) { //自己或別人添加留言
+                        this.real_children_comment_count += (res.data.children_comments_count - this.$child_comment_onceshow * this.calltime) - this.real_children_comment_count_temp - this.self_add
+                        this.real_children_comment_count_temp = this.real_children_comment_count
+                        this.self_add = 0
+                    } else if (res.data.children_comments_count - this.$child_comment_onceshow * this.calltime < this.real_children_comment_count_temp) {//別人刪留言
+                        this.real_children_comment_count -= this.real_children_comment_count_temp - (res.data.children_comments_count - this.$child_comment_onceshow * this.calltime)
+                        this.real_children_comment_count_temp = this.real_children_comment_count
+                    }
+                    this.calltime++
                     res.data.success.forEach((item) => {
-                        if (newcommentcount == 3) return;
+                        if (newcommentcount == this.$child_comment_onceshow) return;
                         let same = false;
-                        this.children_comments.forEach((comment) => {
+                        this.real_children_comments.forEach((comment) => {
                             if (comment.id == item.id) {
                                 same = true;
                                 return;
                             };
                         });
                         if (same == false) {
-                            this.children_comments.push(item);
+                            this.real_children_comments.push(item);
                             newcommentcount++;
-                            allsame = false;
+                            this.real_children_comment_count--;
                         }
                     });
-                    if (allsame) {
-                        this.noResult = true;
-                        this.noResult_corner = 1;
-                    }
+                    console.log('this.real_children_comment_count' + this.real_children_comment_count)
+
                 })
         },
     }

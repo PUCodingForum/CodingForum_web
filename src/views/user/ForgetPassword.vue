@@ -97,6 +97,7 @@ export default {
               type: "success",
               duration: 10000,
             });
+            this.$router.push({ name: 'Sign In' });
           })
 
           .catch(function (error) {
