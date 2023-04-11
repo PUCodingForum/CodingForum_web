@@ -126,6 +126,10 @@
             <div class="card-body p-3">
 
               <div class="row">
+
+                <soft-button color="dark" full-width variant="gradient" style="    font-size: 15px;"
+                  @click="upload">上傳貼文</soft-button>
+
                 <h4 v-if="posts.length == 0" style="text-align: center;">無符合條件之貼文</h4>
                 <div class="col-lg-4" v-for="post in posts" :key="post.id">
                   <div class="card mb-2" aria-hidden="true">
@@ -156,7 +160,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-lg-3" v-for="n in 8" v-show="loading">
+                <div class="col-lg-4" v-for="n in 6" v-show="loading">
                   <div class="card mb-2" aria-hidden="true">
                     <img src="@\assets\img\loadingbak.jpg" class="card-img-top" alt="">
                     <div class="card-body">
@@ -251,11 +255,14 @@ import team4 from "@/assets/img/team-4.jpg";
 import InfiniteScroll from "infinite-loading-vue3";
 import { ElMessage } from "element-plus";
 
+import SoftButton from "../components/SoftButton.vue";
+
 export default {
   name: "ProfileOverview",
   components: {
     ProfileInfoCard,
-    InfiniteScroll
+    InfiniteScroll,
+    SoftButton
   },
   data() {
     return {
@@ -346,6 +353,9 @@ export default {
 
   },
   methods: {
+    upload() {
+      this.$router.push({ name: 'Upload' });
+    },
     resetpost() {
       this.send_serial = ''
       this.posts = [];

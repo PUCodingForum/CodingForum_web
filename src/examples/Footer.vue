@@ -1,5 +1,5 @@
 <template>
-  <footer class="py-3 footer">
+  <footer class="py-3 footer" style="margin-top: 40vh!important;">
     <div class="container-fluid">
       <div class="row align-items-center justify-content-lg-between">
         <div class="mb-4 col-lg-6 mb-lg-0">

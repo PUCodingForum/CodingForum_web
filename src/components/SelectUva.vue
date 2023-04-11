@@ -85,7 +85,6 @@ export default {
   
 <style >
 .el-select-dropdown__item {
-    width: 300px !important;
     width: 100%;
 }
 

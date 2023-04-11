@@ -1,5 +1,5 @@
 <template>
-  <footer class="py-5 footer">
+  <footer class="py-5 footer mtp">
     <div class="container">
       <div class="row">
         <div class="mx-auto mb-4 text-center col-lg-8">
