@@ -171,4 +171,8 @@ input[type="color"]:focus,
   border-radius: 4px;
   background: rgb(219, 219, 219);
 }
+
+.spinner::before {
+  background: rgba(255, 255, 255, 0) !important;
+}
 </style>

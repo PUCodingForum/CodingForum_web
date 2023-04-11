@@ -1,80 +1,81 @@
 <template>
-  <div class="container-fluid mt-4">
+  <infinite-scroll ref="test" @infinite-scroll="loadDataFromServer" :message="message" :noResult="noResult">
 
-    <div class="row">
-      <div class="col-lg-8">
+    <div class="container-fluid mt-4">
 
-        <div class="card">
-          <div class="card-body">
-            <el-main style="padding:0" v-loading="video_loading" element-loading-text="影片載入中"
-              element-loading-background="rgba(0, 0, 0, 0.1)">
-              <div class="container_video">
-                <YoutubeVue3 ref="youtube" :videoid="post.video_id" :controls="1" class="youtub" @played="onPlayed" />
-              </div>
+      <div class="row">
+        <div class="col-lg-8">
 
-              <div class="title_font">
-                {{ uva_topic.show }}
-              </div>
-
-              <div class="comment__author" style="    align-self: flex-start;" v-if="post.length != 0">
-                <img class="userimg comment__avatar " :src="post.user_pic_url" alt="" />
-                <h3 class="comment__title" style="margin:0">
-                  <router-link class="" :to="{ name: 'Profile', params: { user_account: post.user_account } }">
-                    {{ post.user_name }} </router-link>
-                </h3>
-                <div v-if="post.length != 0">
-                  CPE星數: <i class="fa-solid fa-star-of-david" v-for="star in post.uva_topic.star"></i>
-                  <div v-if="post.uva_topic.star == null" style="    display: inline-block;">無</div> 。
+          <div class="card">
+            <div class="card-body">
+              <el-main style="padding:0" v-loading="video_loading" element-loading-text="影片載入中"
+                element-loading-background="rgba(0, 0, 0, 0.1)">
+                <div class="container_video">
+                  <YoutubeVue3 ref="youtube" :videoid="post.video_id" :controls="1" class="youtub" @played="onPlayed" />
                 </div>
 
-                <timeago :datetime="post.created_at.replaceAll('/', '-')" v-if="post.length != 0" />
-                。
-                <Vote @like_function="like_post" v-bind="{
-                  post_id: post.id,
-                  count: this.post_likes,
-                  isLiked: this.isLiked,
-                  isDisliked: this.isDisliked,
-                  loading: this.loading,
-                  type: 0//0post //1comment
-                }" />
-                <router-link style=" font-size: 13px;" v-if="token_user_id == post.user_id"
-                  :to="{ name: 'EditPost', params: { post_id: post.id } }">
-                  <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>編輯貼文</router-link>
-              </div>
-              <div class="mt-2">
-                <textarea class="form-control" id="content" v-model="post.content" rows="4" readonly></textarea>
-                <!-- {{ post.content }} -->
+                <div class="title_font">
+                  {{ uva_topic.show }}
+                </div>
 
-              </div>
+                <div class="comment__author" style="    align-self: flex-start;" v-if="post.length != 0">
+                  <img class="userimg comment__avatar " :src="post.user_pic_url" alt="" />
+                  <h3 class="comment__title" style="margin:0">
+                    <router-link class="" :to="{ name: 'Profile', params: { user_account: post.user_account } }">
+                      {{ post.user_name }} </router-link>
+                  </h3>
+                  <div v-if="post.length != 0">
+                    CPE星數: <i class="fa-solid fa-star-of-david" v-for="star in post.uva_topic.star"></i>
+                    <div v-if="post.uva_topic.star == null" style="    display: inline-block;">無</div> 。
+                  </div>
 
-            </el-main>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4">
-        <div class="card">
-          <div class="card-body p-3">
-            <div class="mb-3">
-              <label>程式語言</label>
-              <el-select v-model="post.code_editor_type" class="" placeholder="請選擇程式語言" disabled>
-                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-              </el-select>
-            </div>
-            <div class="mb-3">
-              <label>程式碼</label>
+                  <timeago :datetime="post.created_at.replaceAll('/', '-')" v-if="post.length != 0" />
+                  。
+                  <Vote @like_function="like_post" v-bind="{
+                    post_id: post.id,
+                    count: this.post_likes,
+                    isLiked: this.isLiked,
+                    isDisliked: this.isDisliked,
+                    loading: this.loading,
+                    type: 0//0post //1comment
+                  }" />
+                  <router-link style=" font-size: 13px;" v-if="token_user_id == post.user_id"
+                    :to="{ name: 'EditPost', params: { post_id: post.id } }">
+                    <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>編輯貼文</router-link>
+                </div>
+                <div class="mt-2">
+                  <textarea class="form-control" id="content" v-model="post.content" rows="4" readonly></textarea>
+                  <!-- {{ post.content }} -->
 
-              <Codemirror v-model:value="post.code" :options="cmOptions" border ref="cmRef" height="600" width="100%"
-                @change="onChange" @input="onInput" @ready="onReady" :key="selete_loading">
-              </Codemirror>
+                </div>
+
+              </el-main>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="mb-3">
+                <label>程式語言</label>
+                <el-select v-model="post.code_editor_type" class="" placeholder="請選擇程式語言" disabled>
+                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+                </el-select>
+              </div>
+              <div class="mb-3">
+                <label>程式碼</label>
 
-    <div class="row mt-4">
-      <div class="col-md-7">
-        <infinite-scroll @infinite-scroll="loadDataFromServer" :message="message" :noResult="noResult">
+                <Codemirror v-model:value="post.code" :options="cmOptions" border ref="cmRef" height="600" width="100%"
+                  @change="onChange" @input="onInput" @ready="onReady" :key="selete_loading">
+                </Codemirror>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-7">
 
           <div class="card">
             <div class="card-body p-3">
@@ -84,8 +85,8 @@
                     <img class="userimg comment__avatar" :src="now_user_pic_url" alt="">
                   </div>
                   <div class="col-10 px-0">
-                    <CommentTextArea ref="postcomment" @newcomment="newcomment" :all_user="all_user"
-                      @click="checklogin" />
+                    <CommentTextArea ref="postcomment" @newcomment="newcomment" :all_user="all_user" @click="checklogin"
+                      :type=0 />
                   </div>
                   <div class="col-1 px-0">
                     <a class="btn btn-link text-dark px-3 mb-0" @click="$refs.postcomment.comment()">
@@ -94,7 +95,7 @@
                   </div>
                 </div>
                 <div v-for="(item, index) in comments" :key="item.id">
-                  <Comment @remove_comment="remove_comment" v-if="item.id != null" v-bind="{
+                  <Comment :id="'comment_' + item.id" @remove_comment="remove_comment" v-if="item.id != null" v-bind="{
                     pic_url: item.pic_url,
                     user_name: item.user_name,
                     user_account: item.user_account,
@@ -107,7 +108,7 @@
                     created_at: item.created_at,
                     user_comment_like: user_comment_like,
                     all_user: all_user,
-                    type: 0
+                    type: 1
                   }" />
 
                 </div>
@@ -115,15 +116,15 @@
               </div>
             </div>
           </div>
-        </infinite-scroll>
 
-      </div>
-      <div class="col-md-5 mt-4">
+        </div>
+        <div class="col-md-5 mt-4">
 
+        </div>
       </div>
+
     </div>
-
-  </div>
+  </infinite-scroll>
 </template>
 
 <script>
@@ -297,7 +298,7 @@ export default {
         }
       }
       );
-
+    console.log(this.$refs.test)
   },
   methods: {
     checklogin() {
@@ -318,6 +319,7 @@ export default {
     newcomment(comment) {
       console.log(comment);
       this.comments.unshift(comment[0]);
+
     },
     onPlayed() {
     },

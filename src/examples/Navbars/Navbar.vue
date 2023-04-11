@@ -45,7 +45,7 @@
             <ul class="px-2 py-3 dropdown-menu dropdown-menu-end me-sm-n4" :class="showMenu ? 'show' : ''"
               aria-labelledby="dropdownMenuButton">
               <li class="mb-2">
-                <a class="dropdown-item border-radius-md" href="javascript:;">
+                <a class="dropdown-item border-radius-md">
                   <div class="py-1 d-flex">
                     <div class="my-auto">
                       <img src="../../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user image" />
@@ -64,7 +64,7 @@
                 </a>
               </li>
               <li class="mb-2">
-                <a class="dropdown-item border-radius-md" href="javascript:;">
+                <a class="dropdown-item border-radius-md">
                   <div class="py-1 d-flex">
                     <div class="my-auto">
                       <img src="../../assets/img/small-logos/logo-spotify.svg"
@@ -84,7 +84,7 @@
                 </a>
               </li>
               <li>
-                <a class="dropdown-item border-radius-md" href="javascript:;">
+                <a class="dropdown-item border-radius-md">
                   <div class="py-1 d-flex">
                     <div class="my-auto avatar avatar-sm bg-gradient-secondary me-3">
                       <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg"

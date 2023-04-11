@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="comment mt-4" :class="[{ shaddow: lastOne }, { corner: hasCorner }]">
+        <div class="comment mt-4" :class="[{ shaddow: lastOne }, { corner: hasCorner }]" :id="'comment_' + comment_id">
             <div class="comment__header row">
                 <div class="comment__author col-1" style="    align-self: flex-start;">
                     <img class="userimg comment__avatar " :src="pic_url" alt="" />
@@ -30,21 +30,18 @@
                             loading: this.loading,
                             type: 1 //0post //1comment
                         }" />
-                        <a class="btn btn-link text-dark px-3 mb-0" @click="reply" href="javascript:;" v-if="token_user_id">
+                        <a class="btn btn-link text-dark px-3 mb-0" @click="reply" v-if="token_user_id">
                             <i class="fa-solid fa-comment  me-2"></i>回應
                         </a>
-                        <a class="btn btn-link text-dark px-3 mb-0" v-if="token_user_id == user_id" @click="edit"
-                            href="javascript:;">
+                        <a class="btn btn-link text-dark px-3 mb-0" v-if="token_user_id == user_id" @click="edit">
                             <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>{{ showtext }}
                         </a>
 
-                        <a class="btn btn-link text-dark px-3 mb-0" v-if="!readOnly" @click="$refs.comment.save()"
-                            href="javascript:;">
+                        <a class="btn btn-link text-dark px-3 mb-0" v-if="!readOnly" @click="$refs.comment.save()">
                             <i class="fa-solid fa-floppy-disk  me-2"></i>保存
                         </a>
                         <a class="btn btn-link text-dark px-3 mb-0" data-bs-toggle="modal"
-                            :data-bs-target="'#staticBackdrop' + comment_id" v-if="token_user_id == user_id && readOnly"
-                            href="javascript:;">
+                            :data-bs-target="'#staticBackdrop' + comment_id" v-if="token_user_id == user_id && readOnly">
                             <i class="fa-solid fa-trash me-2"></i>刪除
                         </a>
                     </div>
@@ -53,13 +50,14 @@
 
 
             </div>
-            <div class="row mt-4" v-if="(lastOne == true || type == 0) && open_reply">
+            <div class="row mt-4" v-if="open_reply">
                 <div class="col-1 px-0" style="    text-align: center;">
                     <img class="userimg comment__avatar" :src="now_user_pic_url" alt="">
                 </div>
                 <div class="col-10 px-0">
                     <CommentTextArea ref="childcomment" :content="reply_content" @newchildcomment="newchildcomment"
-                        :all_user="all_user" :parent_comment_id="comment_id" :type=1 />
+                        :all_user="all_user" :parent_comment_id="type == 1 ? comment_id : this.$parent.comment_id"
+                        :type=type />
                 </div>
                 <div class="col-1 px-0">
                     <a class="btn btn-link text-dark px-3 mb-0" @click="$refs.childcomment.comment()">
@@ -83,7 +81,7 @@
                     created_at: item.created_at,
                     user_comment_like: user_comment_like,
                     all_user: all_user,
-                    type: 1
+                    type: 2
 
                 }" />
                 <div v-if="!noResult && index === real_children_comments.length - 1">
@@ -91,6 +89,10 @@
                         @click="get_children_comment(comment_id)">查看更多回覆</soft-button>
                 </div>
             </template>
+        </div>
+        <div v-if="!noResult && real_children_comment_count > 0 && real_children_comments.length == 0">
+            <soft-button color="dark" variant="gradient" class="ms-5"
+                @click="get_children_comment(comment_id)">查看更多回覆</soft-button>
         </div>
 
     </div>
@@ -147,7 +149,7 @@ export default {
             real_children_comments: this.children_comments,
             real_children_comment_count_temp: this.children_comment_count - this.$child_comment_onceshow,
             real_children_comment_count: this.children_comment_count - this.$child_comment_onceshow,
-            self_add: 0,
+            self_add: 0, //因為自己的新留言已經在網頁上了，故撈資料時，要多扣除自己留的言
             calltime: 1
         }
     },
@@ -272,17 +274,27 @@ export default {
             type: Function
         },
         type: {
-            type: Number, //0 父 ，1 child
+            type: Number, //1 父 ，2 child
         }
     },
     methods: {
         newchildcomment(comment) {
             this.open_reply = false
-            console.log(comment);
-            this.real_children_comments.unshift(comment[0]);
+            console.log(comment[0].id);
+            if (this.type == 1) { //主留言兒子
+                this.real_children_comments.push(comment[0]);
+                this.self_add++
+            }
+            else if (this.type == 2) { //子留言兒子 但屬同層
+                this.$parent.real_children_comments.push(comment[0]);
+                this.$parent.self_add++
+            }
+
+            this.$nextTick(() => {
+                document.getElementById("comment_" + comment[0].id).scrollIntoView({ block: "center" });
+            });
             console.log(this.real_children_comments);
             console.log(this.real_children_comment_count);
-            this.self_add++
         },
         reply() {
             this.open_reply = !this.open_reply
@@ -328,9 +340,9 @@ export default {
                     }
                 })
                 .then((res) => {
-                    if (this.type == 0)
+                    if (this.type == 1)
                         this.$emit('remove_comment', this.comment_id);
-                    else if (this.type == 1)
+                    else if (this.type == 2)
                         this.$emit('delete_child_comment', this.comment_id);
 
                     ElMessage({

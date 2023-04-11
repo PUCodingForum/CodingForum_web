@@ -32,6 +32,7 @@ export default {
 
     },
     props: ["content", "readOnly", "newcomment", "newchildcomment", "comment_id", "change_readOnly", "all_user", "updatevalue", "parent_comment_id", "type"],
+    //type: 0影片留言 1父 ，2child
     created() {
         this.$watch(
             () => ({
@@ -74,9 +75,9 @@ export default {
                     });
                     this.incontent = ''
                     this.key++
-                    if (this.type == 1)
+                    if (this.type == 1 || this.type == 2)
                         this.$emit('newchildcomment', res.data.comment)
-                    else
+                    else if (this.type == 0)
                         this.$emit('newcomment', res.data.comment)
                 }).catch(function (error) {
                     if (error.response) {

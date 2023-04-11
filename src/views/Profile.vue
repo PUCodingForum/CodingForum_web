@@ -190,7 +190,7 @@
                   <h6 class="mb-0 text-sm">Sophie B.</h6>
                   <p class="mb-0 text-xs">Hi! I need more information..</p>
                 </div>
-                <a class="mb-0 btn btn-link pe-3 ps-0 ms-auto" href="javascript:;">Reply</a>
+                <a class="mb-0 btn btn-link pe-3 ps-0 ms-auto">Reply</a>
               </li>
               <li class="px-0 mb-2 border-0 list-group-item d-flex align-items-center">
                 <soft-avatar class="me-3" :img="marie" alt="kal" border-radius="lg" shadow="regular" />
@@ -198,7 +198,7 @@
                   <h6 class="mb-0 text-sm">Anne Marie</h6>
                   <p class="mb-0 text-xs">Awesome work, can you..</p>
                 </div>
-                <a class="mb-0 btn btn-link pe-3 ps-0 ms-auto" href="javascript:;">Reply</a>
+                <a class="mb-0 btn btn-link pe-3 ps-0 ms-auto">Reply</a>
               </li>
               <li class="px-0 mb-2 border-0 list-group-item d-flex align-items-center">
                 <soft-avatar class="me-3" :img="ivana" alt="kal" border-radius="lg" shadow="regular" />
@@ -206,7 +206,7 @@
                   <h6 class="mb-0 text-sm">Ivanna</h6>
                   <p class="mb-0 text-xs">About files I can..</p>
                 </div>
-                <a class="mb-0 btn btn-link pe-3 ps-0 ms-auto" href="javascript:;">Reply</a>
+                <a class="mb-0 btn btn-link pe-3 ps-0 ms-auto">Reply</a>
               </li>
               <li class="px-0 mb-2 border-0 list-group-item d-flex align-items-center">
                 <soft-avatar class="me-3" :img="peterson" alt="kal" border-radius="lg" shadow="regular" />
@@ -214,7 +214,7 @@
                   <h6 class="mb-0 text-sm">Peterson</h6>
                   <p class="mb-0 text-xs">Have a great afternoon..</p>
                 </div>
-                <a class="mb-0 btn btn-link pe-3 ps-0 ms-auto" href="javascript:;">Reply</a>
+                <a class="mb-0 btn btn-link pe-3 ps-0 ms-auto">Reply</a>
               </li>
               <li class="px-0 border-0 list-group-item d-flex align-items-center">
                 <soft-avatar class="me-3" :img="nick" alt="kal" border-radius="lg" shadow="regular" />
@@ -222,7 +222,7 @@
                   <h6 class="mb-0 text-sm">Nick Daniel</h6>
                   <p class="mb-0 text-xs">Hi! I need more information..</p>
                 </div>
-                <a class="mb-0 btn btn-link pe-3 ps-0 ms-auto" href="javascript:;">Reply</a>
+                <a class="mb-0 btn btn-link pe-3 ps-0 ms-auto">Reply</a>
               </li>
             </ul>
           </div>
