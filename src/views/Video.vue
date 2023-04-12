@@ -119,7 +119,12 @@
 
         </div>
         <div class="col-md-5 mt-4">
-
+          <div class="card">
+            <div class="card-body p-3">
+              <PDFViewer v-if="post.length != 0" :source="post.uva_topic.topic_url" style="height: 100vh; width: 100vw"
+                @download="handleDownload" />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -135,6 +140,7 @@ import CommentTextArea from "@/components/CommentTextArea.vue";
 import Vote from "@/components/Vote.vue";
 const axios = require('axios');
 import InfiniteScroll from "infinite-loading-vue3";
+import PDFViewer from 'pdf-viewer-vue'
 
 export default {
   name: "Billing",
@@ -143,7 +149,8 @@ export default {
     Comment,
     CommentTextArea,
     Vote,
-    InfiniteScroll
+    InfiniteScroll,
+    PDFViewer
   },
   data() {
     return {
