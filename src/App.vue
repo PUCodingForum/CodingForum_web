@@ -129,6 +129,14 @@ button {
   .footer_logoicon {
     width: 10%;
   }
+
+  .mobileshow {
+    display: none !important;
+  }
+
+  .pc {
+    display: block !important;
+  }
 }
 
 @media (max-width: 1200px) {
@@ -138,6 +146,18 @@ button {
 
   .sidenav {
     z-index: 9999;
+  }
+
+  .breakline {
+    width: 100%;
+  }
+
+  .mobileshow {
+    display: block !important;
+  }
+
+  .pc {
+    display: none !important;
   }
 }
 

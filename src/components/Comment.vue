@@ -6,20 +6,20 @@
                     <img class="userimg comment__avatar " :src="pic_url" alt="" />
                 </div>
                 <div class="comment__content col-11">
-                    <h3 class="comment__title">
+                    <h3 class="comment__title ms-4 ms-xxl-0">
                         <router-link class="" :to="{ name: 'Profile', params: { user_account: user_account } }">
                             {{ user_name }} </router-link>
 
                     </h3>
 
-                    <p class="comment__body">
+                    <p class="comment__body ms-3 ms-xxl-0">
                         <CommentTextArea @change_readOnly="change_readOnly" @updatevalue="updatevalue" ref="comment"
                             :content="real_content" :readOnly="readOnly" :comment_id="comment_id" :key="textrefresh"
                             :all_user="all_user" />
                         <!-- {{ real_content }} -->
                         <!-- {{ real_children_comment_count }} -->
                     </p>
-                    <div style="display: flex;    align-items: center;">
+                    <div class="commenttoolbar">
                         <timeago :datetime="created_at.replaceAll('/', '-')" />
 
                         <Vote @like_function="like_comment" v-bind="{
@@ -30,6 +30,8 @@
                             loading: this.loading,
                             type: 1 //0post //1comment
                         }" />
+                        <div class="breakline"></div>
+
                         <a class="btn btn-link text-dark px-3 mb-0" @click="reply" v-if="token_user_id">
                             <i class="fa-solid fa-comment  me-2"></i>回應
                         </a>
@@ -51,17 +53,17 @@
 
             </div>
             <div class="row mt-4" v-if="open_reply">
-                <div class="col-1 px-0" style="    text-align: center;">
+                <div class="col-2 col-xl-1 px-0" style="    text-align: center;">
                     <img class="userimg comment__avatar" :src="now_user_pic_url" alt="">
                 </div>
-                <div class="col-10 px-0">
+                <div class="col-9 col-xl-10 px-0">
                     <CommentTextArea ref="childcomment" :content="reply_content" @newchildcomment="newchildcomment"
                         :all_user="all_user" :parent_comment_id="type == 1 ? comment_id : this.$parent.comment_id"
                         :type=type />
                 </div>
                 <div class="col-1 px-0">
                     <a class="btn btn-link text-dark px-3 mb-0" @click="$refs.childcomment.comment()">
-                        <i class="fa-solid fa-paper-plane"></i> 送出
+                        <i class="fa-solid fa-paper-plane"></i>
                     </a>
                 </div>
             </div>
@@ -492,5 +494,23 @@ export default {
 .comment__inner-commment {
     border-left: 1px solid #e6e6e6;
     padding-left: 20px;
+}
+
+
+@media (min-width: 1200px) {
+    .commenttoolbar {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 1200px) {
+    .commenttoolbar {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+    }
 }
 </style>

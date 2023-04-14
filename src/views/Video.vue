@@ -4,21 +4,21 @@
     <div class="container-fluid mt-4">
 
       <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-8 mb-4 mb-xxl-0">
 
-          <div class="card">
-            <div class="card-body">
-              <el-main style="padding:0" v-loading="video_loading" element-loading-text="影片載入中"
-                element-loading-background="rgba(0, 0, 0, 0.1)">
-                <div class="container_video">
-                  <!-- <YoutubeVue3 ref="youtube" :videoid="post.video_id" :controls="1" class="youtub" @played="onPlayed" /> -->
-                </div>
 
-                <div class="title_font">
+          <el-main style="padding:0" v-loading="video_loading" element-loading-text="影片載入中"
+            element-loading-background="rgba(0, 0, 0)">
+            <div class="container_video" style="background-color: black;">
+              <!-- <YoutubeVue3 ref="youtube" :videoid="post.video_id" :controls="1" class="youtub" @played="onPlayed" /> -->
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <div class="title_font mb-3">
                   {{ uva_topic.show }}
                 </div>
 
-                <div class="comment__author" style="    align-self: flex-start;" v-if="post.length != 0">
+                <div class="comment__author " style="align-self: flex-start;" v-if="post.length != 0">
                   <img class="userimg comment__avatar " :src="post.user_pic_url" alt="" />
                   <h3 class="comment__title" style="margin:0">
                     <router-link class="" :to="{ name: 'Profile', params: { user_account: post.user_account } }">
@@ -27,8 +27,10 @@
                   <div v-if="post.length != 0">
                     CPE星數: <i class="fa-solid fa-star-of-david" v-for="star in post.uva_topic.star"></i>
                     <div v-if="post.uva_topic.star == null" style="    display: inline-block;">無</div> 。
-                  </div>
+                    語言: {{ post.code_type }}。
 
+                  </div>
+                  <div class="breakline"></div>
                   <timeago :datetime="post.created_at.replaceAll('/', '-')" v-if="post.length != 0" />
                   。
                   <Vote @like_function="like_post" v-bind="{
@@ -43,15 +45,17 @@
                     :to="{ name: 'EditPost', params: { post_id: post.id } }">
                     <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>編輯貼文</router-link>
                 </div>
+
+
                 <div class="mt-2">
                   <textarea class="form-control" id="content" v-model="post.content" rows="4" readonly></textarea>
                   <!-- {{ post.content }} -->
 
                 </div>
-
-              </el-main>
+              </div>
             </div>
-          </div>
+          </el-main>
+
         </div>
         <div class="col-lg-4">
           <div class="card">
@@ -62,7 +66,16 @@
                   <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </div>
-              <div class="mb-3">
+              <soft-button color="dark" full-width variant="gradient" class="mt-2 mb-2 mobileshow"
+                @click="showcode = !showcode">查看程式碼</soft-button>
+              <div class="mb-3 pc">
+                <label>程式碼</label>
+
+                <Codemirror v-model:value="post.code" :options="cmOptions" border ref="cmRef" height="600" width="100%"
+                  @change="onChange" @input="onInput" @ready="onReady" :key="selete_loading">
+                </Codemirror>
+              </div>
+              <div class="mb-3 mobileshow" v-if="showcode">
                 <label>程式碼</label>
 
                 <Codemirror v-model:value="post.code" :options="cmOptions" border ref="cmRef" height="600" width="100%"
@@ -79,18 +92,18 @@
 
           <div class="card">
             <div class="card-body p-3">
-              <div class="ms-4 mt-5">
+              <div class="mx-1 mx-xxl-4 mt-xxl-5">
                 <div class="row mt-4">
-                  <div class="col-1 px-0" style="    text-align: center;">
+                  <div class="col-2 col-xl-1 px-0" style="    text-align: center;">
                     <img class="userimg comment__avatar" :src="now_user_pic_url" alt="">
                   </div>
-                  <div class="col-10 px-0">
+                  <div class="col-9 col-xl-10 px-0">
                     <CommentTextArea ref="postcomment" @newcomment="newcomment" :all_user="all_user" @click="checklogin"
                       :type=0 />
                   </div>
                   <div class="col-1 px-0">
                     <a class="btn btn-link text-dark px-3 mb-0" @click="$refs.postcomment.comment()">
-                      <i class="fa-solid fa-paper-plane"></i> 送出
+                      <i class="fa-solid fa-paper-plane"></i>
                     </a>
                   </div>
                 </div>
@@ -141,7 +154,7 @@ import Vote from "@/components/Vote.vue";
 const axios = require('axios');
 import InfiniteScroll from "infinite-loading-vue3";
 import PDFViewer from 'pdf-viewer-vue'
-
+import SoftButton from "../components/SoftButton.vue";
 export default {
   name: "Billing",
   components: {
@@ -150,7 +163,8 @@ export default {
     CommentTextArea,
     Vote,
     InfiniteScroll,
-    PDFViewer
+    PDFViewer,
+    SoftButton
   },
   data() {
     return {
@@ -186,7 +200,7 @@ export default {
         autofocus: true,
         readOnly: true,
       },
-
+      showcode: false
     };
   },
   created() {
@@ -416,6 +430,10 @@ export default {
 };
 </script>
 <style scoped>
+.comment__author {
+  flex-wrap: wrap;
+}
+
 .boss {
   margin-top: 100px;
 
@@ -425,12 +443,14 @@ export default {
   .title_font {
     font-size: 1.4rem;
   }
+
+
 }
 
 
 @media (max-width: 1200px) {
   .title_font {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
   }
 }
 
@@ -448,5 +468,10 @@ textarea:focus {
   border-color: #d2d6da;
   box-shadow: 0 0px 0px rgba(0, 0, 0, 0.075) inset, 0 0 0px #d2d6da;
   outline: 0 none;
+}
+
+#textbox {
+  width: 100vw;
+  height: 100vh;
 }
 </style>
