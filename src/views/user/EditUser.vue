@@ -7,6 +7,11 @@
           <div class="card-body">
             <form role="form" class="mx-auto col-xl-9">
               <div class="mb-3">
+                <label>Email</label>
+                <input class="form-control" v-model="email" type="text" placeholder="請輸入信箱" required />
+              </div>
+
+              <div class="mb-3">
                 <label>自我介紹</label>
                 <textarea class="form-control" v-model="intro" rows="5" placeholder="Hi,I'm XXX"></textarea>
               </div>
@@ -57,6 +62,7 @@ export default {
     return {
       upload_userpic: '上傳頭貼',
       temp: '',
+      email: '',
       intro: '',
       github: '',
       instagram: '',
@@ -82,6 +88,7 @@ export default {
       .then((res) => {
 
         console.log(res);
+        this.email = res.data.user.email
         this.intro = res.data.user.intro
         this.github = res.data.user.github
         this.instagram = res.data.user.instagram
@@ -105,6 +112,7 @@ export default {
       }
       this.axios
         .post("/api/auth/edit_user", {
+          email: this.email,
           intro: this.intro,
           github: this.github,
           instagram: this.instagram,

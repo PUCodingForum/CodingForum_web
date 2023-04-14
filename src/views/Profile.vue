@@ -95,7 +95,9 @@
                     <router-link class="ms-2" style=" font-size: 13px;" :to="{ name: 'EditCover' }"
                       v-if="token_user_account == this.$route.params.user_account">
                       <i class="text-sm fas fa-user-edit text-secondary me-2"></i>編輯封面</router-link>
-
+                    <router-link class="ms-2" style=" font-size: 13px;" :to="{ name: 'EditPassword' }"
+                      v-if="token_user_account == this.$route.params.user_account">
+                      <i class="text-sm fas fa-user-edit text-secondary me-2"></i>修改密碼</router-link>
                   </a>
                 </div>
               </div>

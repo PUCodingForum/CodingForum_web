@@ -30,6 +30,10 @@
                 <input class="form-control" v-model="password" type="password" placeholder="密碼" aria-label="密碼" />
               </div>
               <div class="mb-3">
+                <input class="form-control" v-model="repeat_password" type="password" placeholder="請再輸入一次密碼"
+                  aria-label="密碼" />
+              </div>
+              <div class="mb-3">
                 <input class="form-control" v-model="email" type="email" placeholder="信箱" aria-label="信箱" />
               </div>
               <div class="mb-3">
@@ -74,6 +78,7 @@ export default {
       name: "",
       account: "",
       password: "",
+      repeat_password: "",
       email: "",
       randompic: Math.floor(Math.random() * 9)
 
@@ -94,10 +99,16 @@ export default {
         this.name === "" ||
         this.account === "" ||
         this.password === "" ||
+        this.repeat_password === "" ||
         this.email === ""
       ) {
         ElMessage.error("名字、帳號、密碼、信箱不能為空");
-      } else {
+      } else if (
+        this.password != this.repeat_password
+      ) {
+        ElMessage.error("密碼確認失敗，請檢查兩次輸入皆相同");
+      }
+      else {
         this.axios
           .post("/api/auth/register", {
             name: this.name,

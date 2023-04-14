@@ -12,6 +12,8 @@ import ResendPassword from "@/views/user/ResendPassword.vue";
 import EditUser from "@/views/user/EditUser.vue";
 import EditPic from "@/views/user/EditPic.vue";
 import EditCover from "@/views/user/EditCover.vue";
+import EditPassword from "@/views/user/EditPassword.vue";
+
 const routes = [
   {
     // path: "*",
@@ -94,6 +96,11 @@ const routes = [
         path: "edit_cover",
         name: "EditCover",
         component: EditCover,
+      },
+      {
+        path: "edit_password",
+        name: "EditPassword",
+        component: EditPassword,
       },
     ],
   },

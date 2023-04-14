@@ -134,8 +134,8 @@ export default {
 
                     mention: {  // 重点： 提醒功能配置项
 
-                        allowedChars: /^[A-Za-z\s]*$/, // 正则匹配
-
+                        // allowedChars: /^[A-Za-z\s]*$/, // 正则匹配
+                        allowedChars: /^[\u4e00-\u9fa5A-Za-z0-9\s]*$/,
                         mentionDenotationChars: ['@'], // 匹配符号，匹配到@符号弹出提醒框
 
                         offsetLeft: 4,
