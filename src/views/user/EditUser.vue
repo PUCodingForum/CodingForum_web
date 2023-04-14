@@ -10,7 +10,10 @@
                 <label>Email</label>
                 <input class="form-control" v-model="email" type="text" placeholder="請輸入信箱" required />
               </div>
-
+              <div class="mb-3">
+                <label>中文姓名</label>
+                <input class="form-control" v-model="name" type="text" placeholder="請輸入信箱" required />
+              </div>
               <div class="mb-3">
                 <label>自我介紹</label>
                 <textarea class="form-control" v-model="intro" rows="5" placeholder="Hi,I'm XXX"></textarea>
@@ -63,6 +66,7 @@ export default {
       upload_userpic: '上傳頭貼',
       temp: '',
       email: '',
+      name: '',
       intro: '',
       github: '',
       instagram: '',
@@ -89,6 +93,7 @@ export default {
 
         console.log(res);
         this.email = res.data.user.email
+        this.name = res.data.user.name
         this.intro = res.data.user.intro
         this.github = res.data.user.github
         this.instagram = res.data.user.instagram
@@ -113,6 +118,7 @@ export default {
       this.axios
         .post("/api/auth/edit_user", {
           email: this.email,
+          name: this.name,
           intro: this.intro,
           github: this.github,
           instagram: this.instagram,
