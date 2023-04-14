@@ -129,8 +129,8 @@
 
               <div class="row">
 
-                <soft-button color="dark" full-width variant="gradient" style="    font-size: 15px;"
-                  @click="upload">上傳貼文</soft-button>
+                <soft-button color="dark" full-width variant="gradient" style="    font-size: 15px;" @click="upload"
+                  v-if="token_user_account == this.$route.params.user_account">上傳貼文</soft-button>
 
                 <h4 v-if="posts.length == 0" style="text-align: center;">無符合條件之貼文</h4>
                 <div class="col-lg-4" v-for="post in posts" :key="post.id">
