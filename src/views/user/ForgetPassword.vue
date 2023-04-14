@@ -26,6 +26,7 @@
             <form role="form" @submit.prevent="register">
 
               <div class="mb-3">
+                <label>信箱</label>
                 <input class="form-control" v-model="email" type="email" placeholder="信箱" aria-label="信箱" />
               </div>
 

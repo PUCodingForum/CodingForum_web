@@ -114,10 +114,7 @@ button {
   width: 38%;
 }
 
-.footer_logoicon {
-  width: 10%;
 
-}
 
 .userimg {
   background-color: antiquewhite;
@@ -128,9 +125,17 @@ button {
   max-height: 20vh;
 }
 
-@media (min-width: 1200px) {}
+@media (min-width: 1200px) {
+  .footer_logoicon {
+    width: 10%;
+  }
+}
 
 @media (max-width: 1200px) {
+  .footer_logoicon {
+    width: 25%;
+  }
+
   .sidenav {
     z-index: 9999;
   }

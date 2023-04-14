@@ -23,20 +23,25 @@
 
           <div class="card-body">
             <form role="form" @submit.prevent="register">
-              <div class="mb-3">
+              <div class="">
+                <label>帳號</label>
                 <input class="form-control" v-model="account" type="text" placeholder="帳號" aria-label="帳號" />
               </div>
-              <div class="mb-3">
+              <div class="">
+                <label>密碼</label>
                 <input class="form-control" v-model="password" type="password" placeholder="密碼" aria-label="密碼" />
               </div>
-              <div class="mb-3">
+              <div class="">
+                <label>請再輸入一次密碼</label>
                 <input class="form-control" v-model="repeat_password" type="password" placeholder="請再輸入一次密碼"
                   aria-label="密碼" />
               </div>
-              <div class="mb-3">
+              <div class="">
+                <label>信箱</label>
                 <input class="form-control" v-model="email" type="email" placeholder="信箱" aria-label="信箱" />
               </div>
-              <div class="mb-3">
+              <div class="">
+                <label>中文姓名</label>
                 <input class="form-control" v-model="name" type="text" placeholder="中文姓名" aria-label="中文姓名" />
               </div>
 

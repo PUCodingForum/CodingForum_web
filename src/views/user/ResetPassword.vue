@@ -25,10 +25,12 @@
             <form role="form" @submit.prevent="register">
 
               <div class="mb-3">
+                <label>密碼</label>
                 <input class="form-control" v-model="password" type="password" placeholder="密碼" aria-label="密碼" />
               </div>
               <div class="mb-3">
-                <input class="form-control" v-model="password_confirmation" type="password" placeholder="密碼"
+                <label>請再輸入一次密碼</label>
+                <input class="form-control" v-model="password_confirmation" type="password" placeholder="請再輸入一次密碼"
                   aria-label="密碼" />
               </div>
 
