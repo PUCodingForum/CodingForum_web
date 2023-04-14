@@ -14,19 +14,20 @@
                       class="card-img-top youtube_img_fix" :src="post.video_pic_url" alt=""></router-link>
                 </div>
 
-                <div class=" card-body">
+                <div class=" card-body" style="    text-align: center;">
                   <h5 class="card-title placeholder-glow">
                     {{ post.uva_topic.serial + "-" + post.uva_topic.title }}
                   </h5>
                   <p>CPE星數: <i class="fa-solid fa-star-of-david" v-for="star in post.uva_topic.star"></i>
                   <div v-if="post.uva_topic.star == null" style="    display: inline-block;">無</div>
+                  <br>
 
+                  語言: {{ post.code_type }}
                   <div class="vote__count" :class="[{ positive: post.likes > 0 }, { negative: post.likes < 0 },]"
                     style="display: inline;">
                     愛心數:
                     <span class="vote__count-n"> <i class="fa-solid fa-heart"></i> x {{ post.likes }} </span>
                   </div>
-                  語言: {{ post.code_type }}
                   留言數: {{ post.comments_count }}
                   </p>
                   <p class="card-text placeholder-glow">

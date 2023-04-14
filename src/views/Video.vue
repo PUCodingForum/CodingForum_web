@@ -121,8 +121,8 @@
         <div class="col-md-5 mt-4">
           <div class="card">
             <div class="card-body p-3">
-              <PDFViewer v-if="post.length != 0" :source="'https://cors-anywhere.herokuapp.com/' + post.uva_topic.topic_url"
-                style="height: 80vh;" @download="handleDownload" />
+              <!-- <PDFViewer v-if="post.length != 0" :source="'https://cors-anywhere.herokuapp.com/' + post.uva_topic.topic_url"
+                style="height: 80vh;" @download="handleDownload" /> -->
             </div>
           </div>
         </div>
