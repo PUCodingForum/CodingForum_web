@@ -14,7 +14,7 @@
   position: absolute;
   width: 4px;
 }
-.code-link:hover:before {
+/* .code-link:hover:before {
   background: linear-gradient(
     180deg,
     #328af1 45%,
@@ -22,7 +22,7 @@
     transparent 55%,
     #328af1 0
   );
-}
+} */
 .code-links::before {
   background: linear-gradient(
     180deg,
@@ -55,14 +55,14 @@
   --tw-text-opacity: 1;
   color: rgb(50 138 241 / var(--tw-text-opacity));
 }
-.hover\:bg-blue:hover {
+/* .hover\:bg-blue:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(50 138 241 / var(--tw-bg-opacity));
 }
 .hover\:text-white:hover {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
+} */
 .bg-blue {
   --tw-bg-opacity: 1;
   background-color: rgb(50 138 241 / var(--tw-bg-opacity));

@@ -1,7 +1,7 @@
 <template>
     <a :id="'a' + type"
         class="code-link relative my-2 ms-4  pl-2 block rounded border-none text-left text-blue hover:bg-blue hover:text-white sameline"
-        @click="Code_changepost">
+        style="" @click="Code_changepost">
         <div class="text-[.7rem] font-medium text-grey-600/50">{{ sort }} <span class="font-bold text-white">{{ comment }}
             </span>
         </div>
@@ -78,5 +78,9 @@ export default {
 <style scoped>
 a {
     cursor: pointer;
+}
+
+a:hover {
+    color: #328af1;
 }
 </style>
