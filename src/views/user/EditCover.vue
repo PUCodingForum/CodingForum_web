@@ -175,7 +175,8 @@ export default {
 
               this.$router.push({
                 name: 'Profile', params: { user_account: this.token_user_account }
-              }).then(() => { this.$router.go() });
+              })
+              // .then(() => { this.$router.go() });
 
               ElMessage({
                 message: "更新成功",
@@ -285,7 +286,8 @@ export default {
 
           this.$router.push({
             name: 'Profile', params: { user_account: this.token_user_account }
-          }).then(() => { this.$router.go() });
+          })
+          // .then(() => { this.$router.go() });
 
           ElMessage({
             message: "回復成功",
