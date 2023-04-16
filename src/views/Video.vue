@@ -10,7 +10,7 @@
           <el-main style="padding:0" v-loading="video_loading" element-loading-text="影片載入中"
             element-loading-background="rgba(0, 0, 0)">
             <div class="container_video" style="background-color: black;">
-              <YoutubeVue3 ref="youtube" :videoid="post.video_id" :controls="1" class="youtub" @played="onPlayed" />
+              <!-- <YoutubeVue3 ref="youtube" :videoid="post.video_id" :controls="1" class="youtub" @played="onPlayed" /> -->
             </div>
             <div class="card">
               <div class="card-body">
@@ -58,7 +58,7 @@
 
         </div>
         <div class="col-lg-4">
-          <div class="card">
+          <div class="card" style="height: 100%;">
             <div class="card-body p-3">
               <div class="mb-3">
                 <label>程式語言</label>
@@ -88,8 +88,22 @@
       </div>
 
       <div class="row mt-4">
-        <div class="col-md-7">
+        <div class="col-md-5 col-12 mb-4 mobileshow" v-if="window.innerWidth < 1200">
+          <div class="card">
+            <div class="card-body p-3">
 
+              <soft-button color="dark" full-width variant="gradient" class="mt-2 mb-2 mobileshow"
+                @click="showpdf = !showpdf">查看題目說明</soft-button>
+              <soft-button v-if="post.length != 0 && showpdf" color="dark" full-width variant="gradient"
+                class="mt-2 mb-2 mobileshow"
+                @click="downloadpdf($global_url + 'proxy/get_uva_pdf/' + post.uva_topic.serial)">下載題目PDF</soft-button>
+              <PDFViewer v-if="post.length != 0 && showpdf"
+                :source="$global_url + 'proxy/get_uva_pdf/' + post.uva_topic.serial" style="height: 80vh;" ref="pdfviewer"
+                @rendered="rendered" :controls="pdfcontrols" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-7 col-12">
           <div class="card">
             <div class="card-body p-3">
               <div class="mx-1 mx-xxl-4 mt-xxl-5">
@@ -131,11 +145,13 @@
           </div>
 
         </div>
-        <div class="col-md-5 mt-4">
+        <div class="col-md-5 pc" v-if="window.innerWidth > 1200">
           <div class="card">
             <div class="card-body p-3">
-              <!-- <PDFViewer v-if="post.length != 0" :source="'https://cors-anywhere.herokuapp.com/' + post.uva_topic.topic_url"
-                style="height: 80vh;" @download="handleDownload" /> -->
+              <soft-button color="dark" full-width variant="gradient" class="mt-2 mb-2"
+                @click="downloadpdf($global_url + 'proxy/get_uva_pdf/' + post.uva_topic.serial)">下載題目PDF</soft-button>
+              <PDFViewer v-if="post.length != 0" :source="$global_url + 'proxy/get_uva_pdf/' + post.uva_topic.serial"
+                style="height: 80vh;" ref="pdfviewer" @rendered="rendered" :controls="pdfcontrols" />
             </div>
           </div>
         </div>
@@ -153,8 +169,9 @@ import CommentTextArea from "@/components/CommentTextArea.vue";
 import Vote from "@/components/Vote.vue";
 const axios = require('axios');
 import InfiniteScroll from "infinite-loading-vue3";
-import PDFViewer from 'pdf-viewer-vue'
 import SoftButton from "../components/SoftButton.vue";
+import PDFViewer from 'pdf-viewer-vue'
+import download from 'downloadjs'
 export default {
   name: "Billing",
   components: {
@@ -200,7 +217,14 @@ export default {
         autofocus: true,
         readOnly: true,
       },
-      showcode: false
+      showcode: false,
+      showpdf: false,
+      pdfcontrols: [
+        'print',
+        'rotate',
+        'zoom',
+        'switchPage',
+      ]
     };
   },
   created() {
@@ -221,6 +245,7 @@ export default {
     );
   },
   mounted() {
+    // console.log(window.innerWidth)
     if (this.$cookies.isKey("now_user_pic_url"))
       this.now_user_pic_url = this.$cookies.get("now_user_pic_url")
 
@@ -325,6 +350,25 @@ export default {
     console.log(this.$refs.test)
   },
   methods: {
+    downloadpdf(url) {
+      ElMessage({
+        message: "請稍等，正在準備下載",
+        type: "success",
+        duration: 3000,
+      });
+      download(url);
+    },
+    rendered() {
+      this.$nextTick(() => {
+        this.$nextTick(() => {
+          console.log("12222")
+          console.log(this.$refs.pdfviewer)
+          this.$refs.pdfviewer.handleToggleFullpage()
+        });
+      });
+
+    },
+
     checklogin() {
       if (!this.token) {
         ElMessage.error("請先登入以進行操作");

@@ -125,6 +125,10 @@ button {
   max-height: 20vh;
 }
 
+.pdf-viewer {
+  min-width: 0 !important;
+}
+
 @media (min-width: 1200px) {
   .footer_logoicon {
     width: 10%;
@@ -157,6 +161,10 @@ button {
   }
 
   .pc {
+    display: none !important;
+  }
+
+  .header__preview .start {
     display: none !important;
   }
 }
