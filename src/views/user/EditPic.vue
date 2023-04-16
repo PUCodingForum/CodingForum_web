@@ -33,7 +33,6 @@
                   </button>
                 </div>
                 <p v-if="max_pic">調整裁切圖片的區域後 直接按下方更新就好</p>
-                {{ image }}
 
 
 
