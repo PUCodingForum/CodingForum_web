@@ -21,66 +21,20 @@
       </div>
     </div>
   </div>
+
+
   <div class="pb-4 container-fluid">
     <infinite-scroll @infinite-scroll="loadDataFromServer" :message="message" :noResult="noResult">
 
       <div class="mt-xl-3 row">
-
-        <!-- 設定 -->
-        <!-- <div class="col-12 col-md-6 col-xl-4"> -->
-        <!-- <div class="card h-100">
-          <div class="p-3 pb-0 card-header">
-            <h6 class="mb-0">Platform Settings</h6>
-          </div>
-          <div class="p-3 card-body">
-            <h6 class="text-xs text-uppercase text-body font-weight-bolder">
-              Account
-            </h6>
-            <ul class="list-group">
-              <li class="px-0 border-0 list-group-item">
-                <soft-switch id="flexSwitchCheckDefault" name="email" class="ps-0 ms-auto"
-                  label-class="mb-0 text-body ms-3 text-truncate w-80" checked>Email me when someone follows
-                  me</soft-switch>
-              </li>
-              <li class="px-0 border-0 list-group-item">
-                <soft-switch id="flexSwitchCheckDefault1" name="Email"
-                  label-class="mb-0 text-body ms-3 text-truncate w-80" class="ps-0 ms-auto">Email me when someone answers
-                  on my post</soft-switch>
-              </li>
-
-              <li class="px-0 border-0 list-group-item">
-                <soft-switch id="flexSwitchCheckDefault2" name="Email"
-                  label-class="mb-0 text-body ms-3 text-truncate w-80" class="ps-0 ms-auto" checked>Email me when someone
-                  mentions me</soft-switch>
-              </li>
-            </ul>
-            <h6 class="mt-4 text-xs text-uppercase text-body font-weight-bolder">
-              Application
-            </h6>
-            <ul class="list-group">
-              <li class="px-0 border-0 list-group-item">
-                <soft-switch id="flexSwitchCheckDefault3" name="Project Launch" class="ps-0 ms-auto"
-                  label-class="mb-0 text-body ms-3 text-truncate w-80">New launches and projects</soft-switch>
-              </li>
-              <li class="px-0 border-0 list-group-item">
-                <soft-switch id="flexSwitchCheckDefault4" name="Product Update" class="ps-0 ms-auto"
-                  label-class="mb-0 text-body ms-3 text-truncate w-80" checked>Monthly product updates</soft-switch>
-              </li>
-              <li class="px-0 pb-0 border-0 list-group-item">
-                <soft-switch id="flexSwitchCheckDefault5" name="Newsletter" class="ps-0 ms-auto"
-                  label-class="mb-0 text-body ms-3 text-truncate w-80">Subscribe to newsletter</soft-switch>
-              </li>
-            </ul>
-          </div>
-        </div> -->
-        <!-- </div> -->
-
         <!-- 個人介紹 -->
         <div class="mt-4 col-12 col-md-4 col-xl-4 mt-md-0">
 
           <div class="card h-100">
             <div class="p-3 pb-0 card-header">
               <div class="row">
+                <soft-button color="dark" full-width variant="gradient" style="    font-size: 15px;" @click="logout"
+                  v-if="token_user_account == this.$route.params.user_account">登出</soft-button>
                 <div class="col-md-4 d-flex align-items-center">
                   <h6 class="mb-0">個人資訊</h6>
                 </div>
@@ -295,6 +249,7 @@ export default {
       message: "",
       social: [],
       more_lock: false,
+      token: this.$cookies.get("token"),
       token_user_id: this.$cookies.get("user_id"),
       token_user_account: this.$cookies.get("user_account"),
       sort: '',
@@ -359,6 +314,27 @@ export default {
 
   },
   methods: {
+    logout() {
+
+      this.axios
+        .post("/api/auth/logout", {
+        }, {
+          headers: {
+            'Authorization': `Bearer ` + this.token
+          }
+        }).then((res) => {
+          this.$router.go()
+          this.$cookies.remove("token")
+          this.$cookies.remove("user_account")
+          this.$cookies.remove("user_id")
+          this.$cookies.remove("now_user_pic_url")
+          ElMessage({
+            message: "登出成功",
+            type: "success",
+            duration: 3000,
+          });
+        })
+    },
     upload() {
       this.$router.push({ name: 'Upload' });
     },

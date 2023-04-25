@@ -6,7 +6,7 @@
             <i class="cursor-pointer fa fa-bell"></i>
         </a>
         <p class=" mb-0" style="color:red" v-if="tagcount > 0">&nbsp{{ tagcount }}</p>
-        <ul class="px-2 py-3 dropdown-menu dropdown-menu-end me-sm-n4" id="dropdownMenu"
+        <ul class="px-2 py-3 dropdown-menu dropdown-menu-end me-sm-n4 mobileul" id="dropdownMenu"
             aria-labelledby="dropdownMenuButton">
             <soft-button color="dark" full-width variant="gradient" class="mt-2 mb-2"
                 @click="all_tag_view">全部已讀</soft-button>
@@ -75,5 +75,14 @@ export default {
 <style>
 #myDropdown .rednotification {
     color: red !important;
+}
+
+@media (min-width: 1200px) {}
+
+@media (max-width: 1200px) {
+    .mobileul {
+        width: 85vw;
+    }
+
 }
 </style>

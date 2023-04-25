@@ -1,33 +1,38 @@
 <template>
   <!-- max-height-vh-100 h-100 -->
   <div class="w-auto h-auto collapse navbar-collapse " id="sidenav-collapse-main">
-    <ul class="navbar-nav">
-      <li class="nav-item mb-3">
-        <sidenav-collapse navText="首頁" :to="{ name: 'Dashboard' }">
+    <ul class="navbar-nav" style="    flex-direction: row!important;">
+      <li class="nav-item">
+        <sidenav-collapse navText="首頁" :to="{ name: 'Dashboard' }" class="m-0">
           <template #icon>
             <shop />
           </template>
         </sidenav-collapse>
       </li>
-      <!-- <li class="mt-3 nav-item" v-if="user_account">
-        <h6 class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6 ms-2">
-          個人
-        </h6>
-      </li>
-      <li class="nav-item" v-if="user_account">
-        <sidenav-collapse navText="個人頁面" :to="{ name: 'Profile', params: { user_account: user_account } }">
+
+      <li class="nav-item">
+        <sidenav-collapse navText="所有同學" :to="{ name: 'AllUser' }" class="m-0">
           <template #icon>
             <customer-support />
           </template>
         </sidenav-collapse>
       </li>
-      <li class="nav-item" v-if="user_account">
+    </ul>
+    <ul class="navbar-nav">
+
+      <!-- <li class="mt-3 nav-item" v-if="user_account">
+        <h6 class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6 ms-2">
+          個人
+        </h6>
+      </li> -->
+
+      <!-- <li class="nav-item" v-if="user_account">
         <sidenav-collapse navText="上傳貼文" :to="{ name: 'Upload' }">
           <template #icon>
             <office />
           </template>
         </sidenav-collapse>
-      </li> -->
+      </li>  -->
       <li class="nav-item" v-if="this.$route.name == 'Dashboard' || this.$route.name == 'Profile'"
         :key="this.$route.name">
 

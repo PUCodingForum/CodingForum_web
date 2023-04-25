@@ -13,7 +13,7 @@ import EditUser from "@/views/user/EditUser.vue";
 import EditPic from "@/views/user/EditPic.vue";
 import EditCover from "@/views/user/EditCover.vue";
 import EditPassword from "@/views/user/EditPassword.vue";
-
+import AllUser from "@/views/AllUser.vue";
 const routes = [
   {
     // path: "*",
@@ -52,7 +52,11 @@ const routes = [
     name: "Profile",
     component: Profile,
   },
-
+  {
+    path: "/alluser",
+    name: "AllUser",
+    component: AllUser,
+  },
   {
     path: "/auth",
     name: "auth",

@@ -6,18 +6,20 @@
       <div class="mt-2 collapse navbar-collapse mt-sm-0 me-md-0 me-sm-4" id="navbar">
         <div class="pe-md-3 d-flex align-items-center ms-md-auto">
         </div>
+
         <ul class="navbar-nav justify-content-end">
           <li class="nav-item d-flex align-items-center">
+
             <router-link v-if="user_account" :to="{ name: 'Profile', params: { user_account: user_account } }"
               class="px-0 nav-link font-weight-bold text-body">
-              <i class="fa fa-user me-sm-1"></i>
-              <span class="d-sm-inline d-none">個人頁面</span>
+              <img class="userimg comment__avatar " :src="now_user_pic_url" alt="" />
+
             </router-link>
-            <div v-if="user_account" @click="logout" class="px-0 nav-link font-weight-bold text-body"
+            <!-- <div v-if="user_account" @click="logout" class="px-0 nav-link font-weight-bold text-body"
               style="cursor:pointer">
               <i class="fa-solid fa-right-from-bracket me-sm-1 ms-4"></i>
               <span class="d-sm-inline d-none">登出</span>
-            </div>
+            </div> -->
             <div v-if="!user_account" @click="login" class="px-0 nav-link font-weight-bold text-body"
               style="cursor:pointer">
               <i class="fa fa-user me-sm-1"></i>
@@ -33,10 +35,7 @@
               </div>
             </a>
           </li>
-          <li class="px-3 nav-item d-flex align-items-center">
-          </li>
-
-          <TagedCard :key="TagedCardkey" @TagedCardkeyadd="TagedCardkeyadd" />
+          <TagedCard class="ms-2" :key="TagedCardkey" @TagedCardkeyadd="TagedCardkeyadd" v-if="user_account" />
         </ul>
       </div>
     </div>
@@ -59,6 +58,7 @@ export default {
       showMenu: false,
       token: this.$cookies.get("token"),
       user_account: this.$cookies.get("user_account"),
+      now_user_pic_url: this.$cookies.get("now_user_pic_url"),
       TagedCardkey: 0
     };
   },
@@ -137,6 +137,8 @@ export default {
         return "編輯貼文";
       if (this.$route.name == "EditUser")
         return "編輯用戶";
+      if (this.$route.name == "AllUser")
+        return "所有使用者";
     },
   },
   updated() {
