@@ -38,7 +38,7 @@ const routes = [
     component: Upload,
   },
   {
-    path: "/video/:post_id?",
+    path: "/video/:post_id?/:comment_id?",
     name: "Video",
     component: Video,
   },

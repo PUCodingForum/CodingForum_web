@@ -9,7 +9,7 @@
       :minNav="navbarMinimize" v-if="this.$store.state.showNavbar" />
 
     <router-view v-slot="{ Component }">
-      <component ref="view" :is="Component" />
+      <component ref="view" :is="Component" :key="$route.fullPath" />
     </router-view>
 
     <app-footer v-show="this.$store.state.showFooter" />

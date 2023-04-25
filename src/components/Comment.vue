@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="comment mt-4" :class="[{ shaddow: lastOne }, { corner: hasCorner }]" :id="'comment_' + comment_id">
+        <div class="comment mt-4 p-2" :class="[{ shaddow: lastOne }, { corner: hasCorner }]" :id="'comment_' + comment_id">
             <div class="comment__header row">
                 <div class="comment__author col-1" style="    align-self: flex-start;">
                     <img class="userimg comment__avatar " :src="pic_url" alt="" />
@@ -23,13 +23,13 @@
                         <timeago :datetime="created_at.replaceAll('/', '-')" />
 
                         <Vote @like_function="like_comment" v-bind="{
-                            id: comment_id,
-                            count: likes,
-                            isLiked: this.isLiked,
-                            isDisliked: this.isDisliked,
-                            loading: this.loading,
-                            type: 1 //0post //1comment
-                        }" />
+                                id: comment_id,
+                                count: likes,
+                                isLiked: this.isLiked,
+                                isDisliked: this.isDisliked,
+                                loading: this.loading,
+                                type: 1 //0post //1comment
+                            }" />
                         <div class="breakline"></div>
 
                         <a class="btn btn-link text-dark px-3 mb-0" @click="reply" v-if="token_user_id">
@@ -71,31 +71,31 @@
         <div v-if="real_children_comments.length" class="comment__inner-commment">
             <template v-for="(item, index) in real_children_comments" :key="item.id">
                 <Comment @delete_child_comment="delete_child_comment" v-bind="{
-                    comment_id: item.id,
-                    pic_url: item.pic_url,
-                    user_name: item.user_name,
-                    user_account: item.user_account,
-                    user_id: item.user_id,
-                    likes: item.likes,
-                    content: item.content,
-                    lastOne: index === real_children_comments.length - noResult_corner,
-                    hasCorner: real_children_comments.length >= 1,
-                    created_at: item.created_at,
-                    user_comment_like: user_comment_like,
-                    all_user: all_user,
-                    type: 2
+                        comment_id: item.id,
+                        pic_url: item.pic_url,
+                        user_name: item.user_name,
+                        user_account: item.user_account,
+                        user_id: item.user_id,
+                        likes: item.likes,
+                        content: item.content,
+                        lastOne: index === real_children_comments.length - noResult_corner,
+                        hasCorner: real_children_comments.length >= 1,
+                        created_at: item.created_at,
+                        user_comment_like: user_comment_like,
+                        all_user: all_user,
+                        type: 2
 
-                }" />
-                <div v-if="!noResult && index === real_children_comments.length - 1">
+                    }" />
+                <!-- <div v-if="!noResult && index === real_children_comments.length - 1">
                     <soft-button color="dark" variant="gradient" class="my-4 mb-2"
                         @click="get_children_comment(comment_id)">查看更多回覆</soft-button>
-                </div>
+                </div> -->
             </template>
         </div>
-        <div v-if="!noResult && real_children_comment_count > 0 && real_children_comments.length == 0">
+        <!-- <div v-if="!noResult && real_children_comment_count > 0 && real_children_comments.length == 0">
             <soft-button color="dark" variant="gradient" class="ms-5"
                 @click="get_children_comment(comment_id)">查看更多回覆</soft-button>
-        </div>
+        </div> -->
 
     </div>
 
@@ -136,7 +136,7 @@ export default {
             readOnly: true,
             post_id: this.$route.params.post_id,
             noResult: false,
-            noResult_corner: 0,
+            noResult_corner: 1,
             isLiked: false,
             isDisliked: false,
             loading: 0,

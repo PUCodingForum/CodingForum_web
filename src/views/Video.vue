@@ -6,7 +6,6 @@
       <div class="row">
         <div class="col-lg-8 mb-4 mb-xxl-0">
 
-
           <el-main style="padding:0" v-loading="video_loading" element-loading-text="影片載入中"
             element-loading-background="rgba(0, 0, 0)">
             <div class="container_video" style="background-color: black;">
@@ -34,13 +33,13 @@
                   <timeago :datetime="post.created_at.replaceAll('/', '-')" v-if="post.length != 0" />
                   。
                   <Vote @like_function="like_post" v-bind="{
-                    post_id: post.id,
-                    count: this.post_likes,
-                    isLiked: this.isLiked,
-                    isDisliked: this.isDisliked,
-                    loading: this.loading,
-                    type: 0//0post //1comment
-                  }" />
+                      post_id: post.id,
+                      count: this.post_likes,
+                      isLiked: this.isLiked,
+                      isDisliked: this.isDisliked,
+                      loading: this.loading,
+                      type: 0//0post //1comment
+                    }" />
                   <router-link style=" font-size: 13px;" v-if="token_user_id == post.user_id"
                     :to="{ name: 'EditPost', params: { post_id: post.id } }">
                     <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>編輯貼文</router-link>
@@ -123,20 +122,20 @@
                 </div>
                 <div v-for="(item, index) in comments" :key="item.id">
                   <Comment :id="'comment_' + item.id" @remove_comment="remove_comment" v-if="item.id != null" v-bind="{
-                    pic_url: item.pic_url,
-                    user_name: item.user_name,
-                    user_account: item.user_account,
-                    user_id: item.user_id,
-                    content: item.content,
-                    children_comment_count: item.children_comment_count,
-                    children_comments: item.children_comments,
-                    likes: item.likes,
-                    comment_id: item.id,
-                    created_at: item.created_at,
-                    user_comment_like: user_comment_like,
-                    all_user: all_user,
-                    type: 1
-                  }" />
+                      pic_url: item.pic_url,
+                      user_name: item.user_name,
+                      user_account: item.user_account,
+                      user_id: item.user_id,
+                      content: item.content,
+                      children_comment_count: item.children_comment_count,
+                      children_comments: item.children_comments,
+                      likes: item.likes,
+                      comment_id: item.id,
+                      created_at: item.created_at,
+                      user_comment_like: user_comment_like,
+                      all_user: all_user,
+                      type: 1
+                    }" />
 
                 </div>
 
@@ -188,6 +187,7 @@ export default {
       post: [],
       uva_topic: [],
       post_id: this.$route.params.post_id,
+      comment_id: this.$route.params.comment_id,
       video_loading: true,
       loading: 0,
       comments: [],
@@ -282,9 +282,14 @@ export default {
         .get("/api/auth/get_all_user", {
         });
     }
-
-    this.axios.all([get_post(this.post_id), get_comment(this.post_id), get_like(this.post_id, this.token), get_all_user()]).then(
-      this.axios.spread((res1, res2, res3, res4) => {
+    function check_is_children_comment(comment_id) {
+      return axios
+        .post("/api/forum/check_is_children_comment", {
+          comment_id: comment_id
+        });
+    }
+    this.axios.all([get_post(this.post_id), get_comment(this.post_id), get_like(this.post_id, this.token), get_all_user(), check_is_children_comment(this.comment_id)]).then(
+      this.axios.spread((res1, res2, res3, res4, res5) => {
         console.log(res4.data.success);
         this.all_user = res4.data.success;
         console.log(res1);
@@ -307,7 +312,38 @@ export default {
         this.video_loading = false;
         this.post_likes = res1.data.success.likes
         this.uva_topic = res1.data.success.uva_topic;
-        this.comments = res2.data.success.slice(0, 3);
+        if (this.comment_id != null) {
+          if (!res5.data.success) //主留言
+          {
+            res2.data.success.forEach((item, index) => {
+              if (this.comment_id == item.id) {
+                this.comments.push(item);
+                res2.data.success.splice(index, 1);
+                return;
+              };
+            });
+          } else {
+            var parent_comment_id = res5.data.parent_comment_id;
+            res2.data.success.forEach((item, index) => {
+              if (parent_comment_id == item.id) {
+                this.comments.push(item);
+                res2.data.success.splice(index, 1);
+                return;
+              };
+            });
+          }
+          this.comments = this.comments.concat(res2.data.success.slice(0, 3));
+          this.$nextTick(() => {
+            document.getElementById("comment_" + this.comment_id).classList.add('tagcolor');
+            document.getElementById("comment_" + this.comment_id).scrollIntoView({ block: "center" });
+          });
+
+        } else {//無tag
+          this.comments = res2.data.success.slice(0, 3);
+        }
+
+        //else parentcomment + childrencomment 前全部 + 被tag留言
+
         if (res3 == '') {
           this.loading++
         }
@@ -517,5 +553,28 @@ textarea:focus {
 #textbox {
   width: 100vw;
   height: 100vh;
+}
+</style>
+<style>
+.tagcolor {
+  background-color: #e9f1ff;
+  border-radius: 15px;
+  animation-name: example;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes example {
+  from {
+    background-color: #e9f1ff;
+  }
+
+  50% {
+    background-color: #6294ff46;
+  }
+
+  to {
+    background-color: #e9f1ff;
+  }
 }
 </style>

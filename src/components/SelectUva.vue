@@ -1,7 +1,7 @@
 <template>
-    <el-select ref="elselect" :key="selreload" v-model="select_uva" popper-class="virtualSelect"
-        @visible-change="visibleVirtualoptions" filterable remote :remote-method="remoteMethod" placeholder="請輸入題目編號或標題"
-        no-data-text="找不到題目" loading-text="題目加載中...">
+    <el-select ref="elselect" v-model="select_uva" popper-class="virtualSelect" @visible-change="visibleVirtualoptions"
+        filterable remote :remote-method="remoteMethod" placeholder="請輸入題目編號或標題" no-data-text="找不到題目"
+        loading-text="題目加載中...">
         <virtual-list ref="VirtualList" :key="reload" style="max-height: 245px; overflow-y: auto;" :data-key="'id'"
             :data-sources="uvas" :data-component="itemComponent" :keeps="20" />
     </el-select>
@@ -23,7 +23,6 @@ export default {
             itemComponent: ElOptionNode,
             virtualoptions: [],
             reload: 0,
-            selreload: 0,
             select_uva: null,
         };
     },
