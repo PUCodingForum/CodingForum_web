@@ -12,11 +12,11 @@
               </div>
               <div class="mb-3">
                 <label>新密碼</label>
-                <input class="form-control" v-model="password" type="password" placeholder="新密碼" aria-label="密碼" />
+                <input class="form-control" v-model="password" type="text" placeholder="新密碼" aria-label="密碼" />
               </div>
               <div class="mb-3">
                 <label>請再輸入一次新密碼</label>
-                <input class="form-control" v-model="repeat_password" type="password" placeholder="請再輸入一次新密碼"
+                <input class="form-control" v-model="repeat_password" type="text" placeholder="請再輸入一次新密碼"
                   aria-label="密碼" />
               </div>
 
