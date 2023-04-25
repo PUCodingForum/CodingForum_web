@@ -11,7 +11,7 @@
       </li>
 
       <li class="nav-item">
-        <sidenav-collapse navText="所有同學" :to="{ name: 'AllUser' }" class="m-0">
+        <sidenav-collapse navText="同學列表" :to="{ name: 'AllUser' }" class="m-0">
           <template #icon>
             <customer-support />
           </template>

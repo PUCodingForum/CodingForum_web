@@ -18,8 +18,8 @@
                     <div class="col-auto my-auto">
                         <div class="h-100">
                             <h5 class="mb-1" style="    
-                            background-color: black;
-                            color: white;
+                            background-color: white;
+                            color: black;
                             border-radius: 5px;">
                                 {{ user.name }}
                             </h5>
