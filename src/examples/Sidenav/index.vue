@@ -15,7 +15,6 @@
 </template>
 <script>
 import SidenavList from "./SidenavList.vue";
-import logo from "@/assets/img/logo-ct.png";
 import { mapState } from "vuex";
 
 export default {
@@ -25,7 +24,6 @@ export default {
   },
   data() {
     return {
-      logo,
     };
   },
   props: {
