@@ -17,8 +17,36 @@
           </template>
         </sidenav-collapse>
       </li>
+
+    </ul>
+    <ul class="navbar-nav" style="    flex-direction: row!important;">
+      <li class="nav-item">
+        <sidenav-collapse navText="選課" :to="{ name: 'UserClass' }" class="m-0">
+          <template #icon>
+            <customer-support />
+          </template>
+        </sidenav-collapse>
+      </li>
+      <li class="nav-item">
+        <sidenav-collapse navText="我的課程" :to="{ name: 'MyClass' }" class="m-0">
+          <template #icon>
+            <customer-support />
+          </template>
+        </sidenav-collapse>
+      </li>
+    </ul>
+    <ul class="navbar-nav" style="    flex-direction: row!important;">
+
+      <li class="nav-item">
+        <sidenav-collapse navText="管理者" :to="{ name: 'AdminDashboard' }" class="m-0">
+          <template #icon>
+            <customer-support />
+          </template>
+        </sidenav-collapse>
+      </li>
     </ul>
     <ul class="navbar-nav">
+
 
       <!-- <li class="mt-3 nav-item" v-if="user_account">
         <h6 class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6 ms-2">
