@@ -58,12 +58,6 @@ export default {
       user: [],
     };
   },
-  created() {
-    if (!this.token) {
-      ElMessage.error("請先登入以進行操作");
-      this.$router.push({ name: 'Sign In' });
-    }
-  },
   methods: {
     edit() {
       if (!this.token) {

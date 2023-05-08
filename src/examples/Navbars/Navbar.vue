@@ -139,6 +139,15 @@ export default {
         return "編輯用戶";
       if (this.$route.name == "AllUser")
         return "所有使用者";
+      if (this.$route.name == "UserClass")
+        return "選課系統";
+      if (this.$route.name == "MyClass")
+        return "我的課程";
+      if (this.$route.name == "Admin")
+        return "管理者介面";
+      if (this.$route.name == "AllUser")
+        return "所有使用者";
+
     },
   },
   updated() {

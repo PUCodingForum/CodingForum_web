@@ -118,7 +118,6 @@ export default {
       content: '',
       select_uva: [],
       token: this.$cookies.get("token"),
-      token_user_id: this.$cookies.get("user_id"),
       token_user_account: this.$cookies.get("account"),
       options: [{ value: 'text/x-csrc', label: 'C' }, { value: 'text/x-c++src', label: 'C++' }, { value: 'text/x-java', label: 'Java' }, { value: 'python', label: 'Python' }],
       code_select: { value: 'text/x-csrc', label: 'C' },
@@ -160,11 +159,6 @@ export default {
             this.select_uva = { value: res.data.success.uva_topic.id, serial: res.data.success.uva_topic.serial, label: res.data.success.uva_topic.show }
             this.code_select = { value: res.data.success.code_editor_type, label: res.data.success.code_type }
             this.code = res.data.success.code
-            if (this.token_user_id != res.data.success.user_id) {
-              this.$router.push({ name: 'Dashboard' });
-              ElMessage.error("權限不符");
-
-            }
 
           })
 
@@ -288,7 +282,7 @@ export default {
           console.log(res);
 
           this.$router.push({
-            name: 'Dashboard', params: { user_account: this.token_user_account }
+            name: 'Profile', params: { user_account: this.token_user_account }
           });
 
           ElMessage({

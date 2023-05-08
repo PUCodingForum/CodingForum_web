@@ -1,33 +1,50 @@
 <template>
-    <div class="container-fluid" v-for="user in users">
-        <router-link class="" :to="{ name: 'Profile', params: { user_account: user.account } }">
+    <div class="py-4 container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card z-index-0">
+                    <el-main style="padding:0" v-loading="data_loading" element-loading-text="載入中"
+                        element-loading-background="rgb(248 248 248)">
+                        <div class="card-body">
 
-            <div class="mt-4 mx-4 overflow-hidden card card-body blur shadow-blur user_cover" :style="{
-                    backgroundImage:
-                        'url(' + user.cover_url + ')',
-                    backgroundPositionY: '50%',
-                    backgroundSize: 'cover'
-                }">
-                <div class="row gx-4">
-                    <div class="col-auto">
-                        <div class="avatar avatar-xl position-relative">
-                            <img :src="user.pic_url" alt="" class="shadow-sm w-100 border-radius-lg"
-                                style="background-color: antiquewhite;" />
-                        </div>
-                    </div>
-                    <div class="col-auto my-auto">
-                        <div class="h-100">
-                            <h5 class="mb-1" style="    
+                            <div class="container-fluid" v-for="user in users">
+
+                                <router-link class="" :to="{ name: 'Profile', params: { user_account: user.account } }">
+
+                                    <div class="mt-4  overflow-hidden card card-body blur shadow-blur user_cover" :style="{
+                                            backgroundImage:
+                                                'url(' + $global_cover_url + user.cover + ')',
+                                            backgroundPositionY: '50%',
+                                            backgroundSize: 'cover'
+                                        }">
+                                        <div class="row gx-4">
+                                            <div class="col-auto">
+                                                <div class="avatar avatar-xl position-relative">
+                                                    <img :src="$global_pic_url + user.picture" alt=""
+                                                        class="shadow-sm w-100 border-radius-lg"
+                                                        style="background-color: antiquewhite;" />
+                                                </div>
+                                            </div>
+                                            <div class="col-auto my-auto">
+                                                <div class="h-100">
+                                                    <h5 class="mb-1" style="    
                             background-color: white;
                             color: black;
                             border-radius: 5px;">
-                                {{ user.name }}
-                            </h5>
+                                                        {{ user.name }}
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </router-link>
+                            </div>
                         </div>
-                    </div>
+                    </el-main>
+
                 </div>
             </div>
-        </router-link>
+        </div>
     </div>
 </template>
   
@@ -44,6 +61,7 @@ export default {
     data() {
         return {
             users: [],
+            data_loading: true
         };
     },
     created() {
@@ -53,16 +71,10 @@ export default {
             })
             .then((res) => {
                 this.users = res.data.success
+                this.data_loading = false
                 console.log(res.data.success);
             })
     },
-    methods: {
-        upload() {
-            this.$router.push({ name: 'Upload' });
-        },
-    },
+
 };
 </script>
-<style scoped>
-@media (min-width: 1200px) {}
-</style>

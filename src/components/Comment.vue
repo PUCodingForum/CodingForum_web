@@ -3,7 +3,7 @@
         <div class="comment mt-4 p-2" :class="[{ shaddow: lastOne }, { corner: hasCorner }]" :id="'comment_' + comment_id">
             <div class="comment__header row">
                 <div class="comment__author col-1" style="    align-self: flex-start;">
-                    <img class="userimg comment__avatar " :src="pic_url" alt="" />
+                    <img class="userimg comment__avatar " :src="$global_pic_url + picture" alt="" />
                 </div>
                 <div class="comment__content col-11">
                     <h3 class="comment__title ms-4 ms-xxl-0">
@@ -72,7 +72,7 @@
             <template v-for="(item, index) in real_children_comments" :key="item.id">
                 <Comment @delete_child_comment="delete_child_comment" v-bind="{
                         comment_id: item.id,
-                        pic_url: item.pic_url,
+                        picture: item.picture,
                         user_name: item.user_name,
                         user_account: item.user_account,
                         user_id: item.user_id,
@@ -145,7 +145,7 @@ export default {
             content_temp: '',
             textrefresh: 0,
             real_content: this.content,
-            now_user_pic_url: this.$global_pic_url,
+            now_user_pic_url: this.$global_default_pic_url,
             open_reply: false,
             reply_content: '',
             real_children_comments: this.children_comments,
@@ -224,7 +224,7 @@ export default {
             type: Boolean,
             default: false,
         },
-        pic_url: {
+        picture: {
             type: String,
         },
         user_name: {

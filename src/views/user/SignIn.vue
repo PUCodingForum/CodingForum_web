@@ -119,7 +119,7 @@ export default {
           this.$cookies.set("token", res.data.success, "1d");
           this.$cookies.set("user_account", user_account, "1d");
           this.$cookies.set("user_id", res.data.user.id, "1d");
-          this.$cookies.set("now_user_pic_url", res.data.user.pic_url, "1d");
+          this.$cookies.set("now_user_pic_url", this.$global_pic_url + res.data.user.picture, "1d");
           if (this.$cookies.isKey("go_login_then_backpost")) {
             this.$router.push({
               name: 'Video',

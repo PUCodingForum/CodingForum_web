@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="mt-4 page-header cover_height border-radius-xl" :style="{
       backgroundImage:
-        'url(' + user.cover_url + ')',
+        'url(' + $global_cover_url + user.cover + ')',
       backgroundPositionY: '50%',
     }">
     </div>
@@ -10,7 +10,7 @@
       <div class="row gx-4">
         <div class="col-auto">
           <div class="avatar avatar-xl position-relative">
-            <img :src="user.pic_url" alt="" class="shadow-sm w-100 border-radius-lg" />
+            <img :src="$global_pic_url + user.picture" alt="" class="shadow-sm w-100 border-radius-lg" />
           </div>
         </div>
         <div class="col-auto my-auto">
@@ -141,57 +141,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="mt-4 col-12 col-xl-4 mt-xl-0">
-        <div class="card h-100">
-          <div class="p-3 pb-0 card-header">
-            <h6 class="mb-0">Conversations</h6>
-          </div>
-          <div class="p-3 card-body">
-            <ul class="list-group">
-              <li class="px-0 mb-2 border-0 list-group-item d-flex align-items-center">
-                <soft-avatar class="me-3" :img="sophie" alt="kal" border-radius="lg" shadow="regular" />
-                <div class="d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="mb-0 text-sm">Sophie B.</h6>
-                  <p class="mb-0 text-xs">Hi! I need more information..</p>
-                </div>
-                <a class="mb-0 btn btn-link pe-3 ps-0 ms-auto">Reply</a>
-              </li>
-              <li class="px-0 mb-2 border-0 list-group-item d-flex align-items-center">
-                <soft-avatar class="me-3" :img="marie" alt="kal" border-radius="lg" shadow="regular" />
-                <div class="d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="mb-0 text-sm">Anne Marie</h6>
-                  <p class="mb-0 text-xs">Awesome work, can you..</p>
-                </div>
-                <a class="mb-0 btn btn-link pe-3 ps-0 ms-auto">Reply</a>
-              </li>
-              <li class="px-0 mb-2 border-0 list-group-item d-flex align-items-center">
-                <soft-avatar class="me-3" :img="ivana" alt="kal" border-radius="lg" shadow="regular" />
-                <div class="d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="mb-0 text-sm">Ivanna</h6>
-                  <p class="mb-0 text-xs">About files I can..</p>
-                </div>
-                <a class="mb-0 btn btn-link pe-3 ps-0 ms-auto">Reply</a>
-              </li>
-              <li class="px-0 mb-2 border-0 list-group-item d-flex align-items-center">
-                <soft-avatar class="me-3" :img="peterson" alt="kal" border-radius="lg" shadow="regular" />
-                <div class="d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="mb-0 text-sm">Peterson</h6>
-                  <p class="mb-0 text-xs">Have a great afternoon..</p>
-                </div>
-                <a class="mb-0 btn btn-link pe-3 ps-0 ms-auto">Reply</a>
-              </li>
-              <li class="px-0 border-0 list-group-item d-flex align-items-center">
-                <soft-avatar class="me-3" :img="nick" alt="kal" border-radius="lg" shadow="regular" />
-                <div class="d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="mb-0 text-sm">Nick Daniel</h6>
-                  <p class="mb-0 text-xs">Hi! I need more information..</p>
-                </div>
-                <a class="mb-0 btn btn-link pe-3 ps-0 ms-auto">Reply</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div> -->
       </div>
     </infinite-scroll>
   </div>
@@ -244,7 +193,7 @@ export default {
         if (this.$route.name != 'Profile') {
           return;
         }
-        if (this.$route.params.user_account == null) {
+        if (!this.$route.params.user_account) {
           this.$router.push({ name: 'Dashboard' });
           ElMessage.error("用戶不存在");
         }

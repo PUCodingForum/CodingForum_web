@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="comment__author " style="align-self: flex-start;" v-if="post.length != 0">
-                  <img class="userimg comment__avatar " :src="post.user_pic_url" alt="" />
+                  <img class="userimg comment__avatar " :src="$global_pic_url + post.user_picture" alt="" />
                   <h3 class="comment__title" style="margin:0">
                     <router-link class="" :to="{ name: 'Profile', params: { user_account: post.user_account } }">
                       {{ post.user_name }} </router-link>
@@ -122,7 +122,7 @@
                 </div>
                 <div v-for="(item, index) in comments" :key="item.id">
                   <Comment :id="'comment_' + item.id" @remove_comment="remove_comment" v-if="item.id != null" v-bind="{
-                      pic_url: item.pic_url,
+                      picture: item.picture,
                       user_name: item.user_name,
                       user_account: item.user_account,
                       user_id: item.user_id,
@@ -195,7 +195,7 @@ export default {
       user_comment_like: [],
       token: this.$cookies.get("token"),
       token_user_id: this.$cookies.get("user_id"),
-      now_user_pic_url: this.$global_pic_url,
+      now_user_pic_url: this.$global_default_pic_url,
       isLiked: false,
       isDisliked: false,
       noResult: false,

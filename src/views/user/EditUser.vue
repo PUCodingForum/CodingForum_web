@@ -78,10 +78,6 @@ export default {
     };
   },
   created() {
-    if (!this.token) {
-      ElMessage.error("請先登入以進行操作");
-      this.$router.push({ name: 'Sign In' });
-    }
     this.axios
       .post("/api/auth/token_user", {
       }, {

@@ -8,15 +8,15 @@
             <form role="form" class="mx-auto col-xl-9">
               <div class="mb-3">
                 <p>目前封面</p>
-                <img :src="cover_url" alt="" class="user_pic">
+                <img :src="$global_cover_url + cover" alt="" class="user_pic">
 
                 <p v-if="max_pic" class="mt-4">待更新封面</p>
 
                 <div class="upload-example__cropper-wrapper">
                   <cropper ref="cropper" class="upload-example__cropper" check-orientation :src="image.src"
                     :stencil-props="{
-                      aspectRatio: 5 / 1,
-                    }" :auto-zoom="true" />
+                        aspectRatio: 5 / 1,
+                      }" :auto-zoom="true" />
                   <div class="vertical-buttons">
 
                     <square-button title="Maximize" @click="maximize()" v-if="max_pic">
@@ -113,7 +113,7 @@ export default {
       max_pic: false,
       upload_userpic: '上傳封面',
       temp: '',
-      cover_url: '',
+      cover: '',
       token: this.$cookies.get("token"),
       token_user_id: this.$cookies.get("user_id"),
       token_user_account: this.$cookies.get("user_account"),
@@ -125,10 +125,6 @@ export default {
     };
   },
   created() {
-    if (!this.token) {
-      ElMessage.error("請先登入以進行操作");
-      this.$router.push({ name: 'Sign In' });
-    }
     this.axios
       .post("/api/auth/token_user", {
       }, {
@@ -139,7 +135,7 @@ export default {
       .then((res) => {
 
         console.log(res);
-        this.cover_url = res.data.user.cover_url
+        this.cover = res.data.user.cover
       })
       .catch(function (error) {
         if (error.response) {
@@ -162,7 +158,7 @@ export default {
         canvas.toBlob(blob => {
           this.axios
             .post("/api/auth/edit_user", {
-              cover_url: blob,
+              cover: blob,
             }, {
               headers: {
                 'Authorization': `Bearer ` + this.token,
@@ -273,7 +269,7 @@ export default {
 
       this.axios
         .post("/api/auth/edit_user", {
-          cover_url: 'https://code.bakerychu.com/api/default_cover.jpeg',
+          cover: 'default_cover.jpeg',
           reset: 1
         }, {
           headers: {

@@ -90,9 +90,4 @@ export default {
 .el-select {
     display: block !important;
 }
-
-.el-input {
-    --el-input-bg-color: #2B3E50 !important;
-    --el-input-text-color: #ffffff !important
-}
 </style>
