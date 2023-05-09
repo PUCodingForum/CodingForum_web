@@ -43,10 +43,6 @@ app.config.globalProperties.$app_name = "程式交流網";
 app.config.globalProperties.$global_url = "https://code.bakerychu.com/api/";
 app.config.globalProperties.$global_default_pic_url =
   "https://code.bakerychu.com/api/uploads/userpic/default_user.png";
-app.config.globalProperties.$global_pic_url =
-  "https://code.bakerychu.com/api/uploads/userpic/";
-app.config.globalProperties.$global_cover_url =
-  "https://code.bakerychu.com/api/uploads/coverpic/";
 
 app.config.globalProperties.$child_comment_onceshow = 3;
 

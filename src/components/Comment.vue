@@ -3,7 +3,7 @@
         <div class="comment mt-4 p-2" :class="[{ shaddow: lastOne }, { corner: hasCorner }]" :id="'comment_' + comment_id">
             <div class="comment__header row">
                 <div class="comment__author col-1" style="    align-self: flex-start;">
-                    <img class="userimg comment__avatar " :src="$global_pic_url + picture" alt="" />
+                    <img class="userimg comment__avatar " :src="$global_url + picture" alt="" />
                 </div>
                 <div class="comment__content col-11">
                     <h3 class="comment__title ms-4 ms-xxl-0">

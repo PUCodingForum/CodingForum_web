@@ -3,7 +3,7 @@
         <a class="dropdown-item border-radius-md" :class="[real_viewed == 0 ? 'notview' : 'viewed']" @click="govideo">
             <div class="py-1 d-flex">
                 <div class="my-auto">
-                    <img :src="$global_pic_url + source['comment_user_picture']" class="avatar avatar-sm me-3"
+                    <img :src="$global_url + source['comment_user_picture']" class="avatar avatar-sm me-3"
                         alt="user image" />
                 </div>
                 <div class="d-flex flex-column justify-content-center">

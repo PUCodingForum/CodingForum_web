@@ -13,14 +13,14 @@
 
                                     <div class="mt-4  overflow-hidden card card-body blur shadow-blur user_cover" :style="{
                                             backgroundImage:
-                                                'url(' + $global_cover_url + user.cover + ')',
+                                                'url(' + $global_url + user.cover + ')',
                                             backgroundPositionY: '50%',
                                             backgroundSize: 'cover'
                                         }">
                                         <div class="row gx-4">
                                             <div class="col-auto">
                                                 <div class="avatar avatar-xl position-relative">
-                                                    <img :src="$global_pic_url + user.picture" alt=""
+                                                    <img :src="$global_url + user.picture" alt=""
                                                         class="shadow-sm w-100 border-radius-lg"
                                                         style="background-color: antiquewhite;" />
                                                 </div>

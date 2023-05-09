@@ -8,7 +8,7 @@
             <form role="form" class="mx-auto col-xl-9">
               <div class="mb-3">
                 <p>目前頭貼</p>
-                <img :src="$global_pic_url + picture" alt="" class="user_pic">
+                <img :src="$global_url + picture" alt="" class="user_pic">
 
                 <p v-if="max_pic" class="mt-4">待更新頭貼</p>
 

@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="comment__author " style="align-self: flex-start;" v-if="post.length != 0">
-                  <img class="userimg comment__avatar " :src="$global_pic_url + post.user_picture" alt="" />
+                  <img class="userimg comment__avatar " :src="$global_url + post.user_picture" alt="" />
                   <h3 class="comment__title" style="margin:0">
                     <router-link class="" :to="{ name: 'Profile', params: { user_account: post.user_account } }">
                       {{ post.user_name }} </router-link>

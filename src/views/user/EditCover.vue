@@ -8,7 +8,7 @@
             <form role="form" class="mx-auto col-xl-9">
               <div class="mb-3">
                 <p>目前封面</p>
-                <img :src="$global_cover_url + cover" alt="" class="user_pic">
+                <img :src="$global_url + cover" alt="" class="user_pic">
 
                 <p v-if="max_pic" class="mt-4">待更新封面</p>
 

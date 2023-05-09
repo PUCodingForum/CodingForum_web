@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="mt-4 page-header cover_height border-radius-xl" :style="{
       backgroundImage:
-        'url(' + $global_cover_url + user.cover + ')',
+        'url(' + $global_url + user.cover + ')',
       backgroundPositionY: '50%',
     }">
     </div>
@@ -10,7 +10,7 @@
       <div class="row gx-4">
         <div class="col-auto">
           <div class="avatar avatar-xl position-relative">
-            <img :src="$global_pic_url + user.picture" alt="" class="shadow-sm w-100 border-radius-lg" />
+            <img :src="$global_url + user.picture" alt="" class="shadow-sm w-100 border-radius-lg" />
           </div>
         </div>
         <div class="col-auto my-auto">
