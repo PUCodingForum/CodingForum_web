@@ -18,10 +18,30 @@
                                         <el-input v-model="search" placeholder="作業名稱搜尋" />
                                     </template>
                                     <template #default="scope">
-                                        <el-button size="small">
+                                        <el-button
+                                            v-if="scope.row.hand_in_assignment_id == null && scope.row.in_time == true">
                                             <router-link
-                                                :to="{ name: 'OperateAssignment', params: { coding_class_id: this.coding_class_id, assignment_id: scope.row.id } }">
+                                                :to="{ name: 'HandInAssignment', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id } }">
                                                 繳交作業
+                                            </router-link>
+                                        </el-button>
+                                        <el-button
+                                            v-if="scope.row.hand_in_assignment_id == null && scope.row.in_time == false"
+                                            disabled>
+                                            超過繳交期限
+                                        </el-button>
+                                        <el-button
+                                            v-if="scope.row.hand_in_assignment_id != null && scope.row.in_time == true">
+                                            <router-link
+                                                :to="{ name: 'HandInAssignment', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id, hand_in_assignment_id: scope.row.hand_in_assignment_id } }">
+                                                編輯已繳作業
+                                            </router-link>
+                                        </el-button>
+                                        <el-button
+                                            v-if="scope.row.hand_in_assignment_id != null && scope.row.in_time == false">
+                                            <router-link
+                                                :to="{ name: 'HandInAssignment', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id, hand_in_assignment_id: scope.row.hand_in_assignment_id } }">
+                                                不可編輯，查看已繳作業
                                             </router-link>
                                         </el-button>
                                     </template>
@@ -33,23 +53,6 @@
             </div>
         </div>
 
-    </div>
-
-    <div class="modal fade" :id="'staticBackdrop' + post_id" data-bs-backdrop="static" data-bs-keyboard="false"
-        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">是否確認要刪除這篇貼文</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-                        @click.stop.prevent="delpost()">確定</button>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
   
@@ -88,27 +91,27 @@ export default {
                 }
                 if (!this.coding_class_id) {
                     this.$router.push({ name: 'MyClass' });
-
-                } else {
-                    const that = this;
-
-                    this.axios
-                        .post("/api/class/admin/get_assignment", {
-                            coding_class_id: this.coding_class_id
-                        }, {
-                            headers: {
-                                'Authorization': `Bearer ` + this.token
-                            }
-                        })
-                        .then((res) => {
-                            console.log(res)
-                            this.Assignment = res.data.success
-                            this.data_loading = false
-                        }).catch(function (error) {
-                            ElMessage.error(error.response.data.error)
-                            that.$router.push({ name: 'MyClass' });
-                        })
+                    return;
                 }
+
+                const that = this;
+                this.axios
+                    .post("/api/class/get_assignment", {
+                        coding_class_id: this.coding_class_id
+                    }, {
+                        headers: {
+                            'Authorization': `Bearer ` + this.token
+                        }
+                    })
+                    .then((res) => {
+                        console.log(res)
+                        this.Assignment = res.data.success
+                        this.data_loading = false
+                    }).catch(function (error) {
+                        ElMessage.error(error.response.data.error)
+                        that.$router.push({ name: 'MyClass' });
+                    })
+
             },
             { deep: true, immediate: true }
         );

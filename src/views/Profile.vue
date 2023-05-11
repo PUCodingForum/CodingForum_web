@@ -1,16 +1,16 @@
 <template>
   <div class="container-fluid">
     <div class="mt-4 page-header cover_height border-radius-xl" :style="{
-      backgroundImage:
-        'url(' + $global_url + user.cover + ')',
-      backgroundPositionY: '50%',
-    }">
+        backgroundImage:
+          'url(' + $global_url + user.cover + ')',
+        backgroundPositionY: '50%',
+      }" v-if="user">
     </div>
     <div class="mx-4 overflow-hidden card card-body blur shadow-blur user_cover">
       <div class="row gx-4">
         <div class="col-auto">
           <div class="avatar avatar-xl position-relative">
-            <img :src="$global_url + user.picture" alt="" class="shadow-sm w-100 border-radius-lg" />
+            <img v-if="user" :src="$global_url + user.picture" alt="" class="shadow-sm w-100 border-radius-lg" />
           </div>
         </div>
         <div class="col-auto my-auto">
@@ -196,6 +196,7 @@ export default {
         if (!this.$route.params.user_account) {
           this.$router.push({ name: 'Dashboard' });
           ElMessage.error("用戶不存在");
+          return;
         }
         this.posts = [];
         this.loading = true;

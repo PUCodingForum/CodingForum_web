@@ -86,7 +86,7 @@ export default {
           this.showtext = '更新作業'
           const that = this;
           this.axios
-            .post("/api/class/admin/get_assignment", {
+            .post("/api/class/get_assignment", {
               coding_class_id: this.coding_class_id,
               assignment_id: this.assignment_id
             }, {

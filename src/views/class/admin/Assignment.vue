@@ -93,7 +93,7 @@ export default {
 
                 } else {
                     this.axios
-                        .post("/api/class/admin/get_assignment", {
+                        .post("/api/class/get_assignment", {
                             coding_class_id: this.coding_class_id
                         }, {
                             headers: {

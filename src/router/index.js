@@ -22,6 +22,8 @@ import OperateAssignment from "@/views/class/admin/OperateAssignment.vue";
 import UserClass from "@/views/class/user/UserClass.vue";
 import MyClass from "@/views/class/user/MyClass.vue";
 import MyAssignment from "@/views/class/user/MyAssignment.vue";
+import HandInAssignment from "@/views/class/user/HandInAssignment.vue";
+
 import { ElMessage } from "element-plus";
 import axios from "axios";
 
@@ -105,12 +107,12 @@ const routes = [
     // path: "*",
     path: "/:catchAll(.*)",
     name: "NotFound",
-    redirect: "/home",
+    redirect: { name: "Dashboard" },
   },
   {
     path: "/",
     name: "/",
-    redirect: "/home",
+    redirect: { name: "Dashboard" },
   },
   {
     path: "/home",
@@ -158,10 +160,16 @@ const routes = [
     beforeEnter: islogin,
   },
   {
-    path: "/myassignment/:coding_class_id?",
+    path: "/myclass/myassignment/:coding_class_id?",
     name: "MyAssignment",
     component: MyAssignment,
-    beforeEnter: islogin,
+    beforeEnter: islogin, //已在Component裡確認是否為學生
+  },
+  {
+    path: "/myclass/myassignment/:coding_class_id?/handinassignment/:assignment_id?/operate/:hand_in_assignment_id?",
+    name: "HandInAssignment",
+    component: HandInAssignment,
+    beforeEnter: islogin, //已在Component裡確認是否為學生
   },
   {
     path: "/auth",
@@ -219,19 +227,19 @@ const routes = [
     ],
   },
   {
+    path: "/admin/:catchAll(.*)",
+    name: "AdminNotFound",
+    redirect: { name: "AdminDashboard" },
+  },
+  {
     path: "/admin",
     name: "Admin",
     beforeEnter: [islogin, isadmin],
     children: [
       {
-        path: "/:catchAll(.*)",
-        name: "NotFound",
-        redirect: "/admin/home",
-      },
-      {
         path: "",
         name: "",
-        redirect: "/admin/home",
+        redirect: { name: "AdminDashboard" },
       },
       {
         path: "home",
