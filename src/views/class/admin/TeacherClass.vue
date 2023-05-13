@@ -13,12 +13,20 @@
                                 <el-table-column label="學年度" prop="school_year" />
                                 <el-table-column label="課程名稱">
                                     <template #default="scope">
-                                        <router-link
-                                            :to="{ name: 'Assignment', params: { coding_class_id: scope.row.id } }">
-                                            {{ scope.row.name }}
-                                        </router-link>
+                                        {{ scope.row.name }}
                                     </template>
 
+                                </el-table-column>
+                                <el-table-column label="選課人數" prop="student_count" />
+                                <el-table-column label="開課狀態">
+                                    <template #default="scope">
+                                        <div v-if="scope.row.enable == 1">
+                                            開放加選
+                                        </div>
+                                        <div v-else>
+                                            停止加選
+                                        </div>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column label="TA">
                                     <template #default="scope">
@@ -30,12 +38,19 @@
                                         <el-input v-model="search" placeholder="課程名稱搜尋" />
                                     </template>
                                     <template #default="scope">
-                                        <el-button size="small">
+                                        <el-button>
                                             <router-link
-                                                :to="{ name: 'OperateTeacherClass', params: { coding_class_id: scope.row.id } }">
-                                                編輯
+                                                :to="{ name: 'Assignment', params: { coding_class_id: scope.row.id } }">
+                                                編輯作業
                                             </router-link>
                                         </el-button>
+                                        <el-button>
+                                            <router-link
+                                                :to="{ name: 'OperateTeacherClass', params: { coding_class_id: scope.row.id } }">
+                                                編輯課程
+                                            </router-link>
+                                        </el-button>
+
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -45,22 +60,6 @@
             </div>
         </div>
 
-    </div>
-    <div class="modal fade" :id="'staticBackdrop' + post_id" data-bs-backdrop="static" data-bs-keyboard="false"
-        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">是否確認要刪除這篇貼文</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-                        @click.stop.prevent="delpost()">確定</button>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
   

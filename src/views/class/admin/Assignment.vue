@@ -15,15 +15,33 @@
                                 <el-table-column label="作業內容" prop="content" />
                                 <el-table-column label="開始時間" prop="start_at" />
                                 <el-table-column label="結束時間" prop="end_at" />
+                                <el-table-column label="開放狀態">
+                                    <template #default="scope">
+                                        <div v-if="scope.row.in_time">
+                                            開放
+                                        </div>
+                                        <div v-else>
+                                            關閉
+                                        </div>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="繳交人數" prop="hand_in_count" />
+
                                 <el-table-column align="right">
                                     <template #header>
                                         <el-input v-model="search" placeholder="作業名稱搜尋" />
                                     </template>
                                     <template #default="scope">
-                                        <el-button size="small">
+                                        <el-button>
+                                            <router-link
+                                                :to="{ name: 'CheckAssignment', params: { coding_class_id: this.coding_class_id, assignment_id: scope.row.id } }">
+                                                學生繳交狀況
+                                            </router-link>
+                                        </el-button>
+                                        <el-button>
                                             <router-link
                                                 :to="{ name: 'OperateAssignment', params: { coding_class_id: this.coding_class_id, assignment_id: scope.row.id } }">
-                                                編輯
+                                                調整作業
                                             </router-link>
                                         </el-button>
                                     </template>
@@ -35,23 +53,6 @@
             </div>
         </div>
 
-    </div>
-
-    <div class="modal fade" :id="'staticBackdrop' + post_id" data-bs-backdrop="static" data-bs-keyboard="false"
-        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">是否確認要刪除這篇貼文</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-                        @click.stop.prevent="delpost()">確定</button>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
   
@@ -88,7 +89,7 @@ export default {
                 if (this.$route.name != 'Assignment') {
                     return;
                 }
-                if (this.coding_class_id == '') {
+                if (!this.coding_class_id) {
                     this.$router.push({ name: 'TeacherClass' });
 
                 } else {

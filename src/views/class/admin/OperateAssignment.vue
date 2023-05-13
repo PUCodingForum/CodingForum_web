@@ -12,8 +12,15 @@
               </div>
               <div class="mb-3">
                 <label>作業內容</label>
-                <textarea class="form-control" id="content" v-model="content" rows="5" placeholder="請輸入作業內容"
-                  required></textarea>
+                <textarea class="form-control" id="content" v-model="content" rows="5" placeholder="請輸入作業內容"></textarea>
+              </div>
+              <div class="mb-3">
+                <label>*作業型式</label>
+                <el-select v-model="type" class="m-2" placeholder="選擇作業型式" :disabled="disabled">
+                  <el-option label="只交影片" :value=1 />
+                  <el-option label="只交檔案" :value=2 />
+                  <el-option label="檔案+影片" :value=3 />
+                </el-select>
               </div>
               <div class="mb-3">
                 <label>*作業時間</label>
@@ -33,13 +40,36 @@
 
                 <soft-button color="warning" full-width variant="gradient" class="mb-5"
                   @click.stop.prevent="$router.go(-1)">取消</soft-button>
+                <soft-button color="danger" full-width variant="gradient" class="mt-5" data-bs-toggle="modal"
+                  :data-bs-target="'#staticBackdrop'" @click.stop.prevent="">刪除作業</soft-button>
               </div>
             </form>
           </div>
         </div>
       </div>
     </div>
-
+  </div>
+  <div class="modal fade" :id="'staticBackdrop'" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">是否確認要刪除此作業</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h6>請注意 此操作將會刪除學生繳交之檔案</h6>
+          <h6>請在下方輸入這段文字 以確認刪除</h6>
+          <h6>確認刪除{{ name }}</h6>
+          <input class="form-control" v-model="check" type="text" :placeholder="'確認刪除' + name" required />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+            @click.stop.prevent="del_assignment">確定</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -68,7 +98,8 @@ export default {
       coding_class_id: this.$route.params.coding_class_id,
       assignment_id: this.$route.params.assignment_id,
       showtext: '發布作業',
-
+      type: '',
+      disabled: false
     };
   },
   created() {
@@ -98,6 +129,8 @@ export default {
               console.log(res.data.success)
               this.name = res.data.success.name
               this.content = res.data.success.content
+              this.type = res.data.success.type
+              this.disabled = true
               this.time.push(res.data.success.start_at)
               this.time.push(res.data.success.end_at)
 
@@ -121,6 +154,7 @@ export default {
           coding_class_id: this.coding_class_id,
           name: this.name,
           content: this.content,
+          type: this.type,
           start_at: dayjs(this.time[0]).format("YYYY-MM-DD HH:mm:ss"),
           end_at: dayjs(this.time[1]).format("YYYY-MM-DD HH:mm:ss"),
           assignment_id: this.assignment_id,
@@ -153,6 +187,45 @@ export default {
         });
 
     },
+    del_assignment() {
+      if (!this.token) {
+        ElMessage.error("請先登入以進行操作");
+        this.$router.push({ name: 'Sign In' });
+      }
+      const that = this
+      this.axios
+        .post("/api/class/admin/del_assignment", {
+          assignment_id: this.assignment_id,
+          check: this.check
+        }, {
+          headers: {
+            'Authorization': `Bearer ` + this.token
+          }
+        })
+        .then((res) => {
+
+          console.log(res);
+
+          this.$router.push({
+            name: 'Assignment', params: { coding_class_id: this.coding_class_id }
+          });
+
+          ElMessage({
+            message: "刪除成功",
+            type: "success",
+            duration: 3000,
+          });
+        })
+        .catch(function (error) {
+          if (error.response) {
+            that.check = '';
+            ElMessage.error(error.response.data.error);
+
+          }
+        });
+
+    },
+
 
   },
 

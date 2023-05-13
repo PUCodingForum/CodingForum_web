@@ -1,0 +1,266 @@
+<template>
+    <div class="py-4 container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card z-index-0">
+                    <div class="card-body">
+
+                        <soft-button color="dark" full-width variant="gradient" style="    font-size: 15px;"
+                            @click="ouput_file" v-if="file_exist">匯出所有學生所交檔案</soft-button>
+                        <el-main style="padding:0" v-loading="data_loading" element-loading-text="載入中"
+                            element-loading-background="rgb(248 248 248)">
+                            <el-table :data="filteruser" style="width: 100%" empty-text="目前尚無學生修課" ref="table">
+                                <el-table-column label="學生帳號" prop="account" />
+
+                                <el-table-column label="學生名稱">
+                                    <template #default="scope">
+                                        <router-link :to="{ name: 'Profile', params: { user_account: scope.row.account } }"
+                                            target='_blank'>
+                                            {{ scope.row.name }}
+                                        </router-link>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="繳交狀態" sortable :sort-method="sortState" prop="user_assignment">
+                                    <template #default="scope">
+                                        <div v-if="scope.row.user_assignment">
+                                            已繳交
+                                        </div>
+                                        <div v-else>
+                                            尚未繳交
+                                        </div>
+                                    </template>
+                                </el-table-column>
+
+                                <el-table-column align="right">
+                                    <template #header>
+                                        <el-input v-model="search" placeholder="學生名稱搜尋" />
+                                    </template>
+                                    <template #default="scope">
+                                        <el-button v-if="scope.row.user_assignment && scope.row.user_assignment.post_id">
+                                            <router-link
+                                                :to="{ name: 'Video', params: { post_id: scope.row.user_assignment.post_id } }"
+                                                target='_blank'>
+                                                查看繳交影片
+                                            </router-link>
+                                        </el-button>
+
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </el-main>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</template>
+  
+<script>
+
+import SoftButton from "@/components/SoftButton.vue";
+import { ElMessage } from "element-plus";
+import SelectUser from '@/components/SelectUser.vue';
+
+export default {
+    name: "CheckAssignment",
+    components: {
+        SoftButton,
+        SelectUser
+    },
+    data() {
+        return {
+            users: [],
+            search: '',
+            get_hand_in_assignment: [],
+            filteruser: [],
+            token: this.$cookies.get("token"),
+            token_user_id: this.$cookies.get("user_id"),
+            token_user_account: this.$cookies.get("account"),
+            coding_class_id: this.$route.params.coding_class_id,
+            assignment_id: this.$route.params.assignment_id,
+            data_loading: true,
+            file_exist: false
+        };
+    },
+    created() {
+        this.$watch(
+            () => ({
+                coding_class_id: this.coding_class_id,
+            }),
+            () => {
+                if (this.$route.name != 'CheckAssignment') {
+                    return;
+                }
+                if (!this.coding_class_id) {
+                    this.$router.push({ name: 'TeacherClass' });
+                    return
+                }
+                if (!this.assignment_id) {
+                    this.$router.push({ name: 'Assignment', params: { coding_class_id: this.coding_class_id } });
+                    return
+                }
+                this.axios
+                    .post("/api/class/admin/get_teacher_class", {
+                        coding_class_id: this.coding_class_id
+                    }, {
+                        headers: {
+                            'Authorization': `Bearer ` + this.token
+                        }
+                    })
+                    .then((res) => {
+                        console.log(res)
+                        this.users = res.data.success.user
+                    })
+                this.axios
+                    .post("/api/class/get_hand_in_assignment", {
+                        assignment_id: this.assignment_id
+                    }, {
+                        headers: {
+                            'Authorization': `Bearer ` + this.token
+                        }
+                    })
+                    .then((res) => {
+                        console.log(res)
+                        this.get_hand_in_assignment = res.data.success
+
+                        this.get_hand_in_assignment.forEach((hand_in_assignment) => {
+                            if (hand_in_assignment.file.length > 0) {
+                                this.file_exist = true
+                                return
+                            }
+                        })
+                    })
+
+            },
+            { deep: true, immediate: true }
+        );
+        this.$watch(
+            () => ({
+                users: this.users,
+                get_hand_in_assignment: this.get_hand_in_assignment,
+            }),
+            () => {
+                if (this.$route.name != 'CheckAssignment') {
+                    return;
+                }
+                if (this.users && this.get_hand_in_assignment) {
+
+                    this.users.forEach((user, index1) => {
+                        this.get_hand_in_assignment.forEach((user_assignment, index2) => {
+                            if (user.id == user_assignment.user_id) {
+                                const newObj = { ...this.users[index1], user_assignment };
+
+                                this.users.splice(index1, 1, newObj);
+
+                                return
+                            }
+                        })
+                    })
+                    this.data_loading = false
+                    this.$nextTick(() => {
+                        this.$refs.table.sort('user_assignment', 'ascending')
+                    })
+                }
+            },
+            { deep: true, immediate: true }
+        );
+        this.$watch(
+            () => ({
+                search: this.search,
+            }),
+            () => {
+                if (this.$route.name != 'CheckAssignment') {
+                    return;
+                }
+                this.$nextTick(() => {
+                    this.$refs.table.sort('user_assignment', 'ascending')
+                })
+            },
+            { deep: true, immediate: true }
+        );
+    },
+    computed: {
+        filteruser() {
+            return this.users.filter((item) => {
+                return (item.account + item.name).toLowerCase().includes(this.search.toLowerCase());
+            });
+        },
+    },
+    methods: {
+        sortState(a, b) {
+
+            if (a.user_assignment && !b.user_assignment)
+                return -1
+        },
+        ouput_file() {
+            if (!this.token) {
+                ElMessage.error("請先登入以進行操作");
+                this.$router.push({ name: 'Sign In' });
+            }
+            this.axios
+                .post("/api/class/admin/ouput_file", {
+                    assignment_id: this.assignment_id
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ` + this.token
+                    },
+                    responseType: 'blob',
+                })
+                .then((res) => {
+                    const url = window.URL.createObjectURL(new Blob([res.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', decodeURIComponent(res.headers.filename)); // Set the desired file name
+                    document.body.appendChild(link);
+                    link.click();
+                    ElMessage({
+                        message: "匯出成功",
+                        type: "success",
+                        duration: 3000,
+                    });
+                })
+                .catch(function (error) {
+                    if (error.response) {
+                        console.log(error.response);
+
+                        ElMessage.error(error.response.data.error);
+
+                    }
+                });
+
+        },
+
+    },
+
+
+}
+</script>
+  
+<style >
+.el-select-dropdown__item {
+    width: 300px;
+    width: 100%;
+}
+
+.el-select {
+    display: block !important;
+}
+
+.codemirror-container {
+    display: block;
+}
+</style>
+<style scoped>
+@media (min-width: 1200px) {
+    .video_pic {
+        width: 20%;
+    }
+}
+
+@media (max-width: 1200px) {
+    .video_pic {
+        width: 100%;
+    }
+}
+</style>

@@ -5,12 +5,22 @@
                 <div class="card z-index-0">
 
                     <div class="card-body">
+
+
                         <form role="form" class="mx-auto col-xl-9">
                             <div class="mb-3">
+                                <label>作業名稱</label>
+                                <h5>{{ name }}</h5>
+                            </div>
+                            <div class="mb-3">
+                                <label>作業內容</label>
+                                <h5>{{ content }}</h5>
+                            </div>
+                            <div class="mb-3" v-show="type != 2">
                                 <label>貼文</label>
                                 <SelectPost ref="SelectPost" :disabled="!in_time" />
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3" v-show="type != 1">
                                 <label>檔案</label>
                                 <FileUpload ref="FileUpload" :in_time="in_time" />
                             </div>
@@ -55,6 +65,7 @@ export default {
             hand_in_assignment_id: this.$route.params.hand_in_assignment_id,
             showtext: '繳交作業',
             in_time: false,
+            type: ''
         };
     },
     created() {
@@ -72,7 +83,7 @@ export default {
                     this.$router.push({ name: 'MyClass' });
                     return;
                 }
-                if (this.coding_class_id && !this.assignment_id) {
+                if (!this.assignment_id) {
                     this.$router.push({ name: 'MyAssignment', params: { coding_class_id: this.coding_class_id } });
                     return;
                 }
@@ -87,13 +98,16 @@ export default {
                         }
                     })
                     .then((res) => {
-                        if (this.hand_in_assignment_id != res.data.success.hand_in_assignment_id) {
+                        if (this.hand_in_assignment_id && this.hand_in_assignment_id != res.data.success.hand_in_assignment_id) {
                             ElMessage.error('尚未繳交作業');
                             this.$router.push({ name: 'MyAssignment', params: { coding_class_id: this.coding_class_id } });
                             return;
                         }
 
                         this.in_time = res.data.success.in_time
+                        this.name = res.data.success.name
+                        this.content = res.data.success.content
+                        this.type = res.data.success.type
                         if (this.in_time == false) {
                             if (!this.hand_in_assignment_id) {
                                 ElMessage.error('不在繳交作業的期限內');
@@ -141,19 +155,20 @@ export default {
                 this.$router.push({ name: 'Sign In' });
             }
 
-            var FileUpload = this.$refs.FileUpload.returnFiles();
             var file_ = []
-            FileUpload.map(function (value, key) {
-                if (value.success)
-                    file_.push({ 'name': value.name, 'size': value.size, "success": true, "progress": "100.00", "id": value.id })
-            });
-
+            if (this.type != 1) {
+                var FileUpload = this.$refs.FileUpload.returnFiles();
+                FileUpload.map(function (value, key) {
+                    if (value.success)
+                        file_.push({ 'name': value.name, 'size': value.size, "success": true, "progress": "100.00", "id": value.id })
+                });
+            }
 
             this.axios
                 .post("/api/class/hand_in_assignment", {
                     assignment_id: this.assignment_id,
                     hand_in_assignment_id: this.hand_in_assignment_id,
-                    post_id: this.$refs.SelectPost.return_post_id(),
+                    post_id: this.type != 2 ? this.$refs.SelectPost.return_post_id() : '',
                     file: file_,
                 }, {
                     headers: {

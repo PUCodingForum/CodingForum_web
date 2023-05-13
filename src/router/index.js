@@ -18,6 +18,7 @@ import AdminDashboard from "@/views/class/admin/AdminDashboard.vue";
 import TeacherClass from "@/views/class/admin/TeacherClass.vue";
 import OperateTeacherClass from "@/views/class/admin/OperateTeacherClass.vue";
 import Assignment from "@/views/class/admin/Assignment.vue";
+import CheckAssignment from "@/views/class/admin/CheckAssignment.vue";
 import OperateAssignment from "@/views/class/admin/OperateAssignment.vue";
 import UserClass from "@/views/class/user/UserClass.vue";
 import MyClass from "@/views/class/user/MyClass.vue";
@@ -257,12 +258,17 @@ const routes = [
         component: OperateTeacherClass,
       },
       {
-        path: "assignment/:coding_class_id?",
+        path: "teacherclass/:coding_class_id?/assignment",
         name: "Assignment",
         component: Assignment,
       },
       {
-        path: "assignment/:coding_class_id?/operate/:assignment_id?",
+        path: "teacherclass/:coding_class_id?/assignment/check/:assignment_id?",
+        name: "CheckAssignment",
+        component: CheckAssignment,
+      },
+      {
+        path: "teacherclass/:coding_class_id?/assignment/operate/:assignment_id?",
         name: "OperateAssignment",
         component: OperateAssignment,
       },
