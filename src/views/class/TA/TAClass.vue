@@ -5,8 +5,7 @@
                 <div class="card z-index-0">
 
                     <div class="card-body">
-                        <router-link :to="{ name: 'OperateTeacherClass' }"> <soft-button color="dark" full-width
-                                variant="gradient" style="    font-size: 15px;">新增課程</soft-button></router-link>
+
                         <el-main style="padding:0" v-loading="data_loading" element-loading-text="載入中"
                             element-loading-background="rgb(248 248 248)">
                             <el-table :data="filteredCodingClasses" style="width: 100%" empty-text="目前尚無課程">
@@ -18,14 +17,12 @@
 
                                 </el-table-column>
                                 <el-table-column label="選課人數" prop="student_count" />
-                                <el-table-column label="開課狀態">
+                                <el-table-column label="課程教授">
                                     <template #default="scope">
-                                        <div v-if="scope.row.enable == 1">
-                                            開放加選
-                                        </div>
-                                        <div v-else>
-                                            停止加選
-                                        </div>
+                                        <router-link
+                                            :to="{ name: 'Profile', params: { user_account: scope.row.teacher.account } }">
+                                            {{ scope.row.teacher.name }}
+                                        </router-link>
                                     </template>
                                 </el-table-column>
                                 <el-table-column label="TA">
@@ -40,17 +37,10 @@
                                     <template #default="scope">
                                         <el-button>
                                             <router-link
-                                                :to="{ name: 'Assignment', params: { coding_class_id: scope.row.id } }">
-                                                編輯作業
+                                                :to="{ name: 'TAAssignment', params: { coding_class_id: scope.row.id } }">
+                                                查看作業
                                             </router-link>
                                         </el-button>
-                                        <el-button>
-                                            <router-link
-                                                :to="{ name: 'OperateTeacherClass', params: { coding_class_id: scope.row.id } }">
-                                                編輯課程
-                                            </router-link>
-                                        </el-button>
-
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -88,7 +78,7 @@ export default {
     },
     created() {
         this.axios
-            .post("/api/class/admin/get_teacher_class", {
+            .post("/api/class/TA/get_TA_class", {
             }, {
                 headers: {
                     'Authorization': `Bearer ` + this.token
@@ -108,6 +98,7 @@ export default {
             });
         },
     },
+
 
 
 }

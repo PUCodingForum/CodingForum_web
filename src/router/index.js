@@ -23,6 +23,8 @@ import CheckAssignment from "@/views/class/admin/CheckAssignment.vue";
 import OperateAssignment from "@/views/class/admin/OperateAssignment.vue";
 
 import TAClass from "@/views/class/TA/TAClass.vue";
+import TAAssignment from "@/views/class/TA/TAAssignment.vue";
+import TACheckAssignment from "@/views/class/TA/TACheckAssignment.vue";
 
 import UserClass from "@/views/class/user/UserClass.vue";
 import MyClass from "@/views/class/user/MyClass.vue";
@@ -298,6 +300,16 @@ const routes = [
         path: "TAClass",
         name: "TAClass",
         component: TAClass,
+      },
+      {
+        path: "TAClass/:coding_class_id?/TAassignment",
+        name: "TAAssignment",
+        component: TAAssignment,
+      },
+      {
+        path: "TAClass/:coding_class_id?/TAassignment/check/:assignment_id?",
+        name: "TACheckAssignment",
+        component: TACheckAssignment,
       },
     ],
   },

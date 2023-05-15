@@ -5,9 +5,6 @@
                 <div class="card z-index-0">
 
                     <div class="card-body">
-                        <router-link :to="{ name: 'OperateAssignment', params: { coding_class_id: this.coding_class_id } }">
-                            <soft-button color="dark" full-width variant="gradient"
-                                style="    font-size: 15px;">新增作業</soft-button></router-link>
                         <el-main style="padding:0" v-loading="data_loading" element-loading-text="載入中"
                             element-loading-background="rgb(248 248 248)">
                             <el-table :data="filteredAssignment" style="width: 100%" empty-text="目前尚無作業">
@@ -34,14 +31,8 @@
                                     <template #default="scope">
                                         <el-button>
                                             <router-link
-                                                :to="{ name: 'CheckAssignment', params: { coding_class_id: this.coding_class_id, assignment_id: scope.row.id } }">
+                                                :to="{ name: 'TACheckAssignment', params: { coding_class_id: this.coding_class_id, assignment_id: scope.row.id } }">
                                                 學生繳交狀況
-                                            </router-link>
-                                        </el-button>
-                                        <el-button>
-                                            <router-link
-                                                :to="{ name: 'OperateAssignment', params: { coding_class_id: this.coding_class_id, assignment_id: scope.row.id } }">
-                                                調整作業
                                             </router-link>
                                         </el-button>
                                     </template>
@@ -86,7 +77,7 @@ export default {
                 coding_class_id: this.coding_class_id,
             }),
             () => {
-                if (this.$route.name != 'Assignment') {
+                if (this.$route.name != 'TAAssignment') {
                     return;
                 }
                 if (!this.coding_class_id) {

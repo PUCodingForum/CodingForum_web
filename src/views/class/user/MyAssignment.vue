@@ -128,46 +128,6 @@ export default {
             });
         },
     },
-    methods: {
-        delpost() {
-            if (!this.token) {
-                ElMessage.error("請先登入以進行操作");
-                this.$router.push({ name: 'Sign In' });
-            }
-            this.axios
-                .post("/api/forum/del_post", {
-                    post_id: this.post_id
-                }, {
-                    headers: {
-                        'Authorization': `Bearer ` + this.token
-                    }
-                })
-                .then((res) => {
-
-                    console.log(res);
-
-                    this.$router.push({
-                        name: 'Profile', params: { user_account: this.token_user_account }
-                    });
-
-                    ElMessage({
-                        message: "刪除成功",
-                        type: "success",
-                        duration: 3000,
-                    });
-                })
-                .catch(function (error) {
-                    if (error.response) {
-                        console.log(error.response);
-                        if (error.response.status == 402) {
-                            ElMessage.error(error.response.data.error);
-                        }
-                    }
-                });
-
-        },
-
-    },
 
 
 }
