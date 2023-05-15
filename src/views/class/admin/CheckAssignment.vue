@@ -20,7 +20,8 @@
                                         </router-link>
                                     </template>
                                 </el-table-column>
-                                <el-table-column label="繳交狀態" sortable :sort-method="sortState" prop="user_assignment">
+                                <el-table-column label="繳交狀態" sortable :sort-method="statussortState"
+                                    prop="user_assignment">
                                     <template #default="scope">
                                         <div v-if="scope.row.user_assignment">
                                             已繳交
@@ -29,6 +30,18 @@
                                             尚未繳交
                                         </div>
                                     </template>
+                                </el-table-column>
+                                <el-table-column label="批改紀錄" sortable :sort-method="sortState"
+                                    prop="user_assignment.status">
+                                    <template #default="scope">
+                                        <div v-if="scope.row.user_assignment">
+                                            <el-checkbox :model-value="scope.row.user_assignment.status == 1 ?? true"
+                                                :label="scope.row.user_assignment.status == 1 ? '已記錄批改' : '未批改'"
+                                                size="large" border
+                                                @change="correct_hand_in_assignment(scope.row.user_assignment.assignment_id, scope.row.user_assignment.user_id)" />
+                                        </div>
+                                    </template>
+
                                 </el-table-column>
 
                                 <el-table-column align="right">
@@ -188,10 +201,50 @@ export default {
         },
     },
     methods: {
-        sortState(a, b) {
+        correct_hand_in_assignment(assignment_id, user_id) {
+            if (!this.token) {
+                ElMessage.error("請先登入以進行操作");
+                this.$router.push({ name: 'Sign In' });
+            }
+            this.axios
+                .post("/api/class/admin/correct_hand_in_assignment", {
+                    assignment_id: assignment_id,
+                    user_id: user_id
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ` + this.token
+                    },
+                })
+                .then((res) => {
+                    console.log(this.users)
 
+                    const targetObj = this.users.find(item => item.id == user_id);
+                    if (targetObj) {
+                        targetObj.user_assignment.status = res.data.status;
+                    }
+                    ElMessage({
+                        message: res.data.success,
+                        type: "success",
+                        duration: 3000,
+                    });
+                })
+                .catch(function (error) {
+                    if (error.response) {
+                        console.log(error.response);
+
+                        ElMessage.error(error.response.data.error);
+
+                    }
+                });
+        },
+        sortState(a, b) {
             if (a.user_assignment && !b.user_assignment)
                 return -1
+        },
+        statussortState(a, b) {
+            if (a.user_assignment && b.user_assignment)
+                if (a.user_assignment.status && b.user_assignment.status)
+                    return -1
         },
         ouput_file() {
             if (!this.token) {

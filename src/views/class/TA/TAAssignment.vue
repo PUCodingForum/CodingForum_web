@@ -31,7 +31,13 @@
                                     <template #default="scope">
                                         <el-button>
                                             <router-link
-                                                :to="{ name: 'TACheckAssignment', params: { coding_class_id: this.coding_class_id, assignment_id: scope.row.id } }">
+                                                :to="{ name: 'AssignmentIntro', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id } }">
+                                                作業介紹
+                                            </router-link>
+                                        </el-button>
+                                        <el-button>
+                                            <router-link
+                                                :to="{ name: 'TACheckAssignment', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id } }">
                                                 學生繳交狀況
                                             </router-link>
                                         </el-button>
