@@ -16,6 +16,11 @@
                                 <label>作業內容</label>
                                 <h5>{{ content }}</h5>
                             </div>
+                            <div class="mb-3">
+                                <label>作業檔案</label>
+                                <ShowFileUpload ref="ShowFileUpload" />
+                            </div>
+                            <div class="line my-6"></div>
                             <div class="mb-3" v-show="type != 2">
                                 <label>貼文</label>
                                 <SelectPost ref="SelectPost" :disabled="!in_time" />
@@ -47,12 +52,15 @@ import SoftButton from "@/components/SoftButton.vue";
 import { ElMessage } from "element-plus";
 import FileUpload from "@/components/FileUpload.vue";
 import SelectPost from "@/components/SelectPost.vue";
+import ShowFileUpload from "@/components/ShowFileUpload.vue";
+
 export default {
     name: "HandInAssignment",
     components: {
         SoftButton,
         FileUpload,
-        SelectPost
+        SelectPost,
+        ShowFileUpload
     },
     data() {
         return {
@@ -108,6 +116,7 @@ export default {
                         this.name = res.data.success.name
                         this.content = res.data.success.content
                         this.type = res.data.success.type
+                        this.$refs.ShowFileUpload.files = res.data.success.file
                         if (this.in_time == false) {
                             if (!this.hand_in_assignment_id) {
                                 ElMessage.error('不在繳交作業的期限內');

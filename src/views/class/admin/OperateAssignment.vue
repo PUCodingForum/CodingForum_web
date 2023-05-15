@@ -15,7 +15,7 @@
                 <textarea class="form-control" id="content" v-model="content" rows="5" placeholder="請輸入作業內容"></textarea>
               </div>
               <div class="mb-3">
-                <label>*作業型式</label>
+                <label>*作業型式 (建立作業後不可調整)</label>
                 <el-select v-model="type" class="m-2" placeholder="選擇作業型式" :disabled="disabled">
                   <el-option label="只交影片" :value=1 />
                   <el-option label="只交檔案" :value=2 />
@@ -33,6 +33,10 @@
                 </el-config-provider>
 
               </div>
+              <div class="mb-3" v-if="assignment_id">
+                <label>作業檔案</label>
+                <admin-file-upload ref="FileUpload" />
+              </div>
 
               <div class="text-center">
                 <soft-button color="dark" full-width variant="gradient" class="mt-2 mb-2"
@@ -41,7 +45,7 @@
                 <soft-button color="warning" full-width variant="gradient" class="mb-5"
                   @click.stop.prevent="$router.go(-1)">取消</soft-button>
                 <soft-button color="danger" full-width variant="gradient" class="mt-5" data-bs-toggle="modal"
-                  :data-bs-target="'#staticBackdrop'" @click.stop.prevent="">刪除作業</soft-button>
+                  :data-bs-target="'#staticBackdrop'" @click.stop.prevent="" v-if="assignment_id">刪除作業</soft-button>
               </div>
             </form>
           </div>
@@ -82,10 +86,13 @@ import { ElConfigProvider } from 'element-plus'
 import en from 'element-plus/dist/locale/en'
 import dayjs from 'dayjs'
 
+import AdminFileUpload from "@/components/AdminFileUpload.vue";
+
 export default {
   name: "OperateAssignment",
   components: {
     SoftButton,
+    AdminFileUpload
   },
   data() {
     return {
@@ -97,7 +104,7 @@ export default {
       token: this.$cookies.get("token"),
       coding_class_id: this.$route.params.coding_class_id,
       assignment_id: this.$route.params.assignment_id,
-      showtext: '發布作業',
+      showtext: '下一步，上傳作業檔案',
       type: '',
       disabled: false
     };
@@ -133,6 +140,7 @@ export default {
               this.disabled = true
               this.time.push(res.data.success.start_at)
               this.time.push(res.data.success.end_at)
+              this.$refs.FileUpload.files = res.data.success.file
 
             }).catch(function (error) {
               ElMessage.error(error.response.data.error);
@@ -144,11 +152,21 @@ export default {
     );
   },
   methods: {
-    assignment() {
+    assignment(updatefile) {
       if (!this.token) {
         ElMessage.error("請先登入以進行操作");
         this.$router.push({ name: 'Sign In' });
       }
+
+      var file_ = []
+
+      var FileUpload = this.$refs.FileUpload.returnFiles();
+      FileUpload.map(function (value, key) {
+        if (value.success)
+          file_.push({ 'name': value.name, 'size': value.size, "success": true, "progress": "100.00", "id": value.id })
+      });
+
+
       this.axios
         .post("/api/class/admin/assignment", {
           coding_class_id: this.coding_class_id,
@@ -158,6 +176,7 @@ export default {
           start_at: dayjs(this.time[0]).format("YYYY-MM-DD HH:mm:ss"),
           end_at: dayjs(this.time[1]).format("YYYY-MM-DD HH:mm:ss"),
           assignment_id: this.assignment_id,
+          file: file_,
         }, {
           headers: {
             'Authorization': `Bearer ` + this.token
@@ -166,16 +185,23 @@ export default {
         .then((res) => {
 
           console.log(res);
+          if (!this.assignment_id) {
+            this.$router.replace({
+              name: 'OperateAssignment', params: { coding_class_id: this.coding_class_id, assignment_id: res.data.assignment_id }
+            });
+          } else {
+            if (updatefile != 1) {
+              this.$router.push({
+                name: 'Assignment', params: { coding_class_id: this.coding_class_id }
+              });
 
-          this.$router.push({
-            name: 'Assignment', params: { coding_class_id: this.coding_class_id }
-          });
-
-          ElMessage({
-            message: res.data.success,
-            type: "success",
-            duration: 3000,
-          });
+              ElMessage({
+                message: res.data.success,
+                type: "success",
+                duration: 3000,
+              });
+            }
+          }
         })
         .catch(function (error) {
           if (error.response) {
@@ -206,7 +232,7 @@ export default {
 
           console.log(res);
 
-          this.$router.push({
+          this.$router.replace({
             name: 'Assignment', params: { coding_class_id: this.coding_class_id }
           });
 

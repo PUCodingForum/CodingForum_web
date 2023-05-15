@@ -10,7 +10,6 @@
                             element-loading-background="rgb(248 248 248)">
                             <el-table :data="filteredAssignment" style="width: 100%" empty-text="目前尚無作業">
                                 <el-table-column label="作業名稱" prop="name" />
-                                <el-table-column label="作業內容" prop="content" />
                                 <el-table-column label="開始時間" prop="start_at" />
                                 <el-table-column label="結束時間" prop="end_at" />
                                 <el-table-column align="right">
@@ -18,6 +17,12 @@
                                         <el-input v-model="search" placeholder="作業名稱搜尋" />
                                     </template>
                                     <template #default="scope">
+                                        <el-button>
+                                            <router-link
+                                                :to="{ name: 'AssignmentIntro', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id } }">
+                                                作業介紹
+                                            </router-link>
+                                        </el-button>
                                         <el-button
                                             v-if="scope.row.hand_in_assignment_id == null && scope.row.in_time == true">
                                             <router-link

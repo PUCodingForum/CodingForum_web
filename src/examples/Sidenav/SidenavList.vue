@@ -44,6 +44,13 @@
           </template>
         </sidenav-collapse>
       </li>
+      <li class="nav-item">
+        <sidenav-collapse navText="TA" :to="{ name: 'TAClass' }" class="m-0">
+          <template #icon>
+            <customer-support />
+          </template>
+        </sidenav-collapse>
+      </li>
     </ul>
     <ul class="navbar-nav">
 

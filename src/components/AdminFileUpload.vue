@@ -1,5 +1,6 @@
 <template>
     <div class="example-full">
+
         <div v-show="$refs.upload && $refs.upload.dropActive" class="drop-active">
             <h3>Drop files to upload</h3>
         </div>
@@ -17,7 +18,7 @@
                     <tbody>
                         <tr v-if="!files.length">
                             <td colspan="9">
-                                <div class="text-center p-5" v-if="real_in_time">
+                                <div class="text-center p-5">
                                     <h4>拖移檔案到此處<br />或</h4>
                                     <label :for="name" class="btn btn-lg btn-primary">選擇檔案</label>
                                 </div>
@@ -45,7 +46,7 @@
                             <td v-else-if="file.active">上傳中</td>
                             <td v-else></td>
                             <td>
-                                <div class="btn-group" v-if="real_in_time">
+                                <div class="btn-group">
                                     <el-button type="warning"
                                         v-if="file.error && file.error !== 'compressing' && file.error !== 'image parsing' && $refs.upload.features.html5"
                                         @click.prevent="$refs.upload.update(file, { active: true, error: '', progress: '0.00' })">Retry
@@ -59,8 +60,7 @@
                 </table>
             </div>
             <div class="example-foorer">
-                <!-- {{ files }} -->
-                <div class="btn-group" v-if="real_in_time">
+                <div class="btn-group">
                     <file-upload ref="upload" class="btn btn-primary " :post-action="postAction" :extensions="extensions"
                         :accept="accept" :multiple="multiple" :size="size || 0"
                         :thread="thread < 1 ? 1 : (thread > 5 ? 5 : thread)" :headers="headers" :drop="drop"
@@ -82,7 +82,7 @@ export default {
     components: {
         FileUpload,
     },
-    props: ["in_time", "teacher"],
+    props: ["teacher"],
 
     data() {
         return {
@@ -91,34 +91,17 @@ export default {
             minSize: 1,//最小容量
             size: 1024 * 1024 * 10,//最大容量
             multiple: true,
-            drop: false,
+            drop: true,
             addIndex: false,
             thread: 3,
             name: 'file',
-            postAction: '/api/class/upload_file',
+            postAction: '/api/class/admin/upload_file',
             uploadAuto: true,
             coding_class_id: this.$route.params.coding_class_id,
             assignment_id: this.$route.params.assignment_id,
             hand_in_assignment_id: this.$route.params.hand_in_assignment_id,
             user_account: this.$cookies.get("account"),
-            real_in_time: false
         }
-    },
-
-    created() {
-        this.$watch(
-            () => ({
-                in_time: this.in_time,
-            }),
-            () => {
-                if (this.$route.name != 'HandInAssignment') {
-                    return;
-                }
-                this.real_in_time = this.in_time
-                this.drop = this.in_time
-            },
-            { deep: true, immediate: true }
-        );
     },
     methods: {
         returnFiles() {
@@ -151,15 +134,11 @@ export default {
                 }
 
                 if (newFile.error && !oldFile.error) {
-                    console.log(newFile.error)
-                    ElMessage.error("不在繳交作業的期限內");
-                    this.$router.push({
-                        name: 'MyAssignment', params: { coding_class_id: this.coding_class_id }
-                    });
+
                 }
 
                 if (newFile.success && !oldFile.success) {
-                    this.$parent.hand_in_assignment(1);
+                    this.$parent.assignment(1);
                     ElMessage({
                         message: newFile.file.name + "上傳成功",
                         type: "success",
@@ -176,7 +155,7 @@ export default {
                 console.log(oldFile.name)
                 if (oldFile.success) {
                     this.axios
-                        .post("/api/class/delete_file", {
+                        .post("/api/class/admin/delete_file", {
                             file_name: oldFile.name,
                             assignment_id: this.assignment_id,
                         }, {
@@ -190,11 +169,11 @@ export default {
                                 type: "success",
                                 duration: 3000,
                             });
-                            this.$parent.hand_in_assignment(1);
+                            this.$parent.assignment(1);
                         }).catch(function (error) {
                             ElMessage.error(error.response.data.error);
                             that.$router.push({
-                                name: 'MyAssignment', params: { coding_class_id: that.coding_class_id }
+                                name: 'Assignment', params: { coding_class_id: that.coding_class_id }
                             });
                         });
                 }

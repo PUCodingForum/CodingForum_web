@@ -114,7 +114,11 @@ button {
   width: 38%;
 }
 
-
+.line {
+  width: 100%;
+  height: 3px;
+  background-color: #000000;
+}
 
 .userimg {
   background-color: antiquewhite;

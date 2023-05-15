@@ -14,16 +14,21 @@ import EditPic from "@/views/user/EditPic.vue";
 import EditCover from "@/views/user/EditCover.vue";
 import EditPassword from "@/views/user/EditPassword.vue";
 import AllUser from "@/views/AllUser.vue";
+
 import AdminDashboard from "@/views/class/admin/AdminDashboard.vue";
 import TeacherClass from "@/views/class/admin/TeacherClass.vue";
 import OperateTeacherClass from "@/views/class/admin/OperateTeacherClass.vue";
 import Assignment from "@/views/class/admin/Assignment.vue";
 import CheckAssignment from "@/views/class/admin/CheckAssignment.vue";
 import OperateAssignment from "@/views/class/admin/OperateAssignment.vue";
+
+import TAClass from "@/views/class/TA/TAClass.vue";
+
 import UserClass from "@/views/class/user/UserClass.vue";
 import MyClass from "@/views/class/user/MyClass.vue";
 import MyAssignment from "@/views/class/user/MyAssignment.vue";
 import HandInAssignment from "@/views/class/user/HandInAssignment.vue";
+import AssignmentIntro from "@/views/class/user/AssignmentIntro.vue";
 
 import { ElMessage } from "element-plus";
 import axios from "axios";
@@ -49,7 +54,7 @@ function isadmin(to, from, next) {
       }
     )
     .then((response) => {
-      if (response.data.check == 1 || response.data.check == 2) {
+      if (response.data.check == 1) {
         next();
       } else {
         next("/");
@@ -57,11 +62,10 @@ function isadmin(to, from, next) {
       }
     });
 }
-
-function class_auth(to, from, next) {
+function isTA(to, from, next) {
   return axios
     .post(
-      "/api/class/admin/get_assignment",
+      "/api/auth/check/isadmin",
       {},
       {
         headers: {
@@ -70,7 +74,7 @@ function class_auth(to, from, next) {
       }
     )
     .then((response) => {
-      if (response.data.check == 1 || response.data.check == 2) {
+      if (response.data.check == 2) {
         next();
       } else {
         next("/");
@@ -164,6 +168,12 @@ const routes = [
     path: "/myclass/myassignment/:coding_class_id?",
     name: "MyAssignment",
     component: MyAssignment,
+    beforeEnter: islogin, //已在Component裡確認是否為學生
+  },
+  {
+    path: "/myclass/myassignment/:coding_class_id?/assignmentintro/:assignment_id?",
+    name: "AssignmentIntro",
+    component: AssignmentIntro,
     beforeEnter: islogin, //已在Component裡確認是否為學生
   },
   {
@@ -271,6 +281,23 @@ const routes = [
         path: "teacherclass/:coding_class_id?/assignment/operate/:assignment_id?",
         name: "OperateAssignment",
         component: OperateAssignment,
+      },
+    ],
+  },
+  {
+    path: "/TA",
+    name: "TA",
+    beforeEnter: [islogin, isTA],
+    children: [
+      {
+        path: "",
+        name: "",
+        redirect: { name: "TAClass" },
+      },
+      {
+        path: "TAClass",
+        name: "TAClass",
+        component: TAClass,
       },
     ],
   },

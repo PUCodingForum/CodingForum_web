@@ -32,7 +32,7 @@
                 <soft-button color="warning" full-width variant="gradient" class="mb-5"
                   @click.stop.prevent="$router.go(-1)">取消</soft-button>
                 <soft-button color="danger" full-width variant="gradient" class="mt-5" data-bs-toggle="modal"
-                  :data-bs-target="'#staticBackdrop'" @click.stop.prevent="">刪除課程</soft-button>
+                  :data-bs-target="'#staticBackdrop'" @click.stop.prevent="" v-if="coding_class_id">刪除課程</soft-button>
               </div>
             </form>
           </div>
@@ -189,7 +189,7 @@ export default {
 
           console.log(res);
 
-          this.$router.push({
+          this.$router.replace({
             name: 'TeacherClass'
           });
 

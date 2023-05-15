@@ -129,7 +129,7 @@ export default {
             });
             this.$cookies.remove("go_login_then_backpost")
           } else {
-            this.$router.push({ name: 'Profile', params: { user_account: user_account } });
+            this.$router.replace({ name: 'Profile', params: { user_account: user_account } });
           }
           ElMessage({
             message: "登入成功",
