@@ -25,7 +25,14 @@
                                             </el-button>
 
                                         </router-link>
+                                        <router-link
+                                            :to="{ name: 'TempVideo', params: { temp_post_id: scope.row.temp_post_id } }"
+                                            v-if="scope.row.temp_post_id != null" target='_blank'>
+                                            <el-button>
+                                                查看暫存作業影片
+                                            </el-button>
 
+                                        </router-link>
                                         <router-link
                                             :to="{ name: 'HandInAssignment', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id } }"
                                             v-if="scope.row.hand_in_assignment_id == null && scope.row.in_time == true">

@@ -3,7 +3,7 @@
         <a class="p-0 nav-link" :class="[
             textWhite ? textWhite : 'text-body', tagcount > 0 ? 'rednotification' : '']" id="dropdownMenuButton"
             data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="cursor-pointer fa fa-bell"></i>
+            <i class="cursor-pointer fa fa-bell fa-xl"></i>
         </a>
         <p class=" mb-0" style="color:red" v-if="tagcount > 0">&nbsp{{ tagcount }}</p>
         <ul class="px-2 py-3 dropdown-menu dropdown-menu-end me-sm-n4 mobileul" id="dropdownMenu"
@@ -82,6 +82,7 @@ export default {
 @media (max-width: 1200px) {
     .mobileul {
         width: 85vw;
+        top: 100% !important;
     }
 
 }

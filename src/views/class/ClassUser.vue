@@ -7,7 +7,7 @@
                         element-loading-background="rgb(248 248 248)">
                         <div class="card-body">
                             <h5>教授</h5>
-                            <div class="container-fluid" v-for="teacher in teachers">
+                            <div class="container-fluid p-0" v-for="teacher in teachers">
 
                                 <router-link class="" :to="{ name: 'Profile', params: { user_account: teacher.account } }">
 
@@ -41,7 +41,7 @@
                             </div>
                             <div class="line my-5"></div>
                             <h5>TA</h5>
-                            <div class="container-fluid" v-for="TA in TAs">
+                            <div class="container-fluid p-0" v-for="TA in TAs">
 
                                 <router-link class="" :to="{ name: 'Profile', params: { user_account: TA.account } }">
 
@@ -75,7 +75,7 @@
                             </div>
                             <div class="line my-5"></div>
                             <h5>學生</h5>
-                            <div class="container-fluid" v-for="user in users">
+                            <div class="container-fluid p-0" v-for="user in users">
 
                                 <router-link class="" :to="{ name: 'Profile', params: { user_account: user.account } }">
 

@@ -145,7 +145,13 @@ button {
   .pc {
     display: block !important;
   }
+
+  .breakline {
+    display: contents !important;
+  }
 }
+
+
 
 @media (max-width: 1200px) {
   .footer_logoicon {

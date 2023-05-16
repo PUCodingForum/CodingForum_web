@@ -23,6 +23,10 @@
                             <div class="line my-6"></div>
                             <div class="mb-3" v-show="type != 2">
                                 <label>貼文</label>
+                                <h4 style="color: red;">若繳交作業後 又更新貼文內容
+                                    <br>
+                                    請在作業繳交時間內回來更新作業
+                                </h4>
                                 <SelectPost ref="SelectPost" :disabled="!in_time" />
                             </div>
                             <div class="mb-3" v-show="type != 1">
@@ -191,7 +195,15 @@ export default {
                         this.$router.push({
                             name: 'MyAssignment', params: { coding_class_id: this.coding_class_id }
                         });
-
+                        if (res.data.temp_post_id) {
+                            window.open(
+                                this.$router.resolve({
+                                    name: 'TempVideo',
+                                    params: { temp_post_id: res.data.temp_post_id }
+                                }).href,
+                                '_blank'
+                            );
+                        }
                         ElMessage({
                             message: res.data.success,
                             type: "success",

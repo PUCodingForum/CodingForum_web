@@ -3,6 +3,7 @@ import Dashboard from "@/views/Dashboard.vue";
 import Upload from "@/views/Upload.vue";
 import EditPost from "@/views/EditPost.vue";
 import Video from "@/views/Video.vue";
+import TempVideo from "@/views/TempVideo.vue";
 import Profile from "@/views/Profile.vue";
 import SignIn from "@/views/user/SignIn.vue";
 import SignUp from "@/views/user/SignUp.vue";
@@ -15,7 +16,6 @@ import EditCover from "@/views/user/EditCover.vue";
 import EditPassword from "@/views/user/EditPassword.vue";
 import AllUser from "@/views/AllUser.vue";
 
-import AdminDashboard from "@/views/class/admin/AdminDashboard.vue";
 import TeacherClass from "@/views/class/admin/TeacherClass.vue";
 import OperateTeacherClass from "@/views/class/admin/OperateTeacherClass.vue";
 import Assignment from "@/views/class/admin/Assignment.vue";
@@ -139,6 +139,11 @@ const routes = [
     path: "/video/:post_id?/:comment_id?",
     name: "Video",
     component: Video,
+  },
+  {
+    path: "/tempvideo/:temp_post_id?",
+    name: "TempVideo",
+    component: TempVideo,
   },
   {
     path: "/video/:post_id?/edit",

@@ -70,6 +70,10 @@
           <h5 class="modal-title">是否確認要刪除這篇貼文</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        <div class="modal-body">
+          <h6> 請注意 若此篇文章有當作業繳交 將會取消繳交作業</h6>
+
+        </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
           <button type="button" class="btn btn-primary" data-bs-dismiss="modal"

@@ -60,6 +60,10 @@ export default {
         }, {
           route_name: 'Video',
           name: '影片',
+        },
+        {
+          route_name: 'TempVideo',
+          name: '作業暫存影片',
         }, {
           route_name: 'EditPost',
           name: '編輯影片',

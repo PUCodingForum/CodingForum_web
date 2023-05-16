@@ -31,7 +31,7 @@
               </div>
             </a>
           </li>
-          <TagedCard class="ms-2" :key="TagedCardkey" @TagedCardkeyadd="TagedCardkeyadd" v-if="user_account" />
+          <TagedCard class="ms-4" :key="TagedCardkey" @TagedCardkeyadd="TagedCardkeyadd" v-if="user_account" />
         </ul>
       </div>
     </div>
@@ -72,6 +72,19 @@ export default {
         }
         this.post_id = this.$route.params.post_id
 
+      },
+      { deep: true, immediate: true }
+    );
+    this.$watch(
+      () => ({
+        fullPath: this.$route.fullPath
+      }),
+      () => {
+        if (window.innerWidth < 1200) {
+          const sidenav_show = document.querySelector(".g-sidenav-show");
+          sidenav_show.classList.add("g-sidenav-hidden");
+          sidenav_show.classList.remove("g-sidenav-pinned");
+        }
       },
       { deep: true, immediate: true }
     );

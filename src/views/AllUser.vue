@@ -7,7 +7,7 @@
                         element-loading-background="rgb(248 248 248)">
                         <div class="card-body">
 
-                            <div class="container-fluid" v-for="user in users">
+                            <div class="container-fluid p-0" v-for="user in users">
 
                                 <router-link class="" :to="{ name: 'Profile', params: { user_account: user.account } }">
 

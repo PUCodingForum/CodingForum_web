@@ -37,11 +37,11 @@
                                     </template>
                                     <template #default="scope">
                                         <router-link
-                                            :to="{ name: 'Video', params: { post_id: scope.row.user_assignment.post_id } }"
-                                            v-if="scope.row.user_assignment && scope.row.user_assignment.post_id"
+                                            :to="{ name: 'TempVideo', params: { temp_post_id: scope.row.user_assignment.temp_post_id } }"
+                                            v-if="scope.row.user_assignment && scope.row.user_assignment.temp_post_id"
                                             target='_blank'>
                                             <el-button>
-                                                查看繳交影片
+                                                查看暫存影片
                                             </el-button>
 
                                         </router-link>
