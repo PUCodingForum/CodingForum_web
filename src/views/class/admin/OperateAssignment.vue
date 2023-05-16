@@ -140,7 +140,7 @@ export default {
               this.disabled = true
               this.time.push(res.data.success.start_at)
               this.time.push(res.data.success.end_at)
-              this.$refs.FileUpload.files = res.data.success.file
+              this.$refs.FileUpload.files = res.data.success.file ? res.data.success.file : []
 
             }).catch(function (error) {
               ElMessage.error(error.response.data.error);
@@ -159,13 +159,13 @@ export default {
       }
 
       var file_ = []
-
-      var FileUpload = this.$refs.FileUpload.returnFiles();
-      FileUpload.map(function (value, key) {
-        if (value.success)
-          file_.push({ 'name': value.name, 'size': value.size, "success": true, "progress": "100.00", "id": value.id })
-      });
-
+      if (this.assignment_id) {
+        var FileUpload = this.$refs.FileUpload.returnFiles();
+        FileUpload.map(function (value, key) {
+          if (value.success)
+            file_.push({ 'name': value.name, 'size': value.size, "success": true, "progress": "100.00", "id": value.id })
+        });
+      }
 
       this.axios
         .post("/api/class/admin/assignment", {
