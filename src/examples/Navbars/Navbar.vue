@@ -94,27 +94,6 @@ export default {
       this.$router.push({ name: 'Sign In' });
 
     },
-    logout() {
-
-      this.axios
-        .post("/api/auth/logout", {
-        }, {
-          headers: {
-            'Authorization': `Bearer ` + this.token
-          }
-        }).then((res) => {
-          this.$router.go()
-          this.$cookies.remove("token")
-          this.$cookies.remove("user_account")
-          this.$cookies.remove("user_id")
-          this.$cookies.remove("now_user_pic_url")
-          ElMessage({
-            message: "登出成功",
-            type: "success",
-            duration: 3000,
-          });
-        })
-    },
     test() {
       console.log(this.$refs.SelectUva.return_select_uva())
     }

@@ -20,14 +20,14 @@
 
     </ul>
     <ul class="navbar-nav" style="    flex-direction: row!important;">
-      <li class="nav-item">
+      <li class="nav-item" v-if="this.$cookies.get('isadmin') != 1">
         <sidenav-collapse navText="選課" :to="{ name: 'UserClass' }" class="m-0">
           <template #icon>
             <customer-support />
           </template>
         </sidenav-collapse>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" v-if="this.$cookies.get('isadmin') != 1">
         <sidenav-collapse navText="我的課程" :to="{ name: 'MyClass' }" class="m-0">
           <template #icon>
             <customer-support />
@@ -37,14 +37,14 @@
     </ul>
     <ul class="navbar-nav" style="    flex-direction: row!important;">
 
-      <li class="nav-item">
-        <sidenav-collapse navText="管理者" :to="{ name: 'TeacherClass' }" class="m-0">
+      <li class="nav-item" v-if="this.$cookies.get('isadmin') == 1">
+        <sidenav-collapse navText="教授課程" :to="{ name: 'TeacherClass' }" class="m-0">
           <template #icon>
             <customer-support />
           </template>
         </sidenav-collapse>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" v-if="this.$cookies.get('isadmin') == 2">
         <sidenav-collapse navText="TA" :to="{ name: 'TAClass' }" class="m-0">
           <template #icon>
             <customer-support />

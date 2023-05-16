@@ -1,10 +1,10 @@
 <template>
   <div class="container-fluid">
     <div class="mt-4 page-header cover_height border-radius-xl" :style="{
-        backgroundImage:
-          'url(' + $global_url + user.cover + ')',
-        backgroundPositionY: '50%',
-      }" v-if="user">
+      backgroundImage:
+        'url(' + $global_url + user.cover + ')',
+      backgroundPositionY: '50%',
+    }" v-if="user">
     </div>
     <div class="mx-4 overflow-hidden card card-body blur shadow-blur user_cover">
       <div class="row gx-4">
@@ -254,6 +254,7 @@ export default {
           this.$cookies.remove("user_account")
           this.$cookies.remove("user_id")
           this.$cookies.remove("now_user_pic_url")
+          this.$cookies.remove("isadmin")
           ElMessage({
             message: "登出成功",
             type: "success",
