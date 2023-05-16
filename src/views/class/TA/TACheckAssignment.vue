@@ -139,7 +139,6 @@ export default {
         );
         this.$watch(
             () => ({
-                users: this.users,
                 get_hand_in_assignment: this.get_hand_in_assignment,
             }),
             () => {

@@ -151,13 +151,13 @@ export default {
         );
         this.$watch(
             () => ({
-                users: this.users,
                 get_hand_in_assignment: this.get_hand_in_assignment,
             }),
             () => {
                 if (this.$route.name != 'CheckAssignment') {
                     return;
                 }
+                console.log(this.data_loading)
                 if (this.users && this.get_hand_in_assignment) {
 
                     this.users.forEach((user, index1) => {
