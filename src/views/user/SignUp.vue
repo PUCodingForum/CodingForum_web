@@ -24,8 +24,8 @@
           <div class="card-body">
             <form role="form" @submit.prevent="register">
               <div class="">
-                <label>帳號</label>
-                <input class="form-control" v-model="account" type="text" placeholder="帳號" aria-label="帳號" />
+                <label>學號</label>
+                <input class="form-control" v-model="account" type="text" placeholder="學號 小寫s開頭" aria-label="學號" />
               </div>
               <div class="">
                 <label>密碼</label>
@@ -107,7 +107,7 @@ export default {
         this.repeat_password === "" ||
         this.email === ""
       ) {
-        ElMessage.error("名字、帳號、密碼、信箱不能為空");
+        ElMessage.error("名字、學號、密碼、信箱不能為空");
       } else if (
         this.password != this.repeat_password
       ) {

@@ -24,8 +24,8 @@
           <div class="card-body">
             <form role="form" @submit.prevent="login">
               <div class="mb-3">
-                <label>帳號</label>
-                <input class="form-control" v-model="account" id="account" type="text" placeholder="請輸入帳號"
+                <label>學號</label>
+                <input class="form-control" v-model="account" id="account" type="text" placeholder="請輸入學號 小寫s開頭"
                   name="account" />
               </div>
               <div class="mb-3">

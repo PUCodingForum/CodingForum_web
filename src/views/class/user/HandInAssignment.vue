@@ -28,6 +28,9 @@
                                     請在作業繳交時間內回來更新作業
                                 </h4>
                                 <SelectPost ref="SelectPost" :disabled="!in_time" />
+                                <soft-button color="dark" variant="gradient" class="mt-2 mb-2"
+                                    @click="this.$router.push({ name: 'Upload' });">尚未發文，去發文</soft-button>
+
                             </div>
                             <div class="mb-3" v-show="type != 1">
                                 <label>檔案</label>

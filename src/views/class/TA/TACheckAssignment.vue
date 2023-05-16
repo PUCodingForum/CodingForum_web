@@ -10,7 +10,7 @@
                         <el-main style="padding:0" v-loading="data_loading" element-loading-text="載入中"
                             element-loading-background="rgb(248 248 248)">
                             <el-table :data="filteruser" style="width: 100%" empty-text="目前尚無學生修課" ref="table">
-                                <el-table-column label="學生帳號" prop="account" />
+                                <el-table-column label="學生學號" prop="account" />
 
                                 <el-table-column label="學生名稱">
                                     <template #default="scope">
