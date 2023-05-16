@@ -26,6 +26,8 @@ import TAClass from "@/views/class/TA/TAClass.vue";
 import TAAssignment from "@/views/class/TA/TAAssignment.vue";
 import TACheckAssignment from "@/views/class/TA/TACheckAssignment.vue";
 
+import ClassUser from "@/views/class/ClassUser.vue";
+
 import UserClass from "@/views/class/user/UserClass.vue";
 import MyClass from "@/views/class/user/MyClass.vue";
 import MyAssignment from "@/views/class/user/MyAssignment.vue";
@@ -167,19 +169,25 @@ const routes = [
     beforeEnter: islogin,
   },
   {
-    path: "/myclass/myassignment/:coding_class_id?",
+    path: "/myclass/:coding_class_id?/classuser",
+    name: "myClassUser",
+    component: ClassUser,
+    beforeEnter: islogin, //已在Component裡確認是否為學生
+  },
+  {
+    path: "/myclass/:coding_class_id?/myassignment",
     name: "MyAssignment",
     component: MyAssignment,
     beforeEnter: islogin, //已在Component裡確認是否為學生
   },
   {
-    path: "/myclass/myassignment/:coding_class_id?/assignmentintro/:assignment_id?",
+    path: "/myclass/:coding_class_id?/myassignment/:assignment_id?/assignmentintro",
     name: "AssignmentIntro",
     component: AssignmentIntro,
     beforeEnter: islogin, //已在Component裡確認是否為學生
   },
   {
-    path: "/myclass/myassignment/:coding_class_id?/handinassignment/:assignment_id?/operate/:hand_in_assignment_id?",
+    path: "/myclass/:coding_class_id?/myassignment/:assignment_id?/handinassignment/:hand_in_assignment_id?/operate",
     name: "HandInAssignment",
     component: HandInAssignment,
     beforeEnter: islogin, //已在Component裡確認是否為學生
@@ -265,7 +273,13 @@ const routes = [
         component: TeacherClass,
       },
       {
-        path: "teacherclass/operate/:coding_class_id?",
+        path: "teacherclass/:coding_class_id?/classuser",
+        name: "teacherClassUser",
+        component: ClassUser,
+        beforeEnter: islogin, //已在Component裡確認是否為學生
+      },
+      {
+        path: "teacherclass/:coding_class_id?/operate",
         name: "OperateTeacherClass",
         component: OperateTeacherClass,
       },
@@ -275,12 +289,12 @@ const routes = [
         component: Assignment,
       },
       {
-        path: "teacherclass/:coding_class_id?/assignment/check/:assignment_id?",
+        path: "teacherclass/:coding_class_id?/assignment/:assignment_id?/check",
         name: "CheckAssignment",
         component: CheckAssignment,
       },
       {
-        path: "teacherclass/:coding_class_id?/assignment/operate/:assignment_id?",
+        path: "teacherclass/:coding_class_id?/assignment/:assignment_id?/operate",
         name: "OperateAssignment",
         component: OperateAssignment,
       },
@@ -302,12 +316,18 @@ const routes = [
         component: TAClass,
       },
       {
+        path: "TAClass/:coding_class_id?/classuser",
+        name: "TAClassUser",
+        component: ClassUser,
+        beforeEnter: islogin, //已在Component裡確認是否為學生
+      },
+      {
         path: "TAClass/:coding_class_id?/TAassignment",
         name: "TAAssignment",
         component: TAAssignment,
       },
       {
-        path: "TAClass/:coding_class_id?/TAassignment/check/:assignment_id?",
+        path: "TAClass/:coding_class_id?/TAassignment/:assignment_id?/check",
         name: "TACheckAssignment",
         component: TACheckAssignment,
       },

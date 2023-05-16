@@ -36,13 +36,15 @@
                                         <el-input v-model="search" placeholder="學生名稱搜尋" />
                                     </template>
                                     <template #default="scope">
-                                        <el-button v-if="scope.row.user_assignment && scope.row.user_assignment.post_id">
-                                            <router-link
-                                                :to="{ name: 'Video', params: { post_id: scope.row.user_assignment.post_id } }"
-                                                target='_blank'>
+                                        <router-link
+                                            :to="{ name: 'Video', params: { post_id: scope.row.user_assignment.post_id } }"
+                                            v-if="scope.row.user_assignment && scope.row.user_assignment.post_id"
+                                            target='_blank'>
+                                            <el-button>
                                                 查看繳交影片
-                                            </router-link>
-                                        </el-button>
+                                            </el-button>
+
+                                        </router-link>
 
                                     </template>
                                 </el-table-column>

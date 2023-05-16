@@ -17,7 +17,16 @@
                                     </template>
 
                                 </el-table-column>
-                                <el-table-column label="選課人數" prop="student_count" />
+                                <el-table-column label="目前加選人數" prop="student_count">
+                                    <template #default="scope">
+                                        <router-link
+                                            :to="{ name: 'teacherClassUser', params: { coding_class_id: scope.row.id } }">
+                                            <el-button>
+                                                {{ scope.row.student_count }}
+                                            </el-button>
+                                        </router-link>
+                                    </template>
+                                </el-table-column>
                                 <el-table-column label="開課狀態">
                                     <template #default="scope">
                                         <div v-if="scope.row.enable == 1">
@@ -38,18 +47,22 @@
                                         <el-input v-model="search" placeholder="課程名稱搜尋" />
                                     </template>
                                     <template #default="scope">
-                                        <el-button>
-                                            <router-link
-                                                :to="{ name: 'Assignment', params: { coding_class_id: scope.row.id } }">
+                                        <router-link
+                                            :to="{ name: 'Assignment', params: { coding_class_id: scope.row.id } }">
+                                            <el-button>
+
                                                 編輯作業
-                                            </router-link>
-                                        </el-button>
-                                        <el-button>
-                                            <router-link
-                                                :to="{ name: 'OperateTeacherClass', params: { coding_class_id: scope.row.id } }">
+                                            </el-button>
+
+                                        </router-link>
+                                        <router-link
+                                            :to="{ name: 'OperateTeacherClass', params: { coding_class_id: scope.row.id } }">
+                                            <el-button>
+
                                                 編輯課程
-                                            </router-link>
-                                        </el-button>
+                                            </el-button>
+
+                                        </router-link>
 
                                     </template>
                                 </el-table-column>

@@ -32,18 +32,22 @@
                                         <el-input v-model="search" placeholder="作業名稱搜尋" />
                                     </template>
                                     <template #default="scope">
-                                        <el-button>
-                                            <router-link
-                                                :to="{ name: 'CheckAssignment', params: { coding_class_id: this.coding_class_id, assignment_id: scope.row.id } }">
+                                        <router-link
+                                            :to="{ name: 'CheckAssignment', params: { coding_class_id: this.coding_class_id, assignment_id: scope.row.id } }">
+                                            <el-button>
+
                                                 學生繳交狀況
-                                            </router-link>
-                                        </el-button>
-                                        <el-button>
-                                            <router-link
-                                                :to="{ name: 'OperateAssignment', params: { coding_class_id: this.coding_class_id, assignment_id: scope.row.id } }">
+                                            </el-button>
+                                        </router-link>
+
+                                        <router-link
+                                            :to="{ name: 'OperateAssignment', params: { coding_class_id: this.coding_class_id, assignment_id: scope.row.id } }">
+                                            <el-button>
+
                                                 調整作業
-                                            </router-link>
-                                        </el-button>
+                                            </el-button>
+
+                                        </router-link>
                                     </template>
                                 </el-table-column>
                             </el-table>

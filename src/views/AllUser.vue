@@ -12,11 +12,11 @@
                                 <router-link class="" :to="{ name: 'Profile', params: { user_account: user.account } }">
 
                                     <div class="mt-4  overflow-hidden card card-body blur shadow-blur user_cover" :style="{
-                                            backgroundImage:
-                                                'url(' + $global_url + user.cover + ')',
-                                            backgroundPositionY: '50%',
-                                            backgroundSize: 'cover'
-                                        }">
+                                        backgroundImage:
+                                            'url(' + $global_url + user.cover + ')',
+                                        backgroundPositionY: '50%',
+                                        backgroundSize: 'cover'
+                                    }">
                                         <div class="row gx-4">
                                             <div class="col-auto">
                                                 <div class="avatar avatar-xl position-relative">
@@ -28,7 +28,7 @@
                                             <div class="col-auto my-auto">
                                                 <div class="h-100">
                                                     <h5 class="mb-1" style="    
-                            background-color: white;
+                            background-color: #ffffffcf;
                             color: black;
                             border-radius: 5px;">
                                                         {{ user.name }}

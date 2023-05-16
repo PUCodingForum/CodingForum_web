@@ -17,38 +17,46 @@
                                         <el-input v-model="search" placeholder="作業名稱搜尋" />
                                     </template>
                                     <template #default="scope">
-                                        <el-button>
-                                            <router-link
-                                                :to="{ name: 'AssignmentIntro', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id } }">
+                                        <router-link
+                                            :to="{ name: 'AssignmentIntro', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id } }">
+                                            <el-button>
+
                                                 作業介紹
-                                            </router-link>
-                                        </el-button>
-                                        <el-button
+                                            </el-button>
+
+                                        </router-link>
+
+                                        <router-link
+                                            :to="{ name: 'HandInAssignment', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id } }"
                                             v-if="scope.row.hand_in_assignment_id == null && scope.row.in_time == true">
-                                            <router-link
-                                                :to="{ name: 'HandInAssignment', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id } }">
+                                            <el-button>
                                                 繳交作業
-                                            </router-link>
-                                        </el-button>
+                                            </el-button>
+
+                                        </router-link>
                                         <el-button
                                             v-if="scope.row.hand_in_assignment_id == null && scope.row.in_time == false"
                                             disabled>
                                             超過繳交期限
                                         </el-button>
-                                        <el-button
+
+                                        <router-link
+                                            :to="{ name: 'HandInAssignment', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id, hand_in_assignment_id: scope.row.hand_in_assignment_id } }"
                                             v-if="scope.row.hand_in_assignment_id != null && scope.row.in_time == true">
-                                            <router-link
-                                                :to="{ name: 'HandInAssignment', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id, hand_in_assignment_id: scope.row.hand_in_assignment_id } }">
+                                            <el-button>
                                                 編輯已繳作業
-                                            </router-link>
-                                        </el-button>
-                                        <el-button
+                                            </el-button>
+
+                                        </router-link>
+
+                                        <router-link
+                                            :to="{ name: 'HandInAssignment', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id, hand_in_assignment_id: scope.row.hand_in_assignment_id } }"
                                             v-if="scope.row.hand_in_assignment_id != null && scope.row.in_time == false">
-                                            <router-link
-                                                :to="{ name: 'HandInAssignment', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id, hand_in_assignment_id: scope.row.hand_in_assignment_id } }">
+                                            <el-button>
                                                 不可編輯，查看已繳作業
-                                            </router-link>
-                                        </el-button>
+                                            </el-button>
+
+                                        </router-link>
                                     </template>
                                 </el-table-column>
                             </el-table>

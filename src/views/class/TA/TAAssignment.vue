@@ -29,18 +29,18 @@
                                         <el-input v-model="search" placeholder="作業名稱搜尋" />
                                     </template>
                                     <template #default="scope">
-                                        <el-button>
-                                            <router-link
-                                                :to="{ name: 'AssignmentIntro', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id } }">
+                                        <router-link
+                                            :to="{ name: 'AssignmentIntro', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id } }">
+                                            <el-button>
                                                 作業介紹
-                                            </router-link>
-                                        </el-button>
-                                        <el-button>
-                                            <router-link
-                                                :to="{ name: 'TACheckAssignment', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id } }">
+                                            </el-button>
+                                        </router-link>
+                                        <router-link
+                                            :to="{ name: 'TACheckAssignment', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id } }">
+                                            <el-button>
                                                 學生繳交狀況
-                                            </router-link>
-                                        </el-button>
+                                            </el-button>
+                                        </router-link>
                                     </template>
                                 </el-table-column>
                             </el-table>

@@ -16,7 +16,16 @@
                                     </template>
 
                                 </el-table-column>
-                                <el-table-column label="選課人數" prop="student_count" />
+                                <el-table-column label="目前加選人數" prop="student_count">
+                                    <template #default="scope">
+                                        <router-link
+                                            :to="{ name: 'TAClassUser', params: { coding_class_id: scope.row.id } }">
+                                            <el-button>
+                                                {{ scope.row.student_count }}
+                                            </el-button>
+                                        </router-link>
+                                    </template>
+                                </el-table-column>
                                 <el-table-column label="課程教授">
                                     <template #default="scope">
                                         <router-link
@@ -35,12 +44,12 @@
                                         <el-input v-model="search" placeholder="課程名稱搜尋" />
                                     </template>
                                     <template #default="scope">
-                                        <el-button>
-                                            <router-link
-                                                :to="{ name: 'TAAssignment', params: { coding_class_id: scope.row.id } }">
+                                        <router-link
+                                            :to="{ name: 'TAAssignment', params: { coding_class_id: scope.row.id } }">
+                                            <el-button>
                                                 查看作業
-                                            </router-link>
-                                        </el-button>
+                                            </el-button>
+                                        </router-link>
                                     </template>
                                 </el-table-column>
                             </el-table>

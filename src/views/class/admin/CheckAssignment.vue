@@ -41,7 +41,6 @@
                                                 @change="correct_hand_in_assignment(scope.row.user_assignment.assignment_id, scope.row.user_assignment.user_id)" />
                                         </div>
                                     </template>
-
                                 </el-table-column>
 
                                 <el-table-column align="right">
