@@ -38,7 +38,7 @@
     <ul class="navbar-nav" style="    flex-direction: row!important;">
 
       <li class="nav-item">
-        <sidenav-collapse navText="管理者" :to="{ name: 'AdminDashboard' }" class="m-0">
+        <sidenav-collapse navText="管理者" :to="{ name: 'TeacherClass' }" class="m-0">
           <template #icon>
             <customer-support />
           </template>

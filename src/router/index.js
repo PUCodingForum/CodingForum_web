@@ -130,7 +130,7 @@ const routes = [
   },
 
   {
-    path: "/upload",
+    path: "/video/upload",
     name: "Upload",
     component: Upload,
     beforeEnter: islogin,
@@ -141,7 +141,7 @@ const routes = [
     component: Video,
   },
   {
-    path: "/edit_post/:post_id?",
+    path: "/video/:post_id?/edit",
     name: "EditPost",
     component: EditPost,
     beforeEnter: [islogin, user_post_check],
@@ -170,7 +170,7 @@ const routes = [
   },
   {
     path: "/myclass/:coding_class_id?/classuser",
-    name: "myClassUser",
+    name: "MyClassUser",
     component: ClassUser,
     beforeEnter: islogin, //已在Component裡確認是否為學生
   },
@@ -260,12 +260,7 @@ const routes = [
       {
         path: "",
         name: "",
-        redirect: { name: "AdminDashboard" },
-      },
-      {
-        path: "home",
-        name: "AdminDashboard",
-        component: AdminDashboard,
+        redirect: { name: "TeacherClass" },
       },
       {
         path: "teacherclass",
@@ -274,7 +269,7 @@ const routes = [
       },
       {
         path: "teacherclass/:coding_class_id?/classuser",
-        name: "teacherClassUser",
+        name: "TeacherClassUser",
         component: ClassUser,
         beforeEnter: islogin, //已在Component裡確認是否為學生
       },
@@ -319,12 +314,16 @@ const routes = [
         path: "TAClass/:coding_class_id?/classuser",
         name: "TAClassUser",
         component: ClassUser,
-        beforeEnter: islogin, //已在Component裡確認是否為學生
       },
       {
         path: "TAClass/:coding_class_id?/TAassignment",
         name: "TAAssignment",
         component: TAAssignment,
+      },
+      {
+        path: "TAClass/:coding_class_id?/TAassignment/:assignment_id?/assignmentintro",
+        name: "TAAssignmentIntro",
+        component: AssignmentIntro,
       },
       {
         path: "TAClass/:coding_class_id?/TAassignment/:assignment_id?/check",

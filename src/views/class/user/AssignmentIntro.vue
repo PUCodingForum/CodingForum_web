@@ -42,7 +42,6 @@ import SelectPost from "@/components/SelectPost.vue";
 import ShowFileUpload from "@/components/ShowFileUpload.vue";
 
 export default {
-    name: "HandInAssignment",
     components: {
         SoftButton,
         FileUpload,
@@ -71,7 +70,7 @@ export default {
                 hand_in_assignment_id: this.hand_in_assignment_id
             }),
             () => {
-                if (this.$route.name != 'AssignmentIntro') {
+                if (this.$route.name != 'AssignmentIntro' && this.$route.name != 'TAAssignmentIntro') {
                     return;
                 }
                 if (!this.coding_class_id) {

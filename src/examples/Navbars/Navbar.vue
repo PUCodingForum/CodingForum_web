@@ -15,11 +15,7 @@
               <img class="userimg comment__avatar " :src="now_user_pic_url" alt="" />
 
             </router-link>
-            <!-- <div v-if="user_account" @click="logout" class="px-0 nav-link font-weight-bold text-body"
-              style="cursor:pointer">
-              <i class="fa-solid fa-right-from-bracket me-sm-1 ms-4"></i>
-              <span class="d-sm-inline d-none">登出</span>
-            </div> -->
+
             <div v-if="!user_account" @click="login" class="px-0 nav-link font-weight-bold text-body"
               style="cursor:pointer">
               <i class="fa fa-user me-sm-1"></i>
@@ -125,28 +121,6 @@ export default {
   },
   computed: {
     currentRouteName() {
-      if (this.$route.name == "Dashboard")
-        return "首頁";
-      if (this.$route.name == "Profile")
-        return "個人頁面";
-      if (this.$route.name == "Video")
-        return "影片";
-      if (this.$route.name == "Upload")
-        return "上傳貼文";
-      if (this.$route.name == "EditPost")
-        return "編輯貼文";
-      if (this.$route.name == "EditUser")
-        return "編輯用戶";
-      if (this.$route.name == "AllUser")
-        return "所有使用者";
-      if (this.$route.name == "UserClass")
-        return "選課系統";
-      if (this.$route.name == "MyClass")
-        return "我的課程";
-      if (this.$route.name == "Admin")
-        return "管理者介面";
-      if (this.$route.name == "AllUser")
-        return "所有使用者";
 
     },
   },

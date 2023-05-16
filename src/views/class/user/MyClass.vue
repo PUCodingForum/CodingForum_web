@@ -13,7 +13,7 @@
                                 <el-table-column label="目前加選人數" prop="student_count">
                                     <template #default="scope">
                                         <router-link
-                                            :to="{ name: 'myClassUser', params: { coding_class_id: scope.row.id } }">
+                                            :to="{ name: 'MyClassUser', params: { coding_class_id: scope.row.id } }">
                                             <el-button>
                                                 {{ scope.row.student_count }}
                                             </el-button>

@@ -30,7 +30,7 @@
                                     </template>
                                     <template #default="scope">
                                         <router-link
-                                            :to="{ name: 'AssignmentIntro', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id } }">
+                                            :to="{ name: 'TAAssignmentIntro', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id } }">
                                             <el-button>
                                                 作業介紹
                                             </el-button>

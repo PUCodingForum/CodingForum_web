@@ -39,7 +39,10 @@
               </div>
               <div class="text-center">
                 <soft-button color="dark" full-width variant="gradient" class="my-4 mb-2">上傳</soft-button>
+                <soft-button color="warning" full-width variant="gradient" class="mb-5"
+                  @click.stop.prevent="$router.go(-1)">取消</soft-button>
               </div>
+
             </form>
           </div>
         </div>
