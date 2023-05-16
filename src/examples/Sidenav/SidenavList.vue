@@ -51,6 +51,13 @@
           </template>
         </sidenav-collapse>
       </li>
+      <li class="nav-item">
+        <sidenav-collapse navText="專案開源" :to="{ name: 'OpenSource' }" target="_blank" class="m-0">
+          <template #icon>
+            <customer-support />
+          </template>
+        </sidenav-collapse>
+      </li>
     </ul>
     <ul class="navbar-nav">
 
@@ -184,6 +191,9 @@ export default {
         this.$parent.$emit('resetpost')
         this.resetpostvalue++
       });
+    },
+    opensource() {
+      window.open('https://github.com/likeyou600/CodingForum_web', '_blank');
     }
 
   },

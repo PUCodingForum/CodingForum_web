@@ -36,6 +36,7 @@ import AssignmentIntro from "@/views/class/user/AssignmentIntro.vue";
 
 import { ElMessage } from "element-plus";
 import axios from "axios";
+const opensource = { template: "<div>opensource</div>" };
 
 function islogin(to, from, next) {
   if (!$cookies.get("token")) {
@@ -112,6 +113,14 @@ function user_post_check(to, from, next) {
 }
 
 const routes = [
+  {
+    path: "/opensource",
+    beforeEnter() {
+      location.href = "https://github.com/PUCodingForum";
+    },
+    name: "OpenSource",
+    component: opensource,
+  },
   {
     // path: "*",
     path: "/:catchAll(.*)",
