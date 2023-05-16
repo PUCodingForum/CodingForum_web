@@ -185,6 +185,10 @@ button {
   .header__preview .start {
     display: none !important;
   }
+
+  .el-popper {
+    z-index: 9999 !important;
+  }
 }
 
 textarea:focus,
