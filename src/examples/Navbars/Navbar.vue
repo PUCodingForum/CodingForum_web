@@ -18,7 +18,7 @@
 
             <div v-if="!user_account" @click="login" class="px-0 nav-link font-weight-bold text-body"
               style="cursor:pointer">
-              <i class="fa fa-user me-sm-1"></i>
+              <i class="fa fa-user me-2 fa-xl"></i>
               <span class="d-sm-inline d-none">登入</span>
             </div>
           </li>

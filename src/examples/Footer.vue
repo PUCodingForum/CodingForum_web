@@ -11,18 +11,18 @@
         <div class="col-lg-6">
           <ul class="nav nav-footer justify-content-center justify-content-lg-end">
             <li class="nav-item">
-              <a href="https://onlinejudge.org/" target="_blank" class="mb-2 text-secondary me-xl-5 me-3 mb-sm-0">
+              <a href="https://onlinejudge.org/" target="_blank" class="mx-3 text-secondary me-xl-5 me-3 mb-sm-0">
                 UVa
               </a>
             </li>
             <li class="nav-item">
-              <a href="https://www.pu.edu.tw/" target="_blank" class="mb-2 text-secondary me-xl-5 me-3 mb-sm-0">
+              <a href="https://www.pu.edu.tw/" target="_blank" class="mx-3 text-secondary me-xl-5 me-3 mb-sm-0">
                 靜宜大學
               </a>
             </li>
             <li class="nav-item">
               <a href="https://cpe.cse.nsysu.edu.tw/index.php" target="_blank"
-                class="mb-2 text-secondary me-xl-5 me-3 mb-sm-0">
+                class="mx-3 text-secondary me-xl-5 me-3 mb-sm-0">
                 CPE
               </a>
             </li>

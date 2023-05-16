@@ -133,6 +133,14 @@ button {
   min-width: 0 !important;
 }
 
+.navbar .sidenav-toggler-inner {
+  width: 25px !important;
+}
+
+.navbar .sidenav-toggler-inner .sidenav-toggler-line {
+  height: 4px !important;
+}
+
 @media (min-width: 1200px) {
   .footer_logoicon {
     width: 10%;
