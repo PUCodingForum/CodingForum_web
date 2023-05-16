@@ -8,6 +8,8 @@
             <form role="form" class="mx-auto col-xl-9">
               <div class="mb-3">
                 <p>目前封面</p>
+                <p>若手機無法顯示上傳圖片 請使用電腦版</p>
+
                 <img :src="$global_url + cover" alt="" class="user_pic">
 
                 <p v-if="max_pic" class="mt-4">待更新封面</p>
@@ -15,8 +17,8 @@
                 <div class="upload-example__cropper-wrapper">
                   <cropper ref="cropper" class="upload-example__cropper" check-orientation :src="image.src"
                     :stencil-props="{
-                        aspectRatio: 5 / 1,
-                      }" :auto-zoom="true" />
+                      aspectRatio: 5 / 1,
+                    }" :auto-zoom="true" />
                   <div class="vertical-buttons">
 
                     <square-button title="Maximize" @click="maximize()" v-if="max_pic">
