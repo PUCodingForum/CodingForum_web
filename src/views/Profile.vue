@@ -179,7 +179,8 @@ export default {
       token_user_account: this.$cookies.get("user_account"),
       sort: '',
       star: [],
-      code_type: []
+      code_type: [],
+      send_serial: ''
     };
   },
   created() {
@@ -343,7 +344,9 @@ export default {
               code_type: this.code_type,
               star: this.star,
               sort: this.sort,
-              user_account: this.$route.params.user_account
+              user_account: this.$route.params.user_account,
+              serial: this.send_serial
+
             })
             .then((res) => {
               let allsame = true;

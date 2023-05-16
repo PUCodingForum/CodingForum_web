@@ -148,7 +148,7 @@ import Document from "../../components/Icon/Document.vue";
 import Spaceship from "../../components/Icon/Spaceship.vue";
 import Settings from "../../components/Icon/Settings.vue";
 import CodeCard from "./CodeCard.vue";
-import SelectUva from "../../components/SelectUva.vue";
+import SelectUva from "@/components/SelectUva.vue";
 import SoftButton from "@/components/SoftButton.vue";
 
 export default {
@@ -158,7 +158,6 @@ export default {
   },
   data() {
     return {
-      title: "Soft UI Dashboard PRO",
       controls: "dashboardsExamples",
       isActive: "active",
       user_account: this.$cookies.get("user_account"),
