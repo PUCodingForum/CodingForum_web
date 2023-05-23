@@ -85,6 +85,7 @@ export default {
     data() {
         return {
             users: [],
+            users_temp: [],
             search: '',
             get_hand_in_assignment: [],
             filteruser: [],
@@ -125,6 +126,8 @@ export default {
                     .then((res) => {
                         console.log(res)
                         this.users = res.data.success.user
+                        this.users_temp = res.data.success.user
+
                     })
                 this.axios
                     .post("/api/class/get_hand_in_assignment", {
@@ -151,6 +154,7 @@ export default {
         );
         this.$watch(
             () => ({
+                users_temp: this.users_temp,
                 get_hand_in_assignment: this.get_hand_in_assignment,
             }),
             () => {

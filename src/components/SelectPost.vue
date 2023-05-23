@@ -30,8 +30,11 @@ export default {
     },
     created() {
         this.axios
-            .post("/api/forum/get_post", {
-                user_account: this.$cookies.get("account")
+            .post("/api/forum/get_user_post", {
+            }, {
+                headers: {
+                    'Authorization': `Bearer ` + this.$cookies.get("token")
+                }
             })
             .then((res) => {
                 this.virtualoptions = res.data.success
