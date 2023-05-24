@@ -23,10 +23,6 @@
                             <div class="line my-6"></div>
                             <div class="mb-3" v-show="type != 2">
                                 <label>貼文</label>
-                                <h4 style="color: red;">若繳交作業後 又更新貼文內容
-                                    <br>
-                                    請在作業繳交時間內回來更新作業
-                                </h4>
                                 <SelectPost ref="SelectPost" :disabled="!in_time" />
                                 <soft-button color="dark" variant="gradient" class="mt-2 mb-2"
                                     @click="this.$router.push({ name: 'Upload' });">尚未發文，去發文</soft-button>

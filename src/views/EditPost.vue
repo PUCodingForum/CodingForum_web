@@ -46,8 +46,8 @@
                 </Codemirror>
               </div>
               <div class="text-center">
-                <soft-button color="dark" full-width variant="gradient" class="mt-2 mb-2"
-                  @click.stop.prevent="post()">更新</soft-button>
+                <soft-button color="dark" full-width variant="gradient" class="mt-2 mb-2" @click.stop.prevent="post()">更新
+                  並同時更新綁定此貼文之期限內作業</soft-button>
 
                 <soft-button color="warning" full-width variant="gradient" class="mb-5"
                   @click.stop.prevent="$router.go(-1)">取消</soft-button>
@@ -253,7 +253,7 @@ export default {
             });
 
             ElMessage({
-              message: "更新成功",
+              message: res.data.success,
               type: "success",
               duration: 3000,
             });
