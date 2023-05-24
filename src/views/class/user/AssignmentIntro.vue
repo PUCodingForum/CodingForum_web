@@ -16,7 +16,7 @@
                                 <label>作業內容</label>
                                 <h5>{{ content }}</h5>
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3" v-show="showfile">
                                 <label>作業檔案</label>
                                 <ShowFileUpload ref="ShowFileUpload" />
                             </div>
@@ -59,7 +59,8 @@ export default {
             hand_in_assignment_id: this.$route.params.hand_in_assignment_id,
             showtext: '繳交作業',
             in_time: false,
-            type: ''
+            type: '',
+            showfile: false
         };
     },
     created() {
@@ -98,11 +99,18 @@ export default {
                         this.name = res.data.success.name
                         this.content = res.data.success.content
                         this.type = res.data.success.type
+                        console.log(res.data.success.file)
+                        if (res.data.success.file.length != 0) {
+                            this.showfile = true
+                        }
                         this.$refs.ShowFileUpload.files = res.data.success.file
 
+
                     }).catch(function (error) {
-                        ElMessage.error(error.response.data.error);
-                        that.$router.push({ name: 'MyAssignment', params: { coding_class_id: this.coding_class_id } });
+                        if (error.response) {
+                            ElMessage.error(error.response.data.error);
+                            that.$router.push({ name: 'MyAssignment', params: { coding_class_id: this.coding_class_id } });
+                        }
                     });
             },
             { deep: true, immediate: true }
