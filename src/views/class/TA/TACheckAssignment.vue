@@ -9,7 +9,8 @@
                             @click="ouput_file" v-if="file_exist">匯出所有學生所交檔案</soft-button>
                         <el-main style="padding:0" v-loading="data_loading" element-loading-text="載入中"
                             element-loading-background="rgb(248 248 248)">
-                            <el-table :data="filteruser" style="width: 100%" empty-text="目前尚無學生修課" ref="table">
+                            <el-table :data="filteruser" style="width: 100%" empty-text="目前尚無學生修課" ref="table"
+                                :row-class-name="tableRowClassName">
                                 <el-table-column label="學生學號" prop="account" />
 
                                 <el-table-column label="學生名稱" :min-width="window.innerWidth < 1200 ? '120%' : ''">
@@ -235,7 +236,12 @@ export default {
                 });
 
         },
-
+        tableRowClassName({ row, rowIndex }) {
+            if (row.user_assignment) //繳交作業
+                return 'success-row';
+            else
+                return 'fail-row';
+        }
     },
 
 

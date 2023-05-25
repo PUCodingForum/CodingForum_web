@@ -8,8 +8,19 @@
 
                         <el-main style="padding:0" v-loading="data_loading" element-loading-text="載入中"
                             element-loading-background="rgb(248 248 248)">
-                            <el-table :data="filteredAssignment" empty-text="目前尚無作業">
+                            <el-table :data="filteredAssignment" empty-text="目前尚無作業" :row-class-name="tableRowClassName">
                                 <el-table-column label="作業名稱" prop="name" />
+                                <el-table-column label="繳交狀態" sortable :sort-method="sortState" prop="hand_in_assignment_id"
+                                    :min-width="window.innerWidth < 1200 ? '120%' : ''">
+                                    <template #default="scope">
+                                        <div v-if="scope.row.hand_in_assignment_id != null">
+                                            已繳交
+                                        </div>
+                                        <div v-else>
+                                            尚未繳交
+                                        </div>
+                                    </template>
+                                </el-table-column>
                                 <el-table-column label="開始時間" prop="start_at"
                                     :min-width="window.innerWidth < 1200 ? '180%' : ''" />
                                 <el-table-column label="結束時間" prop="end_at"
@@ -154,13 +165,55 @@ export default {
             });
         },
     },
+    methods: {
+        sortState(a, b) {
+            if (a.hand_in_assignment_id && !b.hand_in_assignment_id)
+                return -1
+        },
+        tableRowClassName({ row, rowIndex }) {
+            if (row.hand_in_assignment_id == null && row.in_time == true) //繳交作業
+                return 'none-row';
 
+            if (row.hand_in_assignment_id == null && row.in_time == false) //不在繳交期限內
+                return 'fail-row';
+
+            if (row.hand_in_assignment_id != null && row.in_time == true) //編輯已繳作業
+                return 'success-row';
+
+            if (row.hand_in_assignment_id != null && row.in_time == false) //不可編輯，查看已繳作業
+                return 'notedit-row';
+
+
+        }
+    }
 
 
 }
 </script>
   
 <style >
+.el-table tbody tr:hover>td {
+    background-color: initial !important
+}
+
+.el-table .none-row {
+    background-color: #06a1a480;
+}
+
+.el-table .fail-row {
+    background-color: rgba(151, 151, 151, 0.479);
+}
+
+.el-table .success-row {
+    background-color: #06a43b80;
+}
+
+.el-table .notedit-row {
+    background-color: rgba(106, 158, 108, 0.479);
+}
+
+
+
 .blue-row {
     background-color: blue !important;
 }
