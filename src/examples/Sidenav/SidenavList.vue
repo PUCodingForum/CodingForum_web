@@ -52,7 +52,7 @@
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <sidenav-collapse navText="專案開源" :to="{ name: 'OpenSource' }" target="_blank" class="m-0">
+        <sidenav-collapse navText="開源" :to="{ name: 'OpenSource' }" target="_blank" class="m-0">
           <template #icon>
             <customer-support />
           </template>

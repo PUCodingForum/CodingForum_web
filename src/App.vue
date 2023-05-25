@@ -189,6 +189,14 @@ button {
   .el-popper {
     z-index: 9999 !important;
   }
+
+  .el-table-column.mobiletime {
+    min-width: 180% !important;
+  }
+}
+
+.el-table .cell {
+  text-align: center;
 }
 
 textarea:focus,

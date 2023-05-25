@@ -23,15 +23,20 @@
                 </el-select>
               </div>
               <div class="mb-3">
-                <label>*作業時間</label>
-
+                <label>*作業開始時間</label>
                 <el-config-provider :locale="locale">
                   <div class="block">
-                    <el-date-picker v-model="time" type="datetimerange" start-placeholder="開始日期時間"
-                      end-placeholder="結束日期時間" />
+                    <el-date-picker v-model="start_at" type="datetime" placeholder="開始日期時間" />
                   </div>
                 </el-config-provider>
-
+              </div>
+              <div class="mb-3">
+                <label>*作業結束時間</label>
+                <el-config-provider :locale="locale">
+                  <div class="block">
+                    <el-date-picker v-model="end_at" type="datetime" placeholder="結束日期時間" />
+                  </div>
+                </el-config-provider>
               </div>
               <div class="mb-3" v-if="assignment_id">
                 <label>作業檔案</label>
@@ -100,7 +105,8 @@ export default {
       users: [],
       name: '',
       content: '',
-      time: [],
+      start_at: '',
+      end_at: '',
       token: this.$cookies.get("token"),
       coding_class_id: this.$route.params.coding_class_id,
       assignment_id: this.$route.params.assignment_id,
@@ -138,8 +144,8 @@ export default {
               this.content = res.data.success.content
               this.type = res.data.success.type
               this.disabled = true
-              this.time.push(res.data.success.start_at)
-              this.time.push(res.data.success.end_at)
+              this.start_at = res.data.success.start_at
+              this.end_at = res.data.success.end_at
               this.$refs.FileUpload.files = res.data.success.file ? res.data.success.file : []
 
             }).catch(function (error) {
@@ -173,8 +179,8 @@ export default {
           name: this.name,
           content: this.content,
           type: this.type,
-          start_at: dayjs(this.time[0]).format("YYYY-MM-DD HH:mm:ss"),
-          end_at: dayjs(this.time[1]).format("YYYY-MM-DD HH:mm:ss"),
+          start_at: dayjs(this.start_at).format("YYYY-MM-DD HH:mm:ss"),
+          end_at: dayjs(this.end_at).format("YYYY-MM-DD HH:mm:ss"),
           assignment_id: this.assignment_id,
           file: file_,
         }, {

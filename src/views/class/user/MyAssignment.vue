@@ -8,10 +8,12 @@
 
                         <el-main style="padding:0" v-loading="data_loading" element-loading-text="載入中"
                             element-loading-background="rgb(248 248 248)">
-                            <el-table :data="filteredAssignment" style="width: 100%" empty-text="目前尚無作業">
+                            <el-table :data="filteredAssignment" empty-text="目前尚無作業">
                                 <el-table-column label="作業名稱" prop="name" />
-                                <el-table-column label="開始時間" prop="start_at" />
-                                <el-table-column label="結束時間" prop="end_at" />
+                                <el-table-column label="開始時間" prop="start_at"
+                                    :min-width="window.innerWidth < 1200 ? '180%' : ''" />
+                                <el-table-column label="結束時間" prop="end_at"
+                                    :min-width="window.innerWidth < 1200 ? '180%' : ''" />
                                 <el-table-column label="開放狀態">
                                     <template #default="scope">
                                         <div v-if="scope.row.in_time">
@@ -22,7 +24,7 @@
                                         </div>
                                     </template>
                                 </el-table-column>
-                                <el-table-column align="right">
+                                <el-table-column align="right" min-width="250%">
                                     <template #header>
                                         <el-input v-model="search" placeholder="作業名稱搜尋" />
                                     </template>
@@ -30,7 +32,7 @@
 
                                         <router-link
                                             :to="{ name: 'AssignmentIntro', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id } }">
-                                            <el-button>
+                                            <el-button class="mx-1 my-1">
                                                 作業介紹
                                             </el-button>
                                         </router-link>
@@ -38,7 +40,7 @@
                                         <router-link
                                             :to="{ name: 'TempVideo', params: { temp_post_id: scope.row.temp_post_id } }"
                                             v-if="scope.row.temp_post_id != null" target='_blank'>
-                                            <el-button>
+                                            <el-button class="mx-1 my-1">
                                                 查看暫存作業影片
                                             </el-button>
                                         </router-link>
@@ -46,21 +48,21 @@
                                         <router-link
                                             :to="{ name: 'HandInAssignment', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id } }"
                                             v-if="scope.row.hand_in_assignment_id == null && scope.row.in_time == true">
-                                            <el-button>
+                                            <el-button class="mx-1 my-1">
                                                 繳交作業
                                             </el-button>
                                         </router-link>
 
                                         <el-button
                                             v-if="scope.row.hand_in_assignment_id == null && scope.row.in_time == false"
-                                            disabled>
+                                            disabled class="mx-1 my-1">
                                             不在繳交期限內
                                         </el-button>
 
                                         <router-link
                                             :to="{ name: 'HandInAssignment', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id, hand_in_assignment_id: scope.row.hand_in_assignment_id } }"
                                             v-if="scope.row.hand_in_assignment_id != null && scope.row.in_time == true">
-                                            <el-button>
+                                            <el-button class="mx-1 my-1">
                                                 編輯已繳作業
                                             </el-button>
                                         </router-link>
@@ -68,7 +70,7 @@
                                         <router-link
                                             :to="{ name: 'HandInAssignment', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id, hand_in_assignment_id: scope.row.hand_in_assignment_id } }"
                                             v-if="scope.row.hand_in_assignment_id != null && scope.row.in_time == false">
-                                            <el-button>
+                                            <el-button class="mx-1 my-1">
                                                 不可編輯，查看已繳作業
                                             </el-button>
                                         </router-link>

@@ -12,7 +12,7 @@
                             <el-table :data="filteruser" style="width: 100%" empty-text="目前尚無學生修課" ref="table">
                                 <el-table-column label="學生學號" prop="account" />
 
-                                <el-table-column label="學生名稱">
+                                <el-table-column label="學生名稱" :min-width="window.innerWidth < 1200 ? '120%' : ''">
                                     <template #default="scope">
                                         <router-link :to="{ name: 'Profile', params: { user_account: scope.row.account } }"
                                             target='_blank'>
@@ -20,8 +20,8 @@
                                         </router-link>
                                     </template>
                                 </el-table-column>
-                                <el-table-column label="繳交狀態" sortable :sort-method="statussortState"
-                                    prop="user_assignment">
+                                <el-table-column label="繳交狀態" sortable :sort-method="statussortState" prop="user_assignment"
+                                    :min-width="window.innerWidth < 1200 ? '120%' : ''">
                                     <template #default="scope">
                                         <div v-if="scope.row.user_assignment">
                                             已繳交
@@ -32,7 +32,7 @@
                                     </template>
                                 </el-table-column>
                                 <el-table-column label="批改紀錄" sortable :sort-method="sortState"
-                                    prop="user_assignment.status">
+                                    prop="user_assignment.status" :min-width="window.innerWidth < 1200 ? '180%' : ''">
                                     <template #default="scope">
                                         <div v-if="scope.row.user_assignment">
                                             <el-checkbox :model-value="scope.row.user_assignment.status == 1 ?? true"
@@ -43,7 +43,7 @@
                                     </template>
                                 </el-table-column>
 
-                                <el-table-column align="right">
+                                <el-table-column align="right" :min-width="window.innerWidth < 1200 ? '250%' : ''">
                                     <template #header>
                                         <el-input v-model="search" placeholder="學生名稱搜尋" />
                                     </template>

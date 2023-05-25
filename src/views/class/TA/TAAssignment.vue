@@ -9,9 +9,10 @@
                             element-loading-background="rgb(248 248 248)">
                             <el-table :data="filteredAssignment" style="width: 100%" empty-text="目前尚無作業">
                                 <el-table-column label="作業名稱" prop="name" />
-                                <el-table-column label="作業內容" prop="content" />
-                                <el-table-column label="開始時間" prop="start_at" />
-                                <el-table-column label="結束時間" prop="end_at" />
+                                <el-table-column label="開始時間" prop="start_at"
+                                    :min-width="window.innerWidth < 1200 ? '180%' : ''" />
+                                <el-table-column label="結束時間" prop="end_at"
+                                    :min-width="window.innerWidth < 1200 ? '180%' : ''" />
                                 <el-table-column label="開放狀態">
                                     <template #default="scope">
                                         <div v-if="scope.row.in_time">
@@ -24,20 +25,20 @@
                                 </el-table-column>
                                 <el-table-column label="繳交人數" prop="hand_in_count" />
 
-                                <el-table-column align="right">
+                                <el-table-column align="right" :min-width="window.innerWidth < 1200 ? '250%' : ''">
                                     <template #header>
                                         <el-input v-model="search" placeholder="作業名稱搜尋" />
                                     </template>
                                     <template #default="scope">
                                         <router-link
                                             :to="{ name: 'TAAssignmentIntro', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id } }">
-                                            <el-button>
+                                            <el-button class="mx-1 my-1">
                                                 作業介紹
                                             </el-button>
                                         </router-link>
                                         <router-link
                                             :to="{ name: 'TACheckAssignment', params: { coding_class_id: scope.row.coding_class_id, assignment_id: scope.row.id } }">
-                                            <el-button>
+                                            <el-button class="mx-1 my-1">
                                                 學生繳交狀況
                                             </el-button>
                                         </router-link>

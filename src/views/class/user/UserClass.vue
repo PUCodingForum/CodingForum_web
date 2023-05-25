@@ -9,8 +9,10 @@
                             element-loading-background="rgb(248 248 248)">
                             <el-table :data="filteredCodingClasses" style="width: 100%" empty-text="目前尚無課程">
                                 <el-table-column label="學年度" prop="school_year" />
-                                <el-table-column label="課程名稱" prop="name" />
-                                <el-table-column label="目前加選人數" prop="student_count" />
+                                <el-table-column label="課程名稱" prop="name"
+                                    :min-width="window.innerWidth < 1200 ? '120%' : ''" />
+                                <el-table-column label="目前加選人數" prop="student_count"
+                                    :min-width="window.innerWidth < 1200 ? '120%' : ''" />
                                 <el-table-column label="課程教授">
                                     <template #default="scope">
                                         <router-link
@@ -19,12 +21,12 @@
                                         </router-link>
                                     </template>
                                 </el-table-column>
-                                <el-table-column label="TA">
+                                <el-table-column label="TA" :min-width="window.innerWidth < 1200 ? '250%' : ''">
                                     <template #default="scope">
                                         <SelectUser :TA_user_ids="scope.row.TA_user_ids" :disabled=true />
                                     </template>
                                 </el-table-column>
-                                <el-table-column align="right">
+                                <el-table-column align="right" :min-width="window.innerWidth < 1200 ? '180%' : ''">
                                     <template #header>
                                         <el-input v-model="search" placeholder="課程名稱搜尋" />
                                     </template>
