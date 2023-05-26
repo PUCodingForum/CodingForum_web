@@ -75,7 +75,6 @@ export default {
     data() {
         return {
             users: [],
-            users_temp: [],
             search: '',
             get_hand_in_assignment: [],
             filteruser: [],
@@ -85,7 +84,8 @@ export default {
             coding_class_id: this.$route.params.coding_class_id,
             assignment_id: this.$route.params.assignment_id,
             data_loading: true,
-            file_exist: false
+            file_exist: false,
+            finishloading: 0,
         };
     },
     created() {
@@ -116,7 +116,7 @@ export default {
                     .then((res) => {
                         console.log(res)
                         this.users = res.data.success.user
-                        this.users_temp = res.data.success.user
+                        this.finishloading++
                     })
                 this.axios
                     .post("/api/class/get_hand_in_assignment", {
@@ -136,6 +136,7 @@ export default {
                                 return
                             }
                         })
+                        this.finishloading++
                     })
 
             },
@@ -143,14 +144,14 @@ export default {
         );
         this.$watch(
             () => ({
-                users_temp: this.users_temp,
-                get_hand_in_assignment: this.get_hand_in_assignment,
+                finishloading: this.finishloading,
             }),
             () => {
                 if (this.$route.name != 'TACheckAssignment') {
                     return;
                 }
-                if (this.users && this.get_hand_in_assignment) {
+
+                if (this.finishloading == 2) {
 
                     this.users.forEach((user, index1) => {
                         this.get_hand_in_assignment.forEach((user_assignment, index2) => {
