@@ -47,7 +47,7 @@
 
                                 <el-table-column align="right" :min-width="window.innerWidth < 1200 ? '250%' : ''">
                                     <template #header>
-                                        <el-input v-model="search" placeholder="學生名稱搜尋" />
+                                        <el-input v-model="search" placeholder="學生學號 名稱搜尋" />
                                     </template>
                                     <template #default="scope">
                                         <router-link
