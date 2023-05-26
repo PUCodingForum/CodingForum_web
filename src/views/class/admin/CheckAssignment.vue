@@ -11,7 +11,8 @@
                             element-loading-background="rgb(248 248 248)">
                             <el-table :data="filteruser" style="width: 100%" empty-text="目前尚無學生修課" ref="table"
                                 :row-class-name="tableRowClassName">
-                                <el-table-column label="學生學號" prop="account" />
+                                <el-table-column label="學生學號" prop="account"
+                                    :min-width="window.innerWidth < 1200 ? '120%' : ''" />
 
                                 <el-table-column label="學生名稱" :min-width="window.innerWidth < 1200 ? '120%' : ''">
                                     <template #default="scope">
