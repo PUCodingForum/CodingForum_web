@@ -6,7 +6,7 @@
 
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
     <navbar :class="[navClasses]" :textWhite="this.$store.state.isAbsolute ? 'text-white opacity-8' : ''"
-      :minNav="navbarMinimize" v-if="this.$store.state.showNavbar" />
+      :minNav="navbarMinimize" v-if="this.$store.state.showNavbar" :key="$route.fullPath" />
 
     <router-view v-slot="{ Component }">
       <component ref="view" :is="Component" :key="$route.fullPath" />
