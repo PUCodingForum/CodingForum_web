@@ -92,7 +92,7 @@ export default {
 
       .catch(function (error) {
         if (error.response) {
-          console.log(error.response.status);
+          ElMessage.error(error.response.data.error);
           if (error.response.status == 403) {
             that.$router.push({ name: 'resend_password' });
           } else if (error.response.status == 402) {

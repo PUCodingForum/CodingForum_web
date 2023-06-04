@@ -20,29 +20,32 @@
   <div class="container">
     <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
       <div class="mx-auto col-xl-4 col-lg-5 col-md-7">
-        <div class="card z-index-0">
+        <el-main style="padding:0" v-loading="loading" element-loading-text="發送中"
+          element-loading-background="rgb(248 248 248)">
+          <div class="card z-index-0">
 
-          <div class="card-body">
-            <form role="form" @submit.prevent="register">
+            <div class="card-body">
+              <form role="form" @submit.prevent="register">
 
-              <div class="mb-3">
-                <label>信箱</label>
-                <input class="form-control" v-model="email" type="email" placeholder="信箱" aria-label="信箱" />
-              </div>
+                <div class="mb-3">
+                  <label>信箱</label>
+                  <input class="form-control" v-model="email" type="email" placeholder="信箱" aria-label="信箱" />
+                </div>
 
 
-              <div class="text-center">
-                <soft-button color="dark" full-width variant="gradient" class="my-4 mb-2">發送更改密碼信</soft-button>
-              </div>
-              <p class="text-sm mt-3 mb-0">
-                想起原本的密碼了嗎?
-                <router-link :to="{ name: 'Sign In' }" class="text-dark font-weight-bolder">
-                  登入
-                </router-link>
-              </p>
-            </form>
+                <div class="text-center">
+                  <soft-button color="dark" full-width variant="gradient" class="my-4 mb-2">發送更改密碼信</soft-button>
+                </div>
+                <p class="text-sm mt-3 mb-0">
+                  想起原本的密碼了嗎?
+                  <router-link :to="{ name: 'Sign In' }" class="text-dark font-weight-bolder">
+                    登入
+                  </router-link>
+                </p>
+              </form>
+            </div>
           </div>
-        </div>
+        </el-main>
       </div>
     </div>
   </div>
@@ -67,7 +70,8 @@ export default {
   data() {
     return {
       email: "",
-      randompic: Math.floor(Math.random() * 9)
+      randompic: Math.floor(Math.random() * 9),
+      loading: false
     };
   },
   created() {
@@ -81,6 +85,7 @@ export default {
   methods: {
     ...mapMutations(["toggleEveryDisplay", "toggleHideConfig"]),
     register() {
+      this.loading = true
       if (
         this.email === ""
       ) {
@@ -109,6 +114,7 @@ export default {
               }
             }
           });
+        this.loading = false
       }
     },
   },
